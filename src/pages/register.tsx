@@ -1,15 +1,16 @@
-import { Avatar, Button, Container, Grid, Link, Typography } from "@material-ui/core";
+import { Avatar, Button, Container, Grid, Link as MuiLink, Typography } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import { NextPage } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import * as Yup from "yup";
 import AdminLayout from "../components/layouts/AdminLayout";
 import LoginButtons from "../components/LoginButtons";
 import { useAuth } from "../lib/auth";
+import { registerSchema } from "../lib/validators";
 
 export interface RegisterFields {
     username: string;
@@ -40,12 +41,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const validationSchema = Yup.object({
-    username: Yup.string().required(),
-    email: Yup.string().email().required(),
-    password: Yup.string().min(8).required()
-});
-
 const initialValues: RegisterFields = {
     username: "",
     email: "",
@@ -74,7 +69,7 @@ const Register: NextPage = () => {
                     <Formik
                         validateOnChange={true}
                         validateOnBlur={false}
-                        validationSchema={validationSchema}
+                        validationSchema={registerSchema}
                         initialValues={initialValues}
                         onSubmit={async (data: RegisterFields, { setSubmitting }) => {
                             setSubmitting(true);
@@ -144,13 +139,10 @@ const Register: NextPage = () => {
                     </Formik>
                     <Grid container spacing={2} className={classes.login} justify="flex-end">
                         <Grid item>
-                            <Link
-                                component="button"
-                                color="inherit"
-                                variant="body2"
-                                onClick={() => router.push("/login")}
-                            >
-                                Already have an account? Login
+                            <Link href="/login" passHref>
+                                <MuiLink component="a" color="inherit" variant="body2">
+                                    Already have an account? Login
+                                </MuiLink>
                             </Link>
                         </Grid>
                     </Grid>

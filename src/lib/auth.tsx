@@ -108,11 +108,11 @@ const formatUser = (rawUser: any, customUser?: CustomUser): User & { token: stri
     };
 };
 
-export interface AuthProviderProps {
+interface AuthProviderProps {
     children: React.ReactNode;
 }
 
-export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderProps) => {
     const auth = useProvideAuth();
     return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
 };

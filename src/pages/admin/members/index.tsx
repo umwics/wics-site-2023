@@ -2,9 +2,10 @@ import { Container, makeStyles, Theme, Typography } from "@material-ui/core";
 import { GetStaticProps, NextPage } from "next";
 import { useState } from "react";
 import AddMemberDialog from "../../../components/AddMemberDialog";
+import { useConfirm } from "../../../components/ConfirmProvider";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import MemberList from "../../../components/MemberList";
-import { Member } from "../../../interfaces/Member";
+import { Member } from "../../../interfaces";
 import { createMember, deleteMember, getAllMembers, updateMember } from "../../../lib/db";
 
 interface Props {
@@ -28,23 +29,31 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const Members: NextPage<Props> = ({ members }: Props) => {
     const classes = useStyles();
+    const confirm = useConfirm();
 
     const [visibleMembers, setVisibleMembers] = useState([...members]);
     const [editMember, setEditMember] = useState<Member | undefined>(undefined);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
 
-    const addMember = async (member: Member) => {
+    const addMember = async (
+        member: Member,
+        image?: File,
+        progressCallback?: (progress: number) => any
+    ) => {
         const { id, ...data } = member;
         const editing = !!id;
 
         if (editing) {
-            await updateMember(id, data);
+            const editedMember = await updateMember(id, data, image, progressCallback);
             setVisibleMembers([
-                member,
+                {
+                    ...member,
+                    ...editedMember
+                },
                 ...visibleMembers.filter(checkMember => checkMember.id !== member.id)
             ]);
         } else {
-            const newMember = await createMember(member);
+            const newMember = await createMember(member, image, progressCallback);
             if (newMember) {
                 setVisibleMembers([newMember, ...visibleMembers]);
             }
@@ -57,8 +66,20 @@ const Members: NextPage<Props> = ({ members }: Props) => {
     };
 
     const deleteVisibleMember = async (member: Member) => {
-        await deleteMember(member.id);
-        setVisibleMembers(visibleMembers.filter(checkMember => checkMember.id !== member.id));
+        confirm &&
+            confirm({
+                description: "This member will permanently be deleted.",
+                confirmText: "Delete"
+            })
+                .then(async () => {
+                    await deleteMember(member.id);
+                    setVisibleMembers(
+                        visibleMembers.filter(checkMember => checkMember.id !== member.id)
+                    );
+                })
+                .catch(() => {
+                    // pass
+                });
     };
 
     const handleClickOpen = () => {

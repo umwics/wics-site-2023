@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 interface Props {
     className?: string;
     multiple?: boolean;
-    onChange?: (selectedFile: FileList | File, preview: string[] | string | undefined) => any;
+    onChange?: (selectedFile: FileList, preview: string[]) => any;
 }
 
 const useStyles = makeStyles((_theme: Theme) => ({
@@ -18,33 +18,24 @@ const useStyles = makeStyles((_theme: Theme) => ({
 const UploadImage: React.FC<Props> = ({ className, multiple, onChange }: Props) => {
     const classes = useStyles();
 
-    const [selectedFile, setSelectedFile] = useState<FileList | File | undefined>(undefined);
+    const [selectedFile, setSelectedFile] = useState<FileList | undefined>(undefined);
 
     useEffect(() => {
         if (!selectedFile) return;
 
-        let objectUrl: string[] | string;
-        if (selectedFile instanceof FileList) {
-            objectUrl = [];
-            for (let i = 0; i < selectedFile.length; i++)
-                objectUrl.push(URL.createObjectURL(selectedFile[i]));
-        } else {
-            objectUrl = URL.createObjectURL(selectedFile);
-        }
+        const objectUrl: string[] = [];
+        for (let i = 0; i < selectedFile.length; i++)
+            objectUrl.push(URL.createObjectURL(selectedFile[i]));
 
         onChange && onChange(selectedFile, objectUrl);
 
         // free memory when ever this component is unmounted
-        return () =>
-            objectUrl instanceof Array
-                ? objectUrl.forEach(url => URL.revokeObjectURL(url))
-                : URL.revokeObjectURL(objectUrl);
+        return () => objectUrl.forEach(url => URL.revokeObjectURL(url));
     }, [selectedFile]);
 
     const handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
-            if (multiple) setSelectedFile(event.target.files);
-            else setSelectedFile(event.target.files[0]);
+            setSelectedFile(event.target.files);
 
             return;
         }

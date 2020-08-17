@@ -1,12 +1,12 @@
 import {
     Collapse,
     Divider,
+    Link as MuiLink,
     List,
     ListItem,
     ListItemIcon,
     ListItemText,
-    ListSubheader,
-    Typography
+    ListSubheader
 } from "@material-ui/core";
 import { fade, makeStyles, Theme } from "@material-ui/core/styles";
 import { Cloud, CollectionsBookmark, ExpandLess, ExpandMore } from "@material-ui/icons";
@@ -50,9 +50,11 @@ const DrawerContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                         component="div"
                         id="nested-list-subheader"
                     >
-                        <Typography component="h1" variant="h6">
-                            UMWics Admin
-                        </Typography>
+                        <Link href="/" passHref>
+                            <MuiLink component="a" color="inherit" variant="h6">
+                                UMWics Admin
+                            </MuiLink>
+                        </Link>
                     </ListSubheader>
                 }
             >
@@ -101,8 +103,8 @@ const DrawerContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                         dense
                         disablePadding
                     >
-                        {["users"].map(text => (
-                            <ListItem button component="a" href={`/api/${text}`} key={text}>
+                        {["users", "members"].map(text => (
+                            <ListItem button component="a" href={`/docs/v1/${text}`} key={text}>
                                 <ListItemText primary={text} />
                             </ListItem>
                         ))}

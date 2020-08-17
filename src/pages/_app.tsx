@@ -6,6 +6,7 @@ import { Router } from "next/router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import React from "react";
+import ConfirmProvider from "../components/ConfirmProvider";
 import { AuthProvider } from "../lib/auth";
 import { theme } from "../lib/theme";
 
@@ -27,7 +28,7 @@ const CustomApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
     Component,
     pageProps
 }: AppProps) => (
-    <AuthProvider>
+    <React.Fragment>
         <DefaultSeo
             title={process.env.siteDisplayName}
             description={process.env.description}
@@ -37,11 +38,15 @@ const CustomApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
                 site_name: process.env.siteName
             }}
         />
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Component {...pageProps} />
-        </ThemeProvider>
-    </AuthProvider>
+        <AuthProvider>
+            <ThemeProvider theme={theme}>
+                <ConfirmProvider>
+                    <CssBaseline />
+                    <Component {...pageProps} />
+                </ConfirmProvider>
+            </ThemeProvider>
+        </AuthProvider>
+    </React.Fragment>
 );
 
 export default CustomApp;

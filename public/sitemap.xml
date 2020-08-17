@@ -7,4 +7,8 @@
     <url>
         <loc>http://umwics.vercel.app</loc>
     </url>
+
+    <url>
+        <loc>http://umwics.vercel.app/docs/[...slug]</loc>
+    </url>
 </urlset>

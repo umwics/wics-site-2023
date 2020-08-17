@@ -1,14 +1,16 @@
-import { CircularProgress, Container, makeStyles, Theme, Typography } from "@material-ui/core";
+import { CircularProgress, Container, Typography } from "@material-ui/core";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useRouter } from "next/router";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import ListDetail from "../../../components/ListDetail";
 import { User } from "../../../interfaces";
 import { getUser } from "../../../lib/db";
+import { NotFoundError } from "../../../lib/errors";
 import { getAsString } from "../../../utils/queryParams";
 
 interface Props {
-    item: User | null;
+    user: User | null;
     errors?: string;
 }
 
@@ -21,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const UserDetail: NextPage<Props> = ({ item, errors }: Props) => {
+const UserDetail: NextPage<Props> = ({ user, errors }: Props) => {
     const router = useRouter();
     const classes = useStyles();
 
@@ -48,7 +50,7 @@ const UserDetail: NextPage<Props> = ({ item, errors }: Props) => {
                             Error
                         </Typography>
                         <p>
-                            <span></span> {errors}
+                            <span>{errors}</span>
                         </p>
                     </div>
                 </Container>
@@ -57,8 +59,8 @@ const UserDetail: NextPage<Props> = ({ item, errors }: Props) => {
     }
 
     return (
-        <AdminLayout title={`${item ? item.username : "User Detail"}`}>
-            {item && <ListDetail item={item} />}
+        <AdminLayout title={`${user ? user.username : "User Detail"}`}>
+            {user && <ListDetail item={user} />}
         </AdminLayout>
     );
 };
@@ -71,13 +73,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const staticProps: GetStaticPropsResult<Props> = { props: { item: null }, revalidate: 60 };
+    const staticProps: GetStaticPropsResult<Props> = { props: { user: null }, revalidate: 60 };
 
     try {
         if (params?.id) {
             const id = params.id;
-            const item = await getUser(getAsString(id));
-            staticProps.props.item = item;
+            const user = await getUser(getAsString(id));
+
+            if (!user) throw new NotFoundError("User not found");
+            else staticProps.props.user = user;
         }
     } catch (err) {
         staticProps.props.errors = err.message;

@@ -9,23 +9,23 @@ import {
     DialogTitle,
     Grid,
     IconButton,
-    Slide
+    LinearProgress
 } from "@material-ui/core";
 import { fade, makeStyles, Theme } from "@material-ui/core/styles";
-import { TransitionProps } from "@material-ui/core/transitions";
 import { Add, Clear } from "@material-ui/icons";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
-import { Member } from "../interfaces/Member";
+import { Member } from "../interfaces";
+import { addMemberSchema } from "../lib/validators";
+import TransitionSlide from "./TransitionSlide";
 import UploadImage from "./UploadImage";
 
 interface Props {
     className?: string;
     open: boolean;
     initialValues?: Member;
-    addMember?: (member: Member) => any;
+    addMember?: (member: Member, image?: File, progressCallback?: (progress: number) => any) => any;
     handleClickOpen?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     handleClose?: () => void;
 }
@@ -73,24 +73,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     media: {
         paddingTop: "100%"
+    },
+    progressRoot: {
+        width: "100%"
     }
 }));
-
-const validationSchema = Yup.object({
-    name: Yup.string().required(),
-    displayName: Yup.string(),
-    title: Yup.string().required(),
-    email: Yup.string().email(),
-    description: Yup.string(),
-    facts: Yup.array().of(Yup.string()),
-    links: Yup.array().of(
-        Yup.object().shape({
-            title: Yup.string(),
-            link: Yup.string().url()
-        })
-    ),
-    image: Yup.string()
-});
 
 const defaultInitialValues: Member = {
     id: "",
@@ -103,15 +90,6 @@ const defaultInitialValues: Member = {
     links: [],
     image: ""
 };
-
-const DialogTransition = React.forwardRef(
-    (
-        props: TransitionProps & { children?: React.ReactElement<any, any> },
-        ref: React.Ref<unknown>
-    ) => {
-        return <Slide direction="down" ref={ref} {...props} />;
-    }
-);
 
 const AddMemberDialog: React.FC<Props> = ({
     className,
@@ -126,17 +104,20 @@ const AddMemberDialog: React.FC<Props> = ({
     const editing = !!initialValues.id;
 
     const [image, setImage] = useState<{ file: File; url: string } | null>(null);
+    const [uploading, setUploading] = useState<boolean>(false);
+    const [uploadingProgress, setUploadingProgress] = useState<number>(0);
 
-    const handleImageUpload = (
-        selectedFile: FileList | File,
-        preview: string[] | string | undefined
-    ) => {
-        if (selectedFile instanceof FileList && preview && preview instanceof Array) {
-            setImage({ file: selectedFile[0], url: preview[0] });
-        } else if (selectedFile instanceof File && preview && typeof preview === "string") {
-            setImage({ file: selectedFile, url: preview });
-        }
+    const handleImageUpload = (selectedFile: FileList, preview: string[]) => {
+        setImage({ file: selectedFile[0], url: preview[0] });
     };
+
+    const imageUploadProgress = (progress: number) => {
+        setUploadingProgress(progress);
+    };
+
+    useEffect(() => {
+        if (!uploading) setUploadingProgress(0);
+    }, [uploading]);
 
     useEffect(() => {
         if (!open) setImage(null);
@@ -150,7 +131,7 @@ const AddMemberDialog: React.FC<Props> = ({
             <Dialog
                 open={open}
                 onClose={handleClose}
-                TransitionComponent={DialogTransition}
+                TransitionComponent={TransitionSlide}
                 aria-labelledby="form-dialog-title"
             >
                 <DialogTitle id="form-dialog-title">
@@ -159,14 +140,20 @@ const AddMemberDialog: React.FC<Props> = ({
                 <Formik
                     validateOnChange={false}
                     validateOnBlur={true}
-                    validationSchema={validationSchema}
+                    validationSchema={addMemberSchema}
                     initialValues={initialValues}
                     onSubmit={async (data: Member, { setSubmitting }) => {
                         setSubmitting(true);
+                        image && setUploading(true);
+
                         // handle submit
-                        addMember && addMember(data);
+                        if (addMember) {
+                            if (image) await addMember(data, image.file, imageUploadProgress);
+                            else addMember(data);
+                        }
                         handleClose && handleClose();
 
+                        image && setUploading(false);
                         setSubmitting(false);
                     }}
                 >
@@ -263,14 +250,16 @@ const AddMemberDialog: React.FC<Props> = ({
                                                             </Grid>
                                                         </Grid>
                                                     ))}
-                                                    <Button
-                                                        variant="text"
-                                                        color="primary"
-                                                        startIcon={<Add />}
-                                                        onClick={() => arrayHelpers.push("")}
-                                                    >
-                                                        Add Fact
-                                                    </Button>
+                                                    <Grid item>
+                                                        <Button
+                                                            variant="text"
+                                                            color="primary"
+                                                            startIcon={<Add />}
+                                                            onClick={() => arrayHelpers.push("")}
+                                                        >
+                                                            Add Fact
+                                                        </Button>
+                                                    </Grid>
                                                 </Grid>
                                             )}
                                         </FieldArray>
@@ -332,19 +321,21 @@ const AddMemberDialog: React.FC<Props> = ({
                                                             </Grid>
                                                         </Grid>
                                                     ))}
-                                                    <Button
-                                                        variant="text"
-                                                        color="primary"
-                                                        startIcon={<Add />}
-                                                        onClick={() =>
-                                                            arrayHelpers.push({
-                                                                title: "",
-                                                                link: ""
-                                                            })
-                                                        }
-                                                    >
-                                                        Add Link
-                                                    </Button>
+                                                    <Grid item>
+                                                        <Button
+                                                            variant="text"
+                                                            color="primary"
+                                                            startIcon={<Add />}
+                                                            onClick={() =>
+                                                                arrayHelpers.push({
+                                                                    title: "",
+                                                                    link: ""
+                                                                })
+                                                            }
+                                                        >
+                                                            Add Link
+                                                        </Button>
+                                                    </Grid>
                                                 </Grid>
                                             )}
                                         </FieldArray>
@@ -390,6 +381,14 @@ const AddMemberDialog: React.FC<Props> = ({
                                                         title={image?.file.name || "URL Image"}
                                                     />
                                                 </Card>
+                                            </div>
+                                        )}
+                                        {uploading && (
+                                            <div className={classes.progressRoot}>
+                                                <LinearProgress
+                                                    variant="determinate"
+                                                    value={uploadingProgress}
+                                                />
                                             </div>
                                         )}
                                     </Grid>

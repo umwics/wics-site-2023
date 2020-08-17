@@ -15,7 +15,7 @@ import { blue, red } from "@material-ui/core/colors";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Delete, Edit } from "@material-ui/icons";
 import React from "react";
-import { Member } from "../interfaces/Member";
+import { Member } from "../interfaces";
 
 interface Props {
     members: Member[];

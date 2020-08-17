@@ -1,6 +1,6 @@
 import { AppBar, Button, makeStyles, Theme, Toolbar, Typography } from "@material-ui/core";
 import { NextSeo } from "next-seo";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import React from "react";
 import { useAuth } from "../lib/auth";
 import Drawer from "./Drawer";
@@ -17,7 +17,6 @@ const useStyles = makeStyles((_theme: Theme) => ({
 }));
 
 const Header: React.FC<Props> = ({ title }: Props) => {
-    const router = useRouter();
     const classes = useStyles();
     const auth = useAuth();
 
@@ -32,15 +31,21 @@ const Header: React.FC<Props> = ({ title }: Props) => {
                         {title}
                     </Typography>
                     <nav>
-                        <Button onClick={() => router.push("/")} color="inherit">
-                            Home
-                        </Button>
-                        <Button onClick={() => router.push("/admin")} color="inherit">
-                            Admin
-                        </Button>
-                        <Button onClick={() => router.push("/login")} color="inherit">
-                            Login
-                        </Button>
+                        <Link href="/" passHref>
+                            <Button component="a" color="inherit">
+                                Home
+                            </Button>
+                        </Link>
+                        <Link href="/admin" passHref>
+                            <Button component="a" color="inherit">
+                                Admin
+                            </Button>
+                        </Link>
+                        <Link href="/login" passHref>
+                            <Button component="a" color="inherit">
+                                Login
+                            </Button>
+                        </Link>
                     </nav>
                     {auth?.user && <ProfileDropdown />}
                 </Toolbar>

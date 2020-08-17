@@ -1,15 +1,16 @@
-import { Avatar, Button, Container, Grid, Link, Typography } from "@material-ui/core";
+import { Avatar, Button, Container, Grid, Link as MuiLink, Typography } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import PersonIcon from "@material-ui/icons/Person";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import { NextPage } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import * as Yup from "yup";
 import AdminLayout from "../components/layouts/AdminLayout";
 import LoginButtons from "../components/LoginButtons";
 import { useAuth } from "../lib/auth";
+import { loginSchema } from "../lib/validators";
 
 export interface LoginFields {
     email: string;
@@ -39,11 +40,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const validationSchema = Yup.object({
-    email: Yup.string().email().required(),
-    password: Yup.string().min(8).required()
-});
-
 const initialValues: LoginFields = {
     email: "",
     password: ""
@@ -71,7 +67,7 @@ const Login: NextPage = () => {
                     <Formik
                         validateOnChange={true}
                         validateOnBlur={false}
-                        validationSchema={validationSchema}
+                        validationSchema={loginSchema}
                         initialValues={initialValues}
                         onSubmit={async (data: LoginFields, { setSubmitting }) => {
                             setSubmitting(true);
@@ -129,13 +125,10 @@ const Login: NextPage = () => {
                     </Formik>
                     <Grid container spacing={2} className={classes.register} justify="flex-end">
                         <Grid item>
-                            <Link
-                                component="button"
-                                color="inherit"
-                                variant="body2"
-                                onClick={() => router.push("/register")}
-                            >
-                                Don&apos;t have an account? Register
+                            <Link href="/register" passHref>
+                                <MuiLink component="a" color="inherit" variant="body2">
+                                    Don&apos;t have an account? Register
+                                </MuiLink>
                             </Link>
                         </Grid>
                     </Grid>
