@@ -1,38 +1,57 @@
-import { Member, User } from "../interfaces";
-import { firestore } from "./firebase";
+import { Company, Member, User } from "../interfaces";
+import firebase, { firestore } from "./firebase";
 import { storeImage } from "./storage";
 
 export interface GetAllQueryParams {
     limit?: number | null;
     orderBy?: string | null;
+    where?: { fieldPath?: string; opStr: firebase.firestore.WhereFilterOp; value: any } | null;
 }
 
-export const getUser = async (id: string): Promise<User | null> => {
+export const getDocument = async <T>(collection: string, id: string): Promise<T | null> => {
     if (firestore) {
-        const doc = await firestore.collection("users").doc(id).get();
+        const doc = await firestore.collection(collection).doc(id).get();
 
         if (!doc.exists) return null;
 
-        return <User>{ id: doc.id, ...doc.data() };
+        return <T>(<unknown>{ id: doc.id, ...doc.data() });
     }
 
     return null;
 };
 
-export const getAllUsers = async ({
-    limit = null,
-    orderBy = null
-}: GetAllQueryParams = {}): Promise<User[]> => {
+export const getAllDocuments = async <T>(
+    collection: string,
+    { limit = null, orderBy = null, where = null }: GetAllQueryParams = {}
+): Promise<T[]> => {
     if (firestore) {
-        const query = firestore.collection("users");
+        const query = firestore.collection(collection);
+        if (where)
+            query.where(
+                where.fieldPath || firebase.firestore.FieldPath.documentId(),
+                where.opStr,
+                where.value
+            );
         if (limit) query.limit(limit);
         if (orderBy) query.orderBy(orderBy);
 
         const snapshot = await query.get();
-        return snapshot.docs.map(doc => <User>{ id: doc.id, ...doc.data() });
+        return snapshot.docs.map(doc => <T>(<unknown>{ id: doc.id, ...doc.data() }));
     }
 
     return [];
+};
+
+export const deleteDocument = async (collection: string, id: string): Promise<void> => {
+    return firestore?.collection(collection).doc(id).delete();
+};
+
+export const getUser = async (id: string): Promise<User | null> => {
+    return await getDocument("users", id);
+};
+
+export const getAllUsers = async (queryProps: GetAllQueryParams = {}): Promise<User[]> => {
+    return await getAllDocuments("users", queryProps);
 };
 
 export const createUser = (user: User): Promise<void> | undefined => {
@@ -49,31 +68,11 @@ export const updateUser = async (id: string, newValues: Partial<User>): Promise<
 };
 
 export const getMember = async (id: string): Promise<Member | null> => {
-    if (firestore) {
-        const doc = await firestore.collection("members").doc(id).get();
-
-        if (!doc.exists) return null;
-
-        return <Member>{ id: doc.id, ...doc.data() };
-    }
-
-    return null;
+    return await getDocument("members", id);
 };
 
-export const getAllMembers = async ({
-    limit = null,
-    orderBy = null
-}: GetAllQueryParams = {}): Promise<Member[]> => {
-    if (firestore) {
-        const query = firestore.collection("members");
-        if (limit) query.limit(limit);
-        if (orderBy) query.orderBy(orderBy);
-
-        const snapshot = await query.get();
-        return snapshot.docs.map(doc => <Member>{ id: doc.id, ...doc.data() });
-    }
-
-    return [];
+export const getAllMembers = async (queryProps: GetAllQueryParams = {}): Promise<Member[]> => {
+    return await getAllDocuments("members", queryProps);
 };
 
 export const createMember = async (
@@ -100,7 +99,7 @@ export const createMember = async (
 };
 
 export const deleteMember = async (id: string): Promise<void> => {
-    return firestore?.collection("members").doc(id).delete();
+    return await deleteDocument("members", id);
 };
 
 export const updateMember = async (
@@ -122,6 +121,69 @@ export const updateMember = async (
 
         return await firestore
             .collection("members")
+            .doc(id)
+            .update(newValues)
+            .then(() => newValues)
+            .catch(() => null);
+    }
+
+    return null;
+};
+
+export const getCompany = async (id: string): Promise<Company | null> => {
+    return await getDocument("companies", id);
+};
+
+export const getAllCompanies = async (queryProps: GetAllQueryParams = {}): Promise<Company[]> => {
+    return await getAllDocuments<Company>("companies", queryProps);
+};
+
+export const createCompany = async (
+    company: Company,
+    image?: File,
+    progressCallback?: (progress: number) => any
+): Promise<Company | null> => {
+    if (firestore) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...data } = company;
+        const doc = await firestore.collection("companies").add({ ...data });
+
+        if (image) {
+            const newValues = await updateCompany(doc.id, {}, image, progressCallback);
+            data.image = newValues && newValues.image ? newValues.image : data.image;
+        }
+
+        const newCompany = <Company>{ id: doc.id, ...data };
+
+        return newCompany;
+    }
+
+    return null;
+};
+
+export const deleteCompany = async (id: string): Promise<void> => {
+    return await deleteDocument("companies", id);
+};
+
+export const updateCompany = async (
+    id: string,
+    newValues: Partial<Company>,
+    image?: File,
+    progressCallback?: (progress: number) => any
+): Promise<Partial<Company> | null> => {
+    if (firestore) {
+        if (image) {
+            const imageUrl = await storeImage(image, "companies", id, progressCallback);
+            newValues = {
+                ...newValues,
+                ...(imageUrl && {
+                    image: imageUrl
+                })
+            };
+        }
+
+        return await firestore
+            .collection("companies")
             .doc(id)
             .update(newValues)
             .then(() => newValues)

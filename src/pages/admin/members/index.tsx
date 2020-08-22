@@ -1,4 +1,4 @@
-import { Container, makeStyles, Theme, Typography } from "@material-ui/core";
+import { Button, Container, makeStyles, Theme, Typography } from "@material-ui/core";
 import { GetStaticProps, NextPage } from "next";
 import { useState } from "react";
 import AddMemberDialog from "../../../components/AddMemberDialog";
@@ -104,13 +104,16 @@ const Members: NextPage<Props> = ({ members }: Props) => {
                         deleteMember={deleteVisibleMember}
                     />
                     <AddMemberDialog
-                        className={classes.addMember}
                         open={addDialogOpen}
                         initialValues={editMember}
                         addMember={addMember}
-                        handleClickOpen={handleClickOpen}
                         handleClose={handleClose}
                     />
+                    <div className={classes.addMember}>
+                        <Button variant="contained" color="primary" onClick={handleClickOpen}>
+                            Add Member
+                        </Button>
+                    </div>
                 </div>
             </Container>
         </AdminLayout>

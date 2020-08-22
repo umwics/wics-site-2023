@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const collections = ["users", "members", "events", "co-op_companies"];
+const collections = ["users", "members", "companies", "events"];
 
 const Admin: NextPage = () => {
     const classes = useStyles();

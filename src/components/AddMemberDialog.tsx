@@ -1,81 +1,41 @@
 import {
     Button,
-    Card,
-    CardHeader,
-    CardMedia,
     Dialog,
     DialogActions,
     DialogContent,
     DialogTitle,
     Grid,
     IconButton,
-    LinearProgress
+    Typography
 } from "@material-ui/core";
-import { fade, makeStyles, Theme } from "@material-ui/core/styles";
-import { Add, Clear } from "@material-ui/icons";
-import { Field, FieldArray, Form, Formik } from "formik";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import { Close } from "@material-ui/icons";
+import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import React, { useEffect, useState } from "react";
 import { Member } from "../interfaces";
 import { addMemberSchema } from "../lib/validators";
+import ArrayTextField from "./ArrayTextField";
 import TransitionSlide from "./TransitionSlide";
 import UploadImage from "./UploadImage";
 
 interface Props {
-    className?: string;
     open: boolean;
     initialValues?: Member;
     addMember?: (member: Member, image?: File, progressCallback?: (progress: number) => any) => any;
-    handleClickOpen?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     handleClose?: () => void;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
     form: {
         width: "100%", // Fix IE 11 issue.
-        marginTop: theme.spacing(3)
+        marginTop: theme.spacing(2)
     },
-    group: {
-        borderLeft: `1px dashed ${fade(theme.palette.text.primary, 0.4)}`,
-        margin: theme.spacing(1, 0, 1, 3)
-    },
-    groupRow: {
-        display: "flex"
-    },
-    deleteButton: {
-        height: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    imageUpload: {
-        height: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    uploadContainer: {
-        display: "flex",
-        flexDirection: "column"
-    },
-    imageFieldContainer: {
-        width: "100%",
-        display: "flex"
-    },
-    imageContainer: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: theme.spacing(1)
-    },
-    card: {
-        width: "100%"
-    },
-    media: {
-        paddingTop: "100%"
-    },
-    progressRoot: {
-        width: "100%"
+    closeButton: {
+        position: "absolute",
+        right: theme.spacing(1),
+        top: theme.spacing(1),
+        color: theme.palette.grey[500]
     }
 }));
 
@@ -92,11 +52,9 @@ const defaultInitialValues: Member = {
 };
 
 const AddMemberDialog: React.FC<Props> = ({
-    className,
     open,
     initialValues = defaultInitialValues,
     addMember,
-    handleClickOpen,
     handleClose
 }: Props) => {
     const classes = useStyles();
@@ -107,8 +65,8 @@ const AddMemberDialog: React.FC<Props> = ({
     const [uploading, setUploading] = useState<boolean>(false);
     const [uploadingProgress, setUploadingProgress] = useState<number>(0);
 
-    const handleImageUpload = (selectedFile: FileList, preview: string[]) => {
-        setImage({ file: selectedFile[0], url: preview[0] });
+    const handleImageUpload = (selectedFile: File, preview: string) => {
+        setImage({ file: selectedFile, url: preview });
     };
 
     const imageUploadProgress = (progress: number) => {
@@ -124,19 +82,27 @@ const AddMemberDialog: React.FC<Props> = ({
     }, [open]);
 
     return (
-        <div className={className}>
-            <Button variant="contained" color="primary" onClick={handleClickOpen}>
-                Add Member
-            </Button>
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                TransitionComponent={TransitionSlide}
-                aria-labelledby="form-dialog-title"
-            >
-                <DialogTitle id="form-dialog-title">
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            TransitionComponent={TransitionSlide}
+            aria-labelledby="form-dialog-title"
+        >
+            <DialogTitle id="form-dialog-title">
+                <Typography component="p" variant="h6">
                     {editing ? "Edit Member" : "Add Member"}
-                </DialogTitle>
+                </Typography>
+                {handleClose && (
+                    <IconButton
+                        aria-label="close"
+                        className={classes.closeButton}
+                        onClick={handleClose}
+                    >
+                        <Close />
+                    </IconButton>
+                )}
+            </DialogTitle>
+            <DialogContent dividers>
                 <Formik
                     validateOnChange={false}
                     validateOnBlur={true}
@@ -157,261 +123,117 @@ const AddMemberDialog: React.FC<Props> = ({
                         setSubmitting(false);
                     }}
                 >
-                    {({ values, isSubmitting }) => (
+                    {({ values, isSubmitting, ...formikProps }) => (
                         <Form className={classes.form}>
-                            <DialogContent>
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12}>
-                                        <Field
-                                            component={TextField}
-                                            variant="outlined"
-                                            name="name"
-                                            label="Name"
-                                            fullWidth
-                                            autoFocus
-                                            required
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Field
-                                            component={TextField}
-                                            variant="outlined"
-                                            name="displayName"
-                                            label="Display Name"
-                                            fullWidth
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Field
-                                            component={TextField}
-                                            variant="outlined"
-                                            name="title"
-                                            label="Title"
-                                            fullWidth
-                                            required
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Field
-                                            component={TextField}
-                                            variant="outlined"
-                                            name="email"
-                                            label="Email Address"
-                                            fullWidth
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Field
-                                            component={TextField}
-                                            variant="outlined"
-                                            name="description"
-                                            label="Description"
-                                            rows={2}
-                                            rowsMax={4}
-                                            multiline
-                                            fullWidth
-                                        />
-                                    </Grid>
-                                    <Grid item className={classes.group} xs={12}>
-                                        <FieldArray name="facts">
-                                            {arrayHelpers => (
-                                                <Grid container item spacing={2} xs={12}>
-                                                    {values.facts.map((_fact, idx) => (
-                                                        <Grid
-                                                            container
-                                                            item
-                                                            key={idx}
-                                                            className={classes.groupRow}
-                                                            spacing={2}
-                                                            xs={12}
-                                                        >
-                                                            <Grid item xs={10} sm={11}>
-                                                                <Field
-                                                                    component={TextField}
-                                                                    variant="outlined"
-                                                                    name={`facts[${idx}]`}
-                                                                    label={`Fact ${idx + 1}`}
-                                                                    fullWidth
-                                                                />
-                                                            </Grid>
-                                                            <Grid
-                                                                item
-                                                                className={classes.deleteButton}
-                                                                xs={2}
-                                                                sm={1}
-                                                            >
-                                                                <IconButton
-                                                                    onClick={() =>
-                                                                        arrayHelpers.remove(idx)
-                                                                    }
-                                                                >
-                                                                    <Clear />
-                                                                </IconButton>
-                                                            </Grid>
-                                                        </Grid>
-                                                    ))}
-                                                    <Grid item>
-                                                        <Button
-                                                            variant="text"
-                                                            color="primary"
-                                                            startIcon={<Add />}
-                                                            onClick={() => arrayHelpers.push("")}
-                                                        >
-                                                            Add Fact
-                                                        </Button>
-                                                    </Grid>
-                                                </Grid>
-                                            )}
-                                        </FieldArray>
-                                    </Grid>
-                                    <Grid item className={classes.group} xs={12}>
-                                        <FieldArray name="links">
-                                            {arrayHelpers => (
-                                                <Grid container item spacing={2} xs={12}>
-                                                    {values.links.map((_link, idx) => (
-                                                        <Grid
-                                                            container
-                                                            item
-                                                            key={idx}
-                                                            className={classes.groupRow}
-                                                            spacing={2}
-                                                            xs={12}
-                                                        >
-                                                            <Grid
-                                                                container
-                                                                item
-                                                                spacing={2}
-                                                                xs={10}
-                                                                sm={11}
-                                                            >
-                                                                <Grid item xs={12} sm={6}>
-                                                                    <Field
-                                                                        component={TextField}
-                                                                        variant="outlined"
-                                                                        name={`links[${idx}].title`}
-                                                                        label={`Link Title ${
-                                                                            idx + 1
-                                                                        }`}
-                                                                        fullWidth
-                                                                    />
-                                                                </Grid>
-                                                                <Grid item xs={12} sm={6}>
-                                                                    <Field
-                                                                        component={TextField}
-                                                                        variant="outlined"
-                                                                        name={`links[${idx}].link`}
-                                                                        label={`Link ${idx + 1}`}
-                                                                        fullWidth
-                                                                    />
-                                                                </Grid>
-                                                            </Grid>
-                                                            <Grid
-                                                                item
-                                                                className={classes.deleteButton}
-                                                                xs={2}
-                                                                sm={1}
-                                                            >
-                                                                <IconButton
-                                                                    onClick={() =>
-                                                                        arrayHelpers.remove(idx)
-                                                                    }
-                                                                >
-                                                                    <Clear />
-                                                                </IconButton>
-                                                            </Grid>
-                                                        </Grid>
-                                                    ))}
-                                                    <Grid item>
-                                                        <Button
-                                                            variant="text"
-                                                            color="primary"
-                                                            startIcon={<Add />}
-                                                            onClick={() =>
-                                                                arrayHelpers.push({
-                                                                    title: "",
-                                                                    link: ""
-                                                                })
-                                                            }
-                                                        >
-                                                            Add Link
-                                                        </Button>
-                                                    </Grid>
-                                                </Grid>
-                                            )}
-                                        </FieldArray>
-                                    </Grid>
-                                    <Grid item className={classes.uploadContainer} xs={12}>
-                                        <div className={classes.imageFieldContainer}>
-                                            <Grid item xs={10} sm={11}>
-                                                <Field
-                                                    component={TextField}
-                                                    variant="outlined"
-                                                    name="image"
-                                                    label="Image URL"
-                                                    disabled={!!image}
-                                                    fullWidth
-                                                />
-                                            </Grid>
-                                            <Grid item xs={2} sm={1}>
-                                                <UploadImage
-                                                    className={classes.imageUpload}
-                                                    onChange={handleImageUpload}
-                                                    multiple={false}
-                                                />
-                                            </Grid>
-                                        </div>
-                                        {(image || values.image) && (
-                                            <div className={classes.imageContainer}>
-                                                <Card className={classes.card}>
-                                                    <CardHeader
-                                                        action={
-                                                            <IconButton
-                                                                onClick={() => setImage(null)}
-                                                                aria-label="close"
-                                                            >
-                                                                <Clear />
-                                                            </IconButton>
-                                                        }
-                                                        title={image?.file.name || "URL Image"}
-                                                        subheader={image?.file.type}
-                                                    />
-                                                    <CardMedia
-                                                        className={classes.media}
-                                                        image={image?.url || values.image}
-                                                        title={image?.file.name || "URL Image"}
-                                                    />
-                                                </Card>
-                                            </div>
-                                        )}
-                                        {uploading && (
-                                            <div className={classes.progressRoot}>
-                                                <LinearProgress
-                                                    variant="determinate"
-                                                    value={uploadingProgress}
-                                                />
-                                            </div>
-                                        )}
-                                    </Grid>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12}>
+                                    <Field
+                                        component={TextField}
+                                        variant="outlined"
+                                        name="name"
+                                        label="Name"
+                                        fullWidth
+                                        autoFocus
+                                        required
+                                    />
                                 </Grid>
-                                <DialogActions>
-                                    <Button onClick={handleClose} variant="contained">
-                                        Cancel
-                                    </Button>
-                                    <Button
-                                        type="submit"
-                                        variant="contained"
-                                        color="primary"
-                                        disabled={isSubmitting}
-                                    >
-                                        {editing ? "Edit" : "Add"}
-                                    </Button>
-                                </DialogActions>
-                            </DialogContent>
+                                <Grid item xs={12}>
+                                    <Field
+                                        component={TextField}
+                                        variant="outlined"
+                                        name="displayName"
+                                        label="Display Name"
+                                        fullWidth
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Field
+                                        component={TextField}
+                                        variant="outlined"
+                                        name="title"
+                                        label="Title"
+                                        fullWidth
+                                        required
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Field
+                                        component={TextField}
+                                        variant="outlined"
+                                        name="email"
+                                        label="Email Address"
+                                        fullWidth
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Field
+                                        component={TextField}
+                                        variant="outlined"
+                                        name="description"
+                                        label="Description"
+                                        rows={2}
+                                        rowsMax={4}
+                                        multiline
+                                        fullWidth
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <ArrayTextField
+                                        name="facts"
+                                        addLabel="Add Fact"
+                                        schema={{
+                                            fieldLabel: idx => `Fact ${idx + 1}`,
+                                            initialValue: ""
+                                        }}
+                                        formikProps={{ values, isSubmitting, ...formikProps }}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <ArrayTextField
+                                        name="links"
+                                        addLabel="Add Link"
+                                        schema={{
+                                            title: {
+                                                fieldLabel: idx => `Link Title ${idx + 1}`,
+                                                initialValue: ""
+                                            },
+                                            link: {
+                                                fieldLabel: idx => `Link ${idx + 1}`,
+                                                initialValue: ""
+                                            }
+                                        }}
+                                        formikProps={{ values, isSubmitting, ...formikProps }}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <UploadImage
+                                        uploading={uploading}
+                                        uploadingProgress={uploadingProgress}
+                                        image={image}
+                                        formikProps={{ values, isSubmitting, ...formikProps }}
+                                        onChange={handleImageUpload}
+                                        clearImage={() => setImage(null)}
+                                    />
+                                </Grid>
+                            </Grid>
+                            <DialogActions>
+                                <Button onClick={handleClose} variant="contained">
+                                    Cancel
+                                </Button>
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                    disabled={isSubmitting}
+                                >
+                                    {editing ? "Edit" : "Add"}
+                                </Button>
+                            </DialogActions>
                         </Form>
                     )}
                 </Formik>
-            </Dialog>
-        </div>
+            </DialogContent>
+        </Dialog>
     );
 };
 
