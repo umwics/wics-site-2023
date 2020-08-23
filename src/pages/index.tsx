@@ -77,6 +77,7 @@ const Home: NextPage = () => {
             <Container>
                 <Fade bottom duration={1000} delay={500} distance="30px">
                     <iframe
+                        frameBorder="0"
                         width="100%"
                         height="500vh"
                         src="https://www.youtube.com/embed/646jjiejsuA"

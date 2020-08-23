@@ -24,7 +24,7 @@ const Header: React.FC<Props> = ({ title }: Props) => {
         <React.Fragment>
             <NextSeo title={title ? title + " | " + process.env.siteDisplayName : undefined} />
 
-            <AppBar position="static">
+            <AppBar position="static" color="inherit" elevation={0}>
                 <Toolbar>
                     <Drawer />
                     <Typography component="h1" variant="h6" className={classes.title}>
