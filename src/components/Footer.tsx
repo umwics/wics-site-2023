@@ -10,7 +10,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const useStyles = makeStyles((theme: Theme) => ({
     footer: {
         paddingTop: theme.spacing(4),
-        backgroundColor: "#333333"
+        backgroundColor: "#333333",
+        marginTop: "auto"
     }
 }));
 
