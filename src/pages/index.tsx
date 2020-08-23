@@ -1,21 +1,12 @@
-import { Container, makeStyles, Theme, Typography, Button } from "@material-ui/core";
+import { Container, Button } from "@material-ui/core";
 import { NextPage } from "next";
 import AdminLayout from "../components/layouts/AdminLayout";
 import Carousel from "react-bootstrap/Carousel";
 import Fade from "react-reveal/Fade";
 import Typical from "react-typical";
 
-const useStyles = makeStyles((theme: Theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
-  }
-}));
 
 const Home: NextPage = () => {
-  const classes = useStyles();
 
   return (
     <AdminLayout title="Home">
@@ -170,7 +161,7 @@ const Home: NextPage = () => {
           </Fade>
           <div className="row">
           <Fade bottom duration={1000} delay={500} distance="30px">
-          <iframe id="linktree-frame" src="https://linktr.ee/umwics" frameborder="0"></iframe>
+          <iframe id="linktree-frame" src="https://linktr.ee/umwics" frameBorder="0"></iframe>
           </Fade>
           </div>
         </div>
