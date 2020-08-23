@@ -2,30 +2,13 @@ import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import { NextComponentType } from "next";
 import { DefaultSeo } from "next-seo";
 import { AppContext, AppInitialProps, AppProps } from "next/app";
-import { Router } from "next/router";
-import NProgress from "nprogress";
-import "nprogress/nprogress.css";
 import React from "react";
 import ConfirmProvider from "../components/ConfirmProvider";
+import ProgressBar from "../components/ProgressBar";
 import { AuthProvider } from "../lib/auth";
 import { theme } from "../lib/theme";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../assets/css/main.css";
-
-NProgress.configure({ showSpinner: false, trickleSpeed: 300 });
-
-Router.events.on("routeChangeStart", () => {
-    NProgress.start();
-});
-
-Router.events.on("routeChangeComplete", () => {
-    NProgress.done();
-});
-
-Router.events.on("routeChangeError", () => {
-    NProgress.done();
-});
 
 const CustomApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
     Component,
@@ -45,6 +28,7 @@ const CustomApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
             <ThemeProvider theme={theme}>
                 <ConfirmProvider>
                     <CssBaseline />
+                    <ProgressBar options={{ showSpinner: false, trickleSpeed: 300 }} />
                     <Component {...pageProps} />
                 </ConfirmProvider>
             </ThemeProvider>

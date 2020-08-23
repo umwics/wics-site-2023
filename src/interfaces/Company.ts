@@ -1,18 +1,21 @@
-import { Member } from "./Member";
+export interface CompanyLink {
+    title: string;
+    link: string;
+}
 
 export interface CompanyMember {
-    member: Member;
+    memberId: string;
     term: string;
     tools: string[];
 }
 
-export interface Comapny {
+export interface Company {
     id: string;
     name: string;
     displayName: string;
-    description: string;
     email: string;
-    links: string;
-    image: string;
+    description: string;
+    links: CompanyLink[];
     members: CompanyMember[];
+    image: string;
 }

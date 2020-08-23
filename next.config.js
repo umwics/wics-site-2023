@@ -2,6 +2,7 @@ const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
 
 const baseConfig = {
     poweredByHeader: false,
+    target: "experimental-serverless-trace",
     // Using env as config since runtime config isn't supported by serverless deployments
     env: {
         url: "https://umwics.vercep.app",
@@ -10,8 +11,8 @@ const baseConfig = {
         description: "U of M Women in Computer Science",
         locale: "en_CA"
     },
-    webpack: (config, { isServer }) => {
-        isServer && require("./scripts/generateSitemap");
+    webpack: (config, { buildId, dev, isServer }) => {
+        isServer && !dev && require("./scripts/generateSitemap")(buildId);
 
         return config;
     }

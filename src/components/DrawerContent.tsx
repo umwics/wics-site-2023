@@ -79,7 +79,7 @@ const DrawerContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                         dense
                         disablePadding
                     >
-                        {["users", "members", "events", "co-op_companies"].map(text => (
+                        {["users", "members", "companies", "events"].map(text => (
                             <Link key={text} href={`/admin/${text}`} passHref>
                                 <ListItem button component="a">
                                     <ListItemText primary={text} />

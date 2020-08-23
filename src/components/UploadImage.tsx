@@ -1,64 +1,113 @@
-import { IconButton } from "@material-ui/core";
+import { Card, CardHeader, CardMedia, Grid, IconButton, LinearProgress } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { PhotoCamera } from "@material-ui/icons";
-import React, { useEffect, useState } from "react";
+import { Clear } from "@material-ui/icons";
+import { Field, FormikProps } from "formik";
+import { TextField } from "formik-material-ui";
+import React from "react";
+import UploadImageButton from "./UploadImageButton";
 
 interface Props {
-    className?: string;
-    multiple?: boolean;
-    onChange?: (selectedFile: FileList, preview: string[]) => any;
+    uploading?: boolean;
+    uploadingProgress?: number;
+    image?: { file: File; url: string } | null;
+    formikProps: FormikProps<any>;
+    onChange?: (selectedFile: File, preview: string) => any;
+    clearImage?: () => any;
 }
 
-const useStyles = makeStyles((_theme: Theme) => ({
-    input: {
-        display: "none"
+const useStyles = makeStyles((theme: Theme) => ({
+    imageUpload: {
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    uploadContainer: {
+        display: "flex",
+        flexDirection: "column"
+    },
+    imageFieldContainer: {
+        width: "100%",
+        display: "flex"
+    },
+    imageContainer: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: theme.spacing(1)
+    },
+    card: {
+        width: "100%"
+    },
+    media: {
+        paddingTop: "100%"
+    },
+    progressRoot: {
+        width: "100%"
     }
 }));
 
-const UploadImage: React.FC<Props> = ({ className, multiple, onChange }: Props) => {
+const UploadImage: React.FC<Props> = ({
+    uploading,
+    uploadingProgress,
+    image,
+    formikProps,
+    onChange,
+    clearImage
+}: Props) => {
     const classes = useStyles();
 
-    const [selectedFile, setSelectedFile] = useState<FileList | undefined>(undefined);
-
-    useEffect(() => {
-        if (!selectedFile) return;
-
-        const objectUrl: string[] = [];
-        for (let i = 0; i < selectedFile.length; i++)
-            objectUrl.push(URL.createObjectURL(selectedFile[i]));
-
-        onChange && onChange(selectedFile, objectUrl);
-
-        // free memory when ever this component is unmounted
-        return () => objectUrl.forEach(url => URL.revokeObjectURL(url));
-    }, [selectedFile]);
-
-    const handleSelectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files.length > 0) {
-            setSelectedFile(event.target.files);
-
-            return;
-        }
-
-        setSelectedFile(undefined);
+    const handleImageUpload = (selectedFile: FileList, preview: string[]) => {
+        onChange && onChange(selectedFile[0], preview[0]);
     };
 
     return (
-        <React.Fragment>
-            <input
-                accept="image/*"
-                id="icon-button-file"
-                className={classes.input}
-                type="file"
-                onChange={handleSelectFile}
-                multiple={multiple}
-            />
-            <label htmlFor="icon-button-file" className={className}>
-                <IconButton color="primary" aria-label="upload picture" component="span">
-                    <PhotoCamera />
-                </IconButton>
-            </label>
-        </React.Fragment>
+        <div className={classes.uploadContainer}>
+            <div className={classes.imageFieldContainer}>
+                <Grid item xs={10} sm={11}>
+                    <Field
+                        component={TextField}
+                        variant="outlined"
+                        name="image"
+                        label="Image URL"
+                        disabled={!!image}
+                        fullWidth
+                    />
+                </Grid>
+                <Grid item xs={2} sm={1}>
+                    <UploadImageButton
+                        className={classes.imageUpload}
+                        onChange={handleImageUpload}
+                        multiple={false}
+                    />
+                </Grid>
+            </div>
+            {(image || formikProps.values.image) && (
+                <div className={classes.imageContainer}>
+                    <Card className={classes.card}>
+                        <CardHeader
+                            action={
+                                <IconButton onClick={clearImage} aria-label="close">
+                                    <Clear />
+                                </IconButton>
+                            }
+                            title={image?.file.name || "URL Image"}
+                            subheader={image?.file.type}
+                        />
+                        <CardMedia
+                            className={classes.media}
+                            image={image?.url || formikProps.values.image}
+                            title={image?.file.name || "URL Image"}
+                        />
+                    </Card>
+                </div>
+            )}
+            {uploading && (
+                <div className={classes.progressRoot}>
+                    <LinearProgress variant="determinate" value={uploadingProgress} />
+                </div>
+            )}
+        </div>
     );
 };
 

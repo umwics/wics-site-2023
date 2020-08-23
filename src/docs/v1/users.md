@@ -17,7 +17,7 @@ The response is a JSON payload consisting of a `users` field containing an array
     "users": [
         {
             "id": "6awm7AyVZdbnPdk6jdJiGWAJFr93",
-            "email": "shroudedoasis@gmail.com",
+            "email": "thisaintanemail@test.com",
             "role": "owner",
             "username": "Username",
             "avatarURL": "https://animageurl.com",
@@ -40,7 +40,7 @@ The response is a JSON payload consisting of the user data.
 ```json
 {
     "id": "6awm7AyVZdbnPdk6jdJiGWAJFr93",
-    "email": "shroudedoasis@gmail.com",
+    "email": "thisaintanemail@test.com",
     "role": "owner",
     "username": "Username",
     "avatarURL": "https://animageurl.com",

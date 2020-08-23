@@ -27,7 +27,7 @@ const Header: React.FC<Props> = ({ title }: Props) => {
             <AppBar position="static">
                 <Toolbar>
                     <Drawer />
-                    <Typography variant="h6" className={classes.title}>
+                    <Typography component="h1" variant="h6" className={classes.title}>
                         {title}
                     </Typography>
                     <nav>

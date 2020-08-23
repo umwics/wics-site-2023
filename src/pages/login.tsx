@@ -1,12 +1,21 @@
-import { Avatar, Button, Container, Grid, Link as MuiLink, Typography } from "@material-ui/core";
+import {
+    Avatar,
+    Button,
+    Container,
+    Grid,
+    IconButton,
+    InputAdornment,
+    Link as MuiLink,
+    Typography
+} from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import PersonIcon from "@material-ui/icons/Person";
+import { Person, Visibility, VisibilityOff } from "@material-ui/icons";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 import AdminLayout from "../components/layouts/AdminLayout";
 import LoginButtons from "../components/LoginButtons";
 import { useAuth } from "../lib/auth";
@@ -50,6 +59,8 @@ const Login: NextPage = () => {
     const classes = useStyles();
     const auth = useAuth();
 
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+
     const handleLogin = () => {
         router.push("/admin");
     };
@@ -59,7 +70,7 @@ const Login: NextPage = () => {
             <Container component="main" maxWidth="xs">
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
-                        <PersonIcon />
+                        <Person />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Login
@@ -103,7 +114,31 @@ const Login: NextPage = () => {
                                             name="password"
                                             id="password"
                                             label="Password"
-                                            type="password"
+                                            type={showPassword ? "text" : "password"}
+                                            InputProps={{
+                                                endAdornment: (
+                                                    <InputAdornment position="end">
+                                                        <IconButton
+                                                            aria-label="toggle password visibility"
+                                                            onClick={() =>
+                                                                setShowPassword(!showPassword)
+                                                            }
+                                                            onMouseDown={(
+                                                                event: React.MouseEvent<
+                                                                    HTMLButtonElement
+                                                                >
+                                                            ) => event.preventDefault()}
+                                                            edge="end"
+                                                        >
+                                                            {showPassword ? (
+                                                                <Visibility />
+                                                            ) : (
+                                                                <VisibilityOff />
+                                                            )}
+                                                        </IconButton>
+                                                    </InputAdornment>
+                                                )
+                                            }}
                                             fullWidth
                                             required
                                         />

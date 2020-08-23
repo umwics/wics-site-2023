@@ -1,5 +1,4 @@
 import { Button, Grid, makeStyles, Theme } from "@material-ui/core";
-import { grey } from "@material-ui/core/colors";
 import Github from "@material-ui/icons/GitHub";
 import React from "react";
 import { useAuth } from "../lib/auth";
@@ -14,17 +13,17 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginTop: theme.spacing(2)
     },
     google: {
-        color: theme.palette.getContrastText(grey[50]),
-        backgroundColor: grey[50],
+        color: theme.palette.getContrastText(theme.palette.grey[50]),
+        backgroundColor: theme.palette.grey[50],
         "&:hover": {
-            backgroundColor: grey[200]
+            backgroundColor: theme.palette.grey[200]
         }
     },
     github: {
-        color: theme.palette.getContrastText(grey[900]),
-        backgroundColor: grey[900],
+        color: theme.palette.getContrastText(theme.palette.grey[900]),
+        backgroundColor: theme.palette.grey[900],
         "&:hover": {
-            backgroundColor: grey[800]
+            backgroundColor: theme.palette.grey[800]
         }
     }
 }));

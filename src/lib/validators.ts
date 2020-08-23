@@ -26,3 +26,24 @@ export const addMemberSchema = Yup.object({
     ),
     image: Yup.string()
 });
+
+export const addCompanySchema = Yup.object({
+    name: Yup.string().required(),
+    displayName: Yup.string(),
+    email: Yup.string().email(),
+    description: Yup.string(),
+    links: Yup.array().of(
+        Yup.object().shape({
+            title: Yup.string(),
+            link: Yup.string().url()
+        })
+    ),
+    members: Yup.array().of(
+        Yup.object().shape({
+            memberId: Yup.string().required(),
+            term: Yup.string(),
+            tools: Yup.array().of(Yup.string())
+        })
+    ),
+    image: Yup.string()
+});
