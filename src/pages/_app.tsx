@@ -10,6 +10,9 @@ import ConfirmProvider from "../components/ConfirmProvider";
 import { AuthProvider } from "../lib/auth";
 import { theme } from "../lib/theme";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../assets/css/main.css";
+
 NProgress.configure({ showSpinner: false, trickleSpeed: 300 });
 
 Router.events.on("routeChangeStart", () => {
