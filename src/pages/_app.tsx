@@ -7,6 +7,8 @@ import ConfirmProvider from "../components/ConfirmProvider";
 import ProgressBar from "../components/ProgressBar";
 import { AuthProvider } from "../lib/auth";
 import { theme } from "../lib/theme";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../assets/css/main.css";
 
 const CustomApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
     Component,
