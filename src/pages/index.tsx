@@ -133,8 +133,18 @@ const Home: NextPage = () => {
         </Carousel.Item>
       </Carousel>
 
-      <Container>
-        <div className={classes.paper}>
+
+      <div id="mainsections" className="text-center">
+        <div className="container">
+        <Fade bottom duration={1000} delay={500} distance="30px">
+          <div className="section-title">
+            <h2>Introduction</h2>
+            <p>
+            A little info about our club.
+            </p>
+          </div>
+          </Fade>
+          <div className="row">
           <Fade bottom duration={1000} delay={500} distance="30px">
             <iframe
               frameBorder="0"
@@ -143,9 +153,28 @@ const Home: NextPage = () => {
               src="https://www.youtube.com/embed/646jjiejsuA"
             ></iframe>
           </Fade>
+          </div>
         </div>
-      </Container>
+      </div>
 
+
+      <div id="mainsections" className="text-center">
+        <div className="container">
+        <Fade bottom duration={1000} delay={500} distance="30px">
+          <div className="section-title">
+            <h2>Linktree</h2>
+            <p>
+            Checkout our Linktree!
+            </p>
+          </div>
+          </Fade>
+          <div className="row">
+          <Fade bottom duration={1000} delay={500} distance="30px">
+          <iframe id="linktree-frame" src="https://linktr.ee/umwics" frameborder="0"></iframe>
+          </Fade>
+          </div>
+        </div>
+      </div>
     </AdminLayout>
   );
 };
