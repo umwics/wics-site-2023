@@ -11,19 +11,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
-  },
-  title: {
-    fontFamily: 'Helvetica',
-    fontWeight: "bold",
-    fontSize: 45,
-    textAlign: "center"    
-  },
-  blink: {
-    letterSpacing: 2,
-    fontSize: 20,
-    textAlign: "center",
-    fontFamily: "monospace",
-    marginBottom: theme.spacing(4)
   }
 }));
 
@@ -34,9 +21,9 @@ const Home: NextPage = () => {
     <AdminLayout title="Home">
       <Container>
         <Fade bottom duration={1000} delay={500} distance="30px">
-          <h1 className={classes.title}>U of M Women in Computer Science</h1>
+          <h1 className="maintitle">U of M Women in Computer Science</h1>
         </Fade>
-          <p className={classes.blink}>
+          <p className="mainblink">
             <Typical
               steps={[
                 "We are women in computer science.",
@@ -59,18 +46,7 @@ const Home: NextPage = () => {
       <Carousel.Item>
         <div className="carouselcontainer">
           <img className="d-block w-100 cropped" src="img/main/ubisoft-group.jpg"/>
-          <div class="bottom-right">
-          <h2>MENTOR MINGLE</h2>
-          <h1>Ubisoft</h1>
-          <p>2019 WINTER</p> 
-          <Button variant="contained" color="secondary" href="#contained-buttons">See more</Button>
-            </div>
-          </div>
-        </Carousel.Item>
-      <Carousel.Item>
-        <div className="carouselcontainer">
-          <img className="d-block w-100 cropped" src="img/main/ubisoft-clap.jpg"/>
-          <div class="bottom-right">
+          <div className="bottom-right">
           <h2>MENTOR MINGLE</h2>
           <h1>Ubisoft</h1>
           <p>2019 WINTER</p> 
@@ -81,7 +57,7 @@ const Home: NextPage = () => {
         <Carousel.Item>
         <div className="carouselcontainer">
         <img className="d-block w-100 cropped" src="img/main/amazon-talk.jpg"/>
-        <div class="bottom-right">
+        <div className="bottom-left">
         <h2>Thinkbox Intro Event</h2>
           <h1>AWS</h1>
           <p>2020 WINTER</p> 
@@ -92,7 +68,7 @@ const Home: NextPage = () => {
         <Carousel.Item>
         <div className="carouselcontainer">
           <img className="d-block w-100 cropped" src="img/main/amazon-group.jpg"/>
-          <div class="bottom-right">
+          <div className="bottom-right">
           <h2>Thinkbox Intro Event</h2>
           <h1>AWS</h1>
           <p>2020 WINTER</p> 
@@ -103,10 +79,54 @@ const Home: NextPage = () => {
         <Carousel.Item>
         <div className="carouselcontainer">
         <img className="d-block w-100 cropped" src="img/main/skip-clap.jpg"/>
-                  <div class="top-left">
+                  <div className="top-left">
           <h2>MENTOR MINGLE</h2>
           <h1>SkipTheDishes</h1>
           <p>2020 WINTER</p> 
+          <Button variant="contained" color="secondary" href="#contained-buttons">See more</Button>
+            </div>
+          </div>
+        </Carousel.Item>
+        <Carousel.Item>
+        <div className="carouselcontainer">
+        <img className="d-block w-100 cropped" src="img/main/skip-group.jpg"/>
+          <div className="bottom-right">
+          <h2>MENTOR MINGLE</h2>
+          <h1>SkipTheDishes</h1>
+          <p>2020 WINTER</p> 
+          <Button variant="contained" color="secondary" href="#contained-buttons">See more</Button>
+            </div>
+          </div>
+        </Carousel.Item>
+        <Carousel.Item>
+        <div className="carouselcontainer">
+        <img className="d-block w-100 cropped" src="img/main/skip-scholarship.jpg"/>
+          <div className="bottom-left">
+          <h2>Scholarship</h2>
+          <h1>SkipTheDishes</h1>
+          <p>Recipient Claire</p> 
+          <Button variant="contained" color="secondary" href="#contained-buttons">See more</Button>
+            </div>
+          </div>
+        </Carousel.Item>
+        <Carousel.Item>
+        <div className="carouselcontainer">
+        <img className="d-block w-100 cropped" src="img/main/bold-presenter.jpg"/>
+          <div className="top-right">
+          <h2>MENTOR MINGLE</h2>
+          <h1>Bold</h1>
+          <p>2019 SUMMER</p> 
+          <Button variant="contained" color="secondary" href="#contained-buttons">See more</Button>
+            </div>
+          </div>
+        </Carousel.Item>
+        <Carousel.Item>
+        <div className="carouselcontainer">
+        <img className="d-block w-100 cropped" src="img/main/iqmetrix-reception.jpg"/>
+          <div className="bottom-right">
+          <h2>MENTOR MINGLE</h2>
+          <h1>iQmetrix</h1>
+          <p>2019 FALL</p> 
           <Button variant="contained" color="secondary" href="#contained-buttons">See more</Button>
             </div>
           </div>
