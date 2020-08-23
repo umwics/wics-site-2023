@@ -8,7 +8,7 @@ import ProgressBar from "../components/ProgressBar";
 import { AuthProvider } from "../lib/auth";
 import { theme } from "../lib/theme";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../assets/css/main.css";
+import "../assets/css/style.css";
 
 const CustomApp: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
     Component,

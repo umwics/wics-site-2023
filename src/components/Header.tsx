@@ -13,6 +13,9 @@ interface Props {
 const useStyles = makeStyles((_theme: Theme) => ({
     title: {
         flexGrow: 1
+    },
+    style: {
+        backgroundColor: _theme.palette.grey[50]
     }
 }));
 
@@ -24,7 +27,7 @@ const Header: React.FC<Props> = ({ title }: Props) => {
         <React.Fragment>
             <NextSeo title={title ? title + " | " + process.env.siteDisplayName : undefined} />
 
-            <AppBar position="static" color="inherit" elevation={0}>
+            <AppBar position="sticky" color="default" elevation={0} className={classes.style}>
                 <Toolbar>
                     <Drawer />
                     <Typography component="h1" variant="h6" className={classes.title}>
