@@ -10,12 +10,12 @@ interface Props {
     title?: string;
 }
 
-const useStyles = makeStyles((_theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     title: {
         flexGrow: 1
     },
     style: {
-        backgroundColor: _theme.palette.grey[50]
+        backgroundColor: theme.palette.grey[50]
     }
 }));
 

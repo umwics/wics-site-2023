@@ -30,7 +30,7 @@ The response is a JSON payload consisting of a `members` field containing an arr
 }
 ```
 
-# Get User By Id
+# Get Member By Id
 
 Gets a Member object by its ID.
 

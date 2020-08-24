@@ -18,8 +18,7 @@ import AdminLayout from "../../components/layouts/AdminLayout";
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
-        width: "100%",
-        maxWidth: 360
+        width: "100%"
     },
     grid: {
         marginTop: theme.spacing(6)
@@ -42,12 +41,12 @@ const Admin: NextPage = () => {
 
     return (
         <AdminLayout title="Admin">
-            <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="md">
                 <div className={classes.paper}>
                     <Typography component="h1" variant="h5">
                         Admin Panel
                     </Typography>
-                    <Grid item xs={12} className={classes.grid}>
+                    <Grid item sm={12} xs={12} className={classes.grid}>
                         <Typography component="h1" variant="h6">
                             Collections
                         </Typography>

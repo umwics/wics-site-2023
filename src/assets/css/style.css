@@ -1,78 +1,77 @@
-  
 /* Main page titles */
 .maintitle {
     letter-spacing: 2px;
-    font-family: 'Helvetica';
+    font-family: "Helvetica";
     font-weight: bolder;
     font-size: 2vw;
     text-align: center;
-  }
+}
 .mainblink {
     letter-spacing: 3px;
     font-size: 20px;
     text-align: center;
     font-family: monospace;
     margin-bottom: 10px;
-  }
+}
 
 /* Main page carousel */
 .carouselcontainer {
     display: block;
-  width: 100%;
-  height: 580px;
-  position: relative;
-  overflow: hidden;
+    width: 100%;
+    height: 580px;
+    position: relative;
+    overflow: hidden;
 }
 
 .cropped {
     width: 100%; /* width of container */
     height: 580px; /* height of container */
     object-fit: cover;
-    filter: grayscale( 30% );
-    -webkit-filter: grayscale( 30% );
-    filter: contrast( 120% );
-    -webkit-filter: contrast( 120% );
-    filter: brightness( 150% );
-    -webkit-filter: brightness( 150% );
-    filter: saturate( 80% );
-    -webkit-filter: saturate( 80% );
+    filter: grayscale(30%);
+    -webkit-filter: grayscale(30%);
+    filter: contrast(120%);
+    -webkit-filter: contrast(120%);
+    filter: brightness(150%);
+    -webkit-filter: brightness(150%);
+    filter: saturate(80%);
+    -webkit-filter: saturate(80%);
 }
 .bottom-left {
     position: absolute;
     bottom: 8px;
     left: 16px;
     margin-bottom: 30px;
-  }
-  
-  .top-left {
+}
+
+.top-left {
     position: absolute;
     top: 8px;
     left: 16px;
-  }
-  
-  .top-right {
+}
+
+.top-right {
     position: absolute;
     top: 8px;
     right: 16px;
     text-align: right;
-  }
-  
-  .bottom-right {
+}
+
+.bottom-right {
     position: absolute;
     bottom: 8px;
     right: 16px;
     margin-bottom: 30px;
     text-align: right;
-  }
-  
-  .centered {
+}
+
+.centered {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
+}
 
-  .carouselcontainer h2 {
+.carouselcontainer h2 {
     color: #fff;
     font-size: 2vw;
     margin-top: 50px;
@@ -83,18 +82,18 @@
 }
 
 .carouselcontainer h1 {
-	font-family: 'Raleway', sans-serif;
-	color: #fff;
-	font-size: 4vw;
-	font-weight: 700;
-	text-transform: uppercase;
-	margin-top: 0;
-	margin-bottom: 6px;
+    font-family: "Raleway", sans-serif;
+    color: #fff;
+    font-size: 4vw;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 0;
+    margin-bottom: 6px;
 }
 .carouselcontainer p {
-	color: #fff;
-	font-weight: 400;
-	margin: 0 auto;
+    color: #fff;
+    font-weight: 400;
+    margin: 0 auto;
     margin-bottom: 10px;
     letter-spacing: 0.075em;
     font-size: 15px;
@@ -103,32 +102,31 @@
 
 /* Main page other sections */
 #mainsections {
-	padding: 100px 0;
-	background: #f6f6f6;
+    padding: 100px 0;
+    background: #f6f6f6;
 }
 
 .section-title {
-    
-	margin-bottom: 70px;
+    margin-bottom: 70px;
 }
 .section-title h2 {
     font-weight: 700;
     text-transform: uppercase;
-	position: relative;
-	margin-top: 10px;
-	margin-bottom: 15px;
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 15px;
     padding-bottom: 15px;
     letter-spacing: 0.075em;
 }
 .section-title h2::after {
-	position: absolute;
-	content: "";
-	background: linear-gradient(to right, #09C6F9 0%, #045DE9 100%);
-	height: 4px;
-	width: 60px;
-	bottom: 0;
-	margin-left: -30px;
-	left: 50%;
+    position: absolute;
+    content: "";
+    background: linear-gradient(to right, #09c6f9 0%, #045de9 100%);
+    height: 4px;
+    width: 60px;
+    bottom: 0;
+    margin-left: -30px;
+    left: 50%;
 }
 .section-title p {
     letter-spacing: 0.075em;
@@ -175,10 +173,8 @@
 }
 .list-reset a {
     color: #3eadcf;
-
 }
 .list-reset a:hover {
     color: #abe9cd;
     text-decoration: none;
 }
-

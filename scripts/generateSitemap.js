@@ -40,4 +40,4 @@ const generateSitemap = async _buildId => {
     await formatSitemapPrettier();
 };
 
-module.exports = generateSitemap;
+generateSitemap();

@@ -1,9 +1,10 @@
 {
-    "name": "with-typescript",
+    "name": "umwics",
     "version": "1.0.0",
     "scripts": {
         "dev": "next",
-        "build": "next build",
+        "build": "next build && npm run build-sitemap",
+        "build-sitemap": "node ./scripts/generateSitemap.js",
         "start": "next start",
         "type-check": "tsc",
         "format": "prettier --write \"**/*.{js,ts,tsx}\"",
@@ -31,6 +32,7 @@
         "@material-ui/core": "^4.11.0",
         "@material-ui/icons": "^4.9.1",
         "@material-ui/lab": "^4.0.0-alpha.56",
+        "autosuggest-highlight": "^3.1.1",
         "bootstrap": "^4.5.2",
         "firebase": "^7.17.1",
         "firebase-admin": "^9.0.0",
@@ -53,6 +55,7 @@
         "yup": "^0.29.3"
     },
     "devDependencies": {
+        "@types/autosuggest-highlight": "^3.1.0",
         "@types/jest": "^26.0.9",
         "@types/node": "^12.12.21",
         "@types/nprogress": "^0.2.0",

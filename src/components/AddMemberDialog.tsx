@@ -4,18 +4,19 @@ import {
     DialogActions,
     DialogContent,
     DialogTitle,
-    Grid,
     IconButton,
     Typography
 } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Close } from "@material-ui/icons";
-import { Field, Form, Formik } from "formik";
+import { Field, useFormikContext } from "formik";
 import { TextField } from "formik-material-ui";
 import React, { useEffect, useState } from "react";
+import * as Yup from "yup";
 import { Member } from "../interfaces";
 import { addMemberSchema } from "../lib/validators";
-import ArrayTextField from "./ArrayTextField";
+import ArrayField from "./ArrayField";
+import DynamicForm from "./DynamicForm";
 import TransitionSlide from "./TransitionSlide";
 import UploadImage from "./UploadImage";
 
@@ -103,7 +104,8 @@ const AddMemberDialog: React.FC<Props> = ({
                 )}
             </DialogTitle>
             <DialogContent dividers>
-                <Formik
+                <DynamicForm
+                    className={classes.form}
                     validateOnChange={false}
                     validateOnBlur={true}
                     validationSchema={addMemberSchema}
@@ -122,116 +124,143 @@ const AddMemberDialog: React.FC<Props> = ({
                         image && setUploading(false);
                         setSubmitting(false);
                     }}
-                >
-                    {({ values, isSubmitting, ...formikProps }) => (
-                        <Form className={classes.form}>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12}>
-                                    <Field
-                                        component={TextField}
-                                        variant="outlined"
-                                        name="name"
-                                        label="Name"
-                                        fullWidth
-                                        autoFocus
-                                        required
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Field
-                                        component={TextField}
-                                        variant="outlined"
-                                        name="displayName"
-                                        label="Display Name"
-                                        fullWidth
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Field
-                                        component={TextField}
-                                        variant="outlined"
-                                        name="title"
-                                        label="Title"
-                                        fullWidth
-                                        required
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Field
-                                        component={TextField}
-                                        variant="outlined"
-                                        name="email"
-                                        label="Email Address"
-                                        fullWidth
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Field
-                                        component={TextField}
-                                        variant="outlined"
-                                        name="description"
-                                        label="Description"
-                                        rows={2}
-                                        rowsMax={4}
-                                        multiline
-                                        fullWidth
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <ArrayTextField
-                                        name="facts"
-                                        addLabel="Add Fact"
-                                        schema={{
-                                            fieldLabel: idx => `Fact ${idx + 1}`,
-                                            initialValue: ""
-                                        }}
-                                        formikProps={{ values, isSubmitting, ...formikProps }}
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <ArrayTextField
-                                        name="links"
-                                        addLabel="Add Link"
-                                        schema={{
-                                            title: {
-                                                fieldLabel: idx => `Link Title ${idx + 1}`,
-                                                initialValue: ""
+                    fields={[
+                        {
+                            component: Field,
+                            props: {
+                                component: TextField,
+                                variant: "outlined",
+                                name: "name",
+                                label: "Name",
+                                fullWidth: true,
+                                autoFocus: true,
+                                required: true
+                            }
+                        },
+                        {
+                            component: Field,
+                            props: {
+                                component: TextField,
+                                variant: "outlined",
+                                name: "displayName",
+                                label: "Display Name",
+                                fullWidth: true
+                            }
+                        },
+                        {
+                            component: Field,
+                            props: {
+                                component: TextField,
+                                variant: "outlined",
+                                name: "title",
+                                label: "Title",
+                                fullWidth: true,
+                                required: true
+                            }
+                        },
+                        {
+                            component: Field,
+                            props: {
+                                component: TextField,
+                                variant: "outlined",
+                                name: "email",
+                                label: "Email Address",
+                                fullWidth: true
+                            }
+                        },
+                        {
+                            component: Field,
+                            props: {
+                                component: TextField,
+                                variant: "outlined",
+                                name: "description",
+                                label: "Description",
+                                rows: 2,
+                                rowsMax: 4,
+                                multiline: true,
+                                fullWidth: true
+                            }
+                        },
+                        {
+                            component: ArrayField,
+                            props: {
+                                name: "facts",
+                                addLabel: "Add Fact",
+                                schema: Yup.array().of(
+                                    Yup.object().default({
+                                        props: {
+                                            component: TextField,
+                                            variant: "outlined",
+                                            fullWidth: true
+                                        },
+                                        fieldLabel: (idx: number) => `Fact ${idx + 1}`,
+                                        initialValue: ""
+                                    })
+                                )
+                            }
+                        },
+                        {
+                            component: ArrayField,
+                            props: {
+                                name: "links",
+                                addLabel: "Add Link",
+                                schema: Yup.array().of(
+                                    Yup.object().default({
+                                        title: Yup.object().default({
+                                            props: {
+                                                component: TextField,
+                                                variant: "outlined",
+                                                fullWidth: true
                                             },
-                                            link: {
-                                                fieldLabel: idx => `Link ${idx + 1}`,
-                                                initialValue: ""
-                                            }
-                                        }}
-                                        formikProps={{ values, isSubmitting, ...formikProps }}
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <UploadImage
-                                        uploading={uploading}
-                                        uploadingProgress={uploadingProgress}
-                                        image={image}
-                                        formikProps={{ values, isSubmitting, ...formikProps }}
-                                        onChange={handleImageUpload}
-                                        clearImage={() => setImage(null)}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <DialogActions>
-                                <Button onClick={handleClose} variant="contained">
-                                    Cancel
-                                </Button>
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    color="primary"
-                                    disabled={isSubmitting}
-                                >
-                                    {editing ? "Edit" : "Add"}
-                                </Button>
-                            </DialogActions>
-                        </Form>
-                    )}
-                </Formik>
+                                            fieldLabel: (idx: number) => `Link Title ${idx + 1}`,
+                                            initialValue: ""
+                                        }),
+                                        link: Yup.object().default({
+                                            props: {
+                                                component: TextField,
+                                                variant: "outlined",
+                                                fullWidth: true
+                                            },
+                                            fieldLabel: (idx: number) => `Link ${idx + 1}`,
+                                            initialValue: ""
+                                        })
+                                    })
+                                )
+                            }
+                        },
+                        {
+                            component: UploadImage,
+                            props: {
+                                uploading,
+                                uploadingProgress,
+                                image,
+                                onChange: handleImageUpload,
+                                clearImage: () => setImage(null)
+                            }
+                        },
+                        {
+                            component: () => {
+                                const { isSubmitting } = useFormikContext();
+
+                                return (
+                                    <DialogActions>
+                                        <Button onClick={handleClose} variant="contained">
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            type="submit"
+                                            variant="contained"
+                                            color="primary"
+                                            disabled={isSubmitting}
+                                        >
+                                            {editing ? "Edit" : "Add"}
+                                        </Button>
+                                    </DialogActions>
+                                );
+                            }
+                        }
+                    ]}
+                />
             </DialogContent>
         </Dialog>
     );
