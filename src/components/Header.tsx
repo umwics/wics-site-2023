@@ -10,9 +10,12 @@ interface Props {
     title?: string;
 }
 
-const useStyles = makeStyles((_theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
     title: {
         flexGrow: 1
+    },
+    style: {
+        backgroundColor: theme.palette.grey[50]
     }
 }));
 
@@ -24,7 +27,7 @@ const Header: React.FC<Props> = ({ title }: Props) => {
         <React.Fragment>
             <NextSeo title={title ? title + " | " + process.env.siteDisplayName : undefined} />
 
-            <AppBar position="static">
+            <AppBar position="sticky" color="default" elevation={0} className={classes.style}>
                 <Toolbar>
                     <Drawer />
                     <Typography component="h1" variant="h6" className={classes.title}>

@@ -10,11 +10,6 @@ const baseConfig = {
         siteDisplayName: "U of M WICS",
         description: "U of M Women in Computer Science",
         locale: "en_CA"
-    },
-    webpack: (config, { buildId, dev, isServer }) => {
-        isServer && !dev && require("./scripts/generateSitemap")(buildId);
-
-        return config;
     }
 };
 
