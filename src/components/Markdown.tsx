@@ -1,6 +1,7 @@
 import React from "react";
 import ReactMarkdown, { ReactMarkdownProps } from "react-markdown";
 import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
+import bash from "react-syntax-highlighter/dist/cjs/languages/prism/bash";
 import javascript from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
 import json from "react-syntax-highlighter/dist/cjs/languages/prism/json";
 import jsx from "react-syntax-highlighter/dist/cjs/languages/prism/jsx";
@@ -15,6 +16,7 @@ const supportedLanguages = {
     jsx,
     tsx,
     json,
+    bash,
     markup
 };
 

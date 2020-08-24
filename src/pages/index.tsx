@@ -16,7 +16,7 @@ const Home: NextPage = () => {
                 <Fade bottom duration={1000} delay={500} distance="30px">
                     <h1 className="maintitle">U of M Women in Computer Science</h1>
                 </Fade>
-                <p className="mainblink">
+                <span className="mainblink">
                     <Typical
                         steps={[
                             "We are women in computer science.",
@@ -31,7 +31,7 @@ const Home: NextPage = () => {
                         loop={Infinity}
                         wrapper="p"
                     />
-                </p>
+                </span>
             </Container>
 
             <Carousel>

@@ -100,11 +100,16 @@ const CompanyList: React.FC<Props> = ({
 
                                             return (
                                                 member && (
-                                                    <Avatar
+                                                    <Tooltip
                                                         key={member.id}
-                                                        alt={member.name}
-                                                        src={member.image}
-                                                    />
+                                                        title={member.name}
+                                                        placement="top"
+                                                    >
+                                                        <Avatar
+                                                            alt={member.name}
+                                                            src={member.image}
+                                                        />
+                                                    </Tooltip>
                                                 )
                                             );
                                         })}
