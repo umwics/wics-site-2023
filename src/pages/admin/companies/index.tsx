@@ -39,24 +39,8 @@ const Companies: NextPage<Props> = ({ companies, members }: Props) => {
     const confirm = useConfirm();
 
     const [visibleCompanies, setVisibleCompanies] = useState([...companies]);
-    const [visibleMembers, setVisibleMembers] = useState([...members]);
     const [editCompany, setEditCompany] = useState<Company | undefined>(undefined);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
-
-    const getNewVisibleMembers = async (newCompany: Company) => {
-        const newMembers = await getAllMembers({
-            where: {
-                opStr: "in",
-                value: newCompany.members
-                    .filter(
-                        cmember => !visibleMembers.some(member => cmember.memberId === member.id)
-                    )
-                    .map(cmember => cmember.memberId)
-            }
-        });
-
-        return newMembers;
-    };
 
     const addCompany = async (
         company: Company,
@@ -72,7 +56,6 @@ const Companies: NextPage<Props> = ({ companies, members }: Props) => {
                 ...company,
                 ...editedCompany
             };
-            setVisibleMembers([...(await getNewVisibleMembers(newCompany)), ...visibleMembers]);
             setVisibleCompanies([
                 newCompany,
                 ...visibleCompanies.filter(checkCompany => checkCompany.id !== company.id)
@@ -80,7 +63,6 @@ const Companies: NextPage<Props> = ({ companies, members }: Props) => {
         } else {
             const newCompany = await createCompany(company, image, progressCallback);
             if (newCompany) {
-                setVisibleMembers([...(await getNewVisibleMembers(newCompany)), ...visibleMembers]);
                 setVisibleCompanies([newCompany, ...visibleCompanies]);
             }
         }
@@ -126,12 +108,13 @@ const Companies: NextPage<Props> = ({ companies, members }: Props) => {
                     </Typography>
                     <CompanyList
                         companies={visibleCompanies}
-                        members={visibleMembers}
+                        members={members}
                         editCompany={editVisibleCompany}
                         deleteCompany={deleteVisibleCompany}
                     />
                     <AddCompanyDialog
                         open={addDialogOpen}
+                        members={members}
                         initialValues={editCompany}
                         addCompany={addCompany}
                         handleClose={handleClose}
@@ -150,14 +133,11 @@ const Companies: NextPage<Props> = ({ companies, members }: Props) => {
 export const getStaticProps: GetStaticProps = async () => {
     const companies: Company[] = await getAllCompanies();
     const members: Member[] = await getAllMembers();
+
     return {
         props: {
             companies,
-            members: members.filter(member =>
-                companies.some(company =>
-                    company.members.some(cmember => cmember.memberId === member.id)
-                )
-            )
+            members
         },
         revalidate: 60
     };

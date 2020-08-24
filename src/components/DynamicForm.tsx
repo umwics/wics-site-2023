@@ -1,5 +1,5 @@
 import { Grid } from "@material-ui/core";
-import { FieldAttributes, Form, Formik, FormikConfig, FormikProps, FormikValues } from "formik";
+import { FieldAttributes, Form, Formik, FormikConfig, FormikValues } from "formik";
 import React from "react";
 
 interface Field<T = any> {
@@ -7,9 +7,8 @@ interface Field<T = any> {
     props?: FieldAttributes<T> & { children?: React.ReactElement<any, any> };
 }
 
-interface DynamicFieldFormikProps<Values> {
+interface DynamicFieldProps {
     field: Field;
-    formikProps: FormikProps<Values>;
 }
 
 interface DynamicFormCustomProps {
@@ -17,31 +16,28 @@ interface DynamicFormCustomProps {
     fields: Field[];
 }
 
-const DynamicField = <Values extends FormikValues = FormikValues>({
-    field,
-    formikProps
-}: DynamicFieldFormikProps<Values>) => {
+const DynamicField: React.FC<DynamicFieldProps> = ({ field }: DynamicFieldProps) => {
     const { component: Component, props } = field;
 
     return (
         <Grid item xs={12}>
-            <Component {...props} formikProps={formikProps} />
+            <Component {...props} />
         </Grid>
     );
 };
 
-const DynamicForm = <Values extends FormikValues = FormikValues, ExtraProps = unknown>({
-    fields,
-    className,
-    ...formikProps
-}: FormikConfig<Values> & DynamicFormCustomProps & ExtraProps): JSX.Element => {
+const DynamicForm = <Values extends FormikValues = FormikValues, ExtraProps = unknown>(
+    props: FormikConfig<Values> & DynamicFormCustomProps & ExtraProps
+): JSX.Element => {
+    const { className, fields } = props;
+
     return (
-        <Formik {...formikProps}>
-            {props => (
+        <Formik {...props}>
+            {_ => (
                 <Form className={className}>
                     <Grid container spacing={2}>
                         {fields.map((field, idx) => (
-                            <DynamicField key={idx} field={field} formikProps={props} />
+                            <DynamicField key={idx} field={field} />
                         ))}
                     </Grid>
                 </Form>

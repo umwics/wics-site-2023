@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardMedia, Grid, IconButton, LinearProgress } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Clear } from "@material-ui/icons";
-import { Field, FormikProps } from "formik";
+import { Field, useFormikContext } from "formik";
 import { TextField } from "formik-material-ui";
 import React from "react";
 import UploadImageButton from "./UploadImageButton";
@@ -10,7 +10,6 @@ interface Props {
     uploading?: boolean;
     uploadingProgress?: number;
     image?: { file: File; url: string } | null;
-    formikProps: FormikProps<any>;
     onChange?: (selectedFile: File, preview: string) => any;
     clearImage?: () => any;
 }
@@ -51,11 +50,11 @@ const UploadImage: React.FC<Props> = ({
     uploading,
     uploadingProgress,
     image,
-    formikProps,
     onChange,
     clearImage
 }: Props) => {
     const classes = useStyles();
+    const { values } = useFormikContext<any>();
 
     const handleImageUpload = (selectedFile: FileList, preview: string[]) => {
         onChange && onChange(selectedFile[0], preview[0]);
@@ -82,7 +81,7 @@ const UploadImage: React.FC<Props> = ({
                     />
                 </Grid>
             </div>
-            {(image || formikProps.values.image) && (
+            {(image || values.image) && (
                 <div className={classes.imageContainer}>
                     <Card className={classes.card}>
                         <CardHeader
@@ -96,7 +95,7 @@ const UploadImage: React.FC<Props> = ({
                         />
                         <CardMedia
                             className={classes.media}
-                            image={image?.url || formikProps.values.image}
+                            image={image?.url || values.image}
                             title={image?.file.name || "URL Image"}
                         />
                     </Card>

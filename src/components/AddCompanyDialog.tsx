@@ -5,22 +5,28 @@ import {
     DialogContent,
     DialogTitle,
     IconButton,
+    TextField as MuiTextField,
     Typography
 } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Close } from "@material-ui/icons";
-import { Field } from "formik";
+import match from "autosuggest-highlight/match";
+import parse from "autosuggest-highlight/parse";
+import { Field, useFormikContext } from "formik";
 import { TextField } from "formik-material-ui";
+import { Autocomplete, AutocompleteRenderInputParams } from "formik-material-ui-lab";
 import React, { useEffect, useState } from "react";
-import { Company } from "../interfaces";
+import * as Yup from "yup";
+import { Company, Member } from "../interfaces";
 import { addCompanySchema } from "../lib/validators";
-import ArrayTextField from "./ArrayTextField";
+import ArrayField, { ArrayComponentProps } from "./ArrayField";
 import DynamicForm from "./DynamicForm";
 import TransitionSlide from "./TransitionSlide";
 import UploadImage from "./UploadImage";
 
 interface Props {
     open: boolean;
+    members: Member[];
     initialValues?: Company;
     addCompany?: (
         company: Company,
@@ -56,6 +62,7 @@ const defaultInitialValues: Company = {
 
 const AddCompanyDialog: React.FC<Props> = ({
     open,
+    members,
     initialValues = defaultInitialValues,
     addCompany,
     handleClose
@@ -173,53 +180,119 @@ const AddCompanyDialog: React.FC<Props> = ({
                             }
                         },
                         {
-                            component: ArrayTextField,
+                            component: ArrayField,
                             props: {
                                 name: "links",
                                 addLabel: "Add Link",
-                                schema: {
-                                    title: {
-                                        fieldLabel: (idx: number) => `Link Title ${idx + 1}`,
-                                        initialValue: ""
-                                    },
-                                    link: {
-                                        fieldLabel: (idx: number) => `Link ${idx + 1}`,
-                                        initialValue: ""
-                                    }
-                                }
+                                schema: Yup.array().of(
+                                    Yup.object().default({
+                                        title: Yup.object().default({
+                                            props: {
+                                                component: TextField,
+                                                variant: "outlined",
+                                                fullWidth: true
+                                            },
+                                            fieldLabel: (idx: number) => `Link Title ${idx + 1}`,
+                                            initialValue: ""
+                                        }),
+                                        link: Yup.object().default({
+                                            props: {
+                                                component: TextField,
+                                                variant: "outlined",
+                                                fullWidth: true
+                                            },
+                                            fieldLabel: (idx: number) => `Link ${idx + 1}`,
+                                            initialValue: ""
+                                        })
+                                    })
+                                )
                             }
                         },
                         {
-                            component: ArrayTextField,
+                            component: ArrayField,
                             props: {
                                 name: "members",
                                 addLabel: "Add Member",
-                                schema: {
-                                    memberId: {
-                                        // component: Autocomplete,
-                                        // props: {
-                                        //     options: [
-                                        //         { title: "The Shawshank Redemption", year: 1994 },
-                                        //         { title: "The Godfather", year: 1972 }
-                                        //     ],
-                                        //     getOptionLabel: (option: any) => option.title,
-                                        //     renderInput: (
-                                        //         params: AutocompleteRenderInputParams
-                                        //     ) => <MuiTextField {...params} />
-                                        // },
-                                        fieldLabel: (idx: number) => `Member ${idx + 1}`,
-                                        initialValue: ""
-                                    },
-                                    term: {
-                                        fieldLabel: (idx: number) => `Member Term ${idx + 1}`,
-                                        initialValue: ""
-                                    },
-                                    tools: {
-                                        fieldLabel: (idx: number) => `Member Tool ${idx + 1}`,
-                                        initialValue: "",
-                                        isArray: true
-                                    }
-                                }
+                                schema: Yup.array().of(
+                                    Yup.object().default({
+                                        memberId: Yup.object().default({
+                                            component: ({ name, label }: ArrayComponentProps) => (
+                                                <Field
+                                                    component={Autocomplete}
+                                                    name={name}
+                                                    options={members.map(member => member.id)}
+                                                    getOptionLabel={(memberId: string) =>
+                                                        members.find(
+                                                            member => member.id === memberId
+                                                        )?.name
+                                                    }
+                                                    renderInput={(
+                                                        params: AutocompleteRenderInputParams
+                                                    ) => (
+                                                        <MuiTextField
+                                                            {...params}
+                                                            variant="outlined"
+                                                            label={label}
+                                                            fullWidth
+                                                        />
+                                                    )}
+                                                    renderOption={(
+                                                        memberId: string,
+                                                        { inputValue }: any
+                                                    ) => {
+                                                        const name =
+                                                            members.find(
+                                                                member => member.id === memberId
+                                                            )?.name || "";
+
+                                                        const matches = match(name, inputValue);
+                                                        const parts = parse(name, matches);
+
+                                                        return (
+                                                            <div>
+                                                                {parts.map((part, index) => (
+                                                                    <span
+                                                                        key={index}
+                                                                        style={{
+                                                                            fontWeight: part.highlight
+                                                                                ? 700
+                                                                                : 400
+                                                                        }}
+                                                                    >
+                                                                        {part.text}
+                                                                    </span>
+                                                                ))}
+                                                            </div>
+                                                        );
+                                                    }}
+                                                />
+                                            ),
+                                            fieldLabel: (idx: number) => `Member ${idx + 1}`,
+                                            initialValue: ""
+                                        }),
+                                        term: Yup.object().default({
+                                            props: {
+                                                component: TextField,
+                                                variant: "outlined",
+                                                fullWidth: true
+                                            },
+                                            fieldLabel: (idx: number) => `Member Term ${idx + 1}`,
+                                            initialValue: ""
+                                        }),
+                                        tools: Yup.array().of(
+                                            Yup.object().default({
+                                                props: {
+                                                    component: TextField,
+                                                    variant: "outlined",
+                                                    fullWidth: true
+                                                },
+                                                fieldLabel: (idx: number) =>
+                                                    `Member Tool ${idx + 1}`,
+                                                initialValue: ""
+                                            })
+                                        )
+                                    })
+                                )
                             }
                         },
                         {
@@ -233,21 +306,25 @@ const AddCompanyDialog: React.FC<Props> = ({
                             }
                         },
                         {
-                            component: ({ formikProps }) => (
-                                <DialogActions>
-                                    <Button onClick={handleClose} variant="contained">
-                                        Cancel
-                                    </Button>
-                                    <Button
-                                        type="submit"
-                                        variant="contained"
-                                        color="primary"
-                                        disabled={formikProps.isSubmitting}
-                                    >
-                                        {editing ? "Edit" : "Add"}
-                                    </Button>
-                                </DialogActions>
-                            )
+                            component: () => {
+                                const { isSubmitting } = useFormikContext();
+
+                                return (
+                                    <DialogActions>
+                                        <Button onClick={handleClose} variant="contained">
+                                            Cancel
+                                        </Button>
+                                        <Button
+                                            type="submit"
+                                            variant="contained"
+                                            color="primary"
+                                            disabled={isSubmitting}
+                                        >
+                                            {editing ? "Edit" : "Add"}
+                                        </Button>
+                                    </DialogActions>
+                                );
+                            }
                         }
                     ]}
                 />
