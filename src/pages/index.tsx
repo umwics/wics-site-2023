@@ -8,11 +8,11 @@ import Fade from "react-reveal/Fade";
 // @ts-ignore
 import Typical from "react-typical";
 import BackToTop from "../components/BackToTop";
-import AdminLayout from "../components/layouts/AdminLayout";
+import ContentsLayout from "../components/layouts/ContentsLayout";
 
 const Home: NextPage = () => {
     return (
-        <AdminLayout title="Home">
+        <ContentsLayout title="Home">
             <Container>
                 <Fade bottom duration={1000} delay={500} distance="30px">
                     <h1 className="maintitle">U of M Women in Computer Science</h1>
@@ -189,7 +189,7 @@ const Home: NextPage = () => {
                 </div>
             </div>
             <BackToTop />
-        </AdminLayout>
+        </ContentsLayout>
     );
 };
 
