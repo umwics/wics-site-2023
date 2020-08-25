@@ -1,5 +1,5 @@
 # WICS Website-2020
-Rewritten wics site using next.js.
+Rewritten wics site using Next.js.
 This repository holds the WICS website-2020's source code!
 
 ## Before Getting Started
@@ -122,8 +122,10 @@ Here are some tutorials for getting you on your feet with various tools and tech
 * [HTML](https://www.w3schools.com/html/html_intro.asp)
 * [CSS](https://www.w3schools.com/css/css_intro.asp)
 * [Next.js](https://nextjs.org/)
+* [TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
 * [React](https://reactjs.org/docs/create-a-new-react-app.html)
 * [npm](https://docs.npmjs.com/)
+
 
 Optional:
 * [Material-UI](https://material-ui.com/getting-started/installation/)
