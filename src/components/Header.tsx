@@ -39,6 +39,41 @@ const Header: React.FC<Props> = ({ title }: Props) => {
                                 Home
                             </Button>
                         </Link>
+                        <Link href="/about" passHref>
+                            <Button component="a" color="inherit">
+                                About
+                            </Button>
+                        </Link>
+                        <Link href="/members" passHref>
+                            <Button component="a" color="inherit">
+                                Members
+                            </Button>
+                        </Link>
+                        <Link href="/events" passHref>
+                            <Button component="a" color="inherit">
+                                Events
+                            </Button>
+                        </Link>
+                        <Link href="/outreach" passHref>
+                            <Button component="a" color="inherit">
+                                Outreach
+                            </Button>
+                        </Link>
+                        <Link href="/mentors" passHref>
+                            <Button component="a" color="inherit">
+                                Mentors
+                            </Button>
+                        </Link>
+                        <Link href="/coop" passHref>
+                            <Button component="a" color="inherit">
+                                Co-op
+                            </Button>
+                        </Link>
+                        <Link href="/resources" passHref>
+                            <Button component="a" color="inherit">
+                                Resources
+                            </Button>
+                        </Link>
                         <Link href="/admin" passHref>
                             <Button component="a" color="inherit">
                                 Admin
