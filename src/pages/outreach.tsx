@@ -2,7 +2,7 @@ import { Container} from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { NextPage } from "next";
 import React from "react";
-import AdminLayout from "../components/layouts/AdminLayout";
+import ContentsLayout from "../components/layouts/ContentsLayout";
 
 const useStyles = makeStyles((theme: Theme) => ({
     paper: {
@@ -15,13 +15,13 @@ const About: NextPage = () => {
     const classes = useStyles();
 
     return (
-        <AdminLayout title="Outreach">
+        <ContentsLayout title="Outreach">
             <Container component="main">
                 <div className={classes.paper}>
                     <h1> Outreach page - coming soon</h1>
                 </div>
             </Container>
-        </AdminLayout>
+        </ContentsLayout>
     );
 };
 

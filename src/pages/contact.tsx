@@ -11,18 +11,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 
-const About: NextPage = () => {
+const Contact: NextPage = () => {
     const classes = useStyles();
 
     return (
-        <ContentsLayout title="Mentors">
+        <ContentsLayout title="Contact">
             <Container component="main">
                 <div className={classes.paper}>
-                    <h1> Mentors page - coming soon</h1>
+                    <h1> Contact page - coming soon</h1>
                 </div>
             </Container>
         </ContentsLayout>
     );
 };
 
-export default About;
+export default Contact;
