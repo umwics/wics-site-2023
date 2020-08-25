@@ -7,16 +7,24 @@
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
 >
     <url
+        ><loc>https://umwics.vercel.app/docs/v1/companies</loc>
+
+        <lastmod>2020-08-25</lastmod> </url
+    ><url
         ><loc>https://umwics.vercel.app/docs/v1/members</loc>
 
-        <lastmod>2020-08-24</lastmod> </url
+        <lastmod>2020-08-25</lastmod> </url
     ><url
         ><loc>https://umwics.vercel.app/docs/v1/users</loc>
 
-        <lastmod>2020-08-24</lastmod> </url
+        <lastmod>2020-08-25</lastmod> </url
     ><url
         ><loc>https://umwics.vercel.app</loc>
 
-        <lastmod>2020-08-24</lastmod>
+        <lastmod>2020-08-25</lastmod> </url
+    ><url
+        ><loc>https://umwics.vercel.app/members</loc>
+
+        <lastmod>2020-08-25</lastmod>
     </url></urlset
 >

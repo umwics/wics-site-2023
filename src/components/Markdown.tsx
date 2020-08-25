@@ -31,7 +31,7 @@ interface CodeProps {
 
 const MarkdownCode: React.FC<CodeProps> = ({ language, value }: CodeProps) => {
     return (
-        <SyntaxHighlighter language={language} style={cb}>
+        <SyntaxHighlighter language={language} style={cb} customStyle={{ maxWidth: "100%" }}>
             {value}
         </SyntaxHighlighter>
     );

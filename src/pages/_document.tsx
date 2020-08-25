@@ -9,7 +9,6 @@ import Document, {
     NextScript
 } from "next/document";
 import React from "react";
-import { theme } from "../lib/theme";
 
 class CustomDocument extends Document {
     // `getInitialProps` belongs to `_document` (instead of `_app`),
@@ -59,7 +58,7 @@ class CustomDocument extends Document {
             <Html>
                 <Head>
                     {/* PWA primary color */}
-                    <meta name="theme-color" content={theme.palette.primary.main} />
+                    <meta name="theme-color" content="#3f51b5" />
 
                     {/* Global site tag (gtag.js) - Google Analytics */}
                     {/* <script

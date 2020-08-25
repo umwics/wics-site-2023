@@ -1,4 +1,5 @@
-import { AppBar, Button, makeStyles, Theme, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Button, Toolbar, Typography } from "@material-ui/core";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
 import React from "react";
