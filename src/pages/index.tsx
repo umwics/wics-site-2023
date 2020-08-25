@@ -7,6 +7,7 @@ import Fade from "react-reveal/Fade";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Typical from "react-typical";
+import BackToTop from "../components/BackToTop";
 import ContentsLayout from "../components/layouts/ContentsLayout";
 
 const Home: NextPage = () => {
@@ -187,6 +188,7 @@ const Home: NextPage = () => {
                     </div>
                 </div>
             </div>
+            <BackToTop />
         </ContentsLayout>
     );
 };
