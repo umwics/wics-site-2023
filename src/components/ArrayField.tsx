@@ -49,13 +49,13 @@ const initialValues = (schema: Schema): any => {
         >).default();
 
         if (isFlat(schema)) {
-            return (fields as SchemaElement).initialValue || "";
+            return fields === undefined ? "" : (fields as SchemaElement).initialValue;
         } else {
             for (const [key, value] of Object.entries(fields)) {
-                if (value.type === "object")
-                    initialValue[key] =
-                        (value as Yup.ObjectSchema<SchemaElement>).default().initialValue || "";
-                else initialValue[key] = [];
+                if (value.type === "object") {
+                    const valueFields = (value as Yup.ObjectSchema<SchemaElement>).default();
+                    initialValue[key] = valueFields === undefined ? "" : valueFields.initialValue;
+                } else initialValue[key] = [];
             }
         }
 

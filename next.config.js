@@ -9,7 +9,8 @@ const baseConfig = {
         siteName: "umwics",
         siteDisplayName: "U of M WICS",
         description: "U of M Women in Computer Science",
-        locale: "en_CA"
+        locale: "en_CA",
+        apiVersion: "v1"
     }
 };
 

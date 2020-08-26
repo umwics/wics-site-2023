@@ -1,4 +1,4 @@
-import { Button, Container } from "@material-ui/core";
+import { Button, Container, Typography } from "@material-ui/core";
 import { NextPage } from "next";
 import Carousel from "react-bootstrap/Carousel";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -15,7 +15,9 @@ const Home: NextPage = () => {
         <ContentsLayout title="Home">
             <Container>
                 <Fade bottom duration={1000} delay={500} distance="30px">
-                    <h1 className="maintitle">U of M Women in Computer Science</h1>
+                    <Typography component="h1" variant="h3" className="maintitle">
+                        U of M Women in Computer Science
+                    </Typography>
                 </Fade>
                 <span className="mainblink">
                     <Typical

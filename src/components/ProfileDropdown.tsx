@@ -7,10 +7,11 @@ import {
     Tooltip,
     Typography
 } from "@material-ui/core";
-import { AccountCircle, ExitToApp } from "@material-ui/icons";
+import { AccountCircle, ExitToApp, SupervisorAccount } from "@material-ui/icons";
 import { useRouter } from "next/router";
 import React from "react";
 import { useAuth } from "../lib/auth";
+import Link from "./Link";
 
 const ProfileDropdown: React.FC = () => {
     const router = useRouter();
@@ -69,11 +70,22 @@ const ProfileDropdown: React.FC = () => {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>
+                <MenuItem
+                    component={Link}
+                    href="/admin/users/[id]"
+                    as={`/admin/users/${auth?.user?.id}`}
+                    onClick={handleClose}
+                >
                     <ListItemIcon>
                         <AccountCircle />
                     </ListItemIcon>
                     <ListItemText>Profile</ListItemText>
+                </MenuItem>
+                <MenuItem component={Link} href={`/admin`} onClick={handleClose}>
+                    <ListItemIcon>
+                        <SupervisorAccount />
+                    </ListItemIcon>
+                    <ListItemText>Admin</ListItemText>
                 </MenuItem>
                 <MenuItem
                     onClick={() => {

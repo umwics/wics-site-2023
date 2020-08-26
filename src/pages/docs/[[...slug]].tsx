@@ -26,18 +26,20 @@ const Documentation: NextPage<Props> = ({ doc, errors }: Props) => {
     const classes = useStyles();
 
     if (errors) {
-        <AdminLayout title="Error">
-            <Container component="main" maxWidth="xs">
-                <div className={classes.paper}>
-                    <Typography component="h1" variant="h5" style={{ color: "red" }}>
-                        Error
-                    </Typography>
-                    <p>
-                        <span>{errors}</span>
-                    </p>
-                </div>
-            </Container>
-        </AdminLayout>;
+        return (
+            <AdminLayout title="Error">
+                <Container component="main" maxWidth="xs">
+                    <div className={classes.paper}>
+                        <Typography component="h1" variant="h5" style={{ color: "red" }}>
+                            Error
+                        </Typography>
+                        <p>
+                            <span>{errors}</span>
+                        </p>
+                    </div>
+                </Container>
+            </AdminLayout>
+        );
     }
 
     return (
@@ -62,14 +64,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
     const staticProps: GetStaticPropsResult<Props> = { props: { doc: null } };
 
+    const slug = getAsArray(params?.slug);
     try {
-        if (params?.slug) {
-            const slug = params.slug;
-            const doc = await getDoc(getAsArray(slug).join("/"));
+        const doc = await getDoc(slug.join("/"));
 
-            if (!doc) throw new NotFoundError("Doc not found");
-            else staticProps.props.doc = doc;
-        }
+        if (!doc) throw new NotFoundError("Doc not found");
+        else staticProps.props.doc = doc;
     } catch (err) {
         staticProps.props.errors = err.message;
     }

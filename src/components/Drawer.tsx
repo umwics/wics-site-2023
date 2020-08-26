@@ -2,7 +2,13 @@ import { IconButton, SwipeableDrawer } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Menu } from "@material-ui/icons";
 import React from "react";
-import DrawerContent from "./DrawerContent";
+
+interface Props {
+    content: React.ComponentType<{
+        onClick?: (event: React.MouseEvent) => any;
+        onKeyDown?: (event: React.KeyboardEvent) => any;
+    }>;
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
     menuButton: {
@@ -10,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const Drawer: React.FC = () => {
+const Drawer: React.FC<Props> = ({ content: DrawerContent }: Props) => {
     const classes = useStyles();
 
     const [open, setOpen] = React.useState(false);

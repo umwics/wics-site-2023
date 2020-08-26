@@ -5,6 +5,7 @@ import Link from "next/link";
 import React from "react";
 import { useAuth } from "../lib/auth";
 import Drawer from "./Drawer";
+import DrawerContent from "./DrawerContent";
 import ProfileDropdown from "./ProfileDropdown";
 
 interface Props {
@@ -15,8 +16,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     title: {
         flexGrow: 1
     },
-    style: {
+    appbar: {
         backgroundColor: theme.palette.grey[50]
+    },
+    sectionDesktop: {
+        display: "none",
+        [theme.breakpoints.up("md")]: {
+            display: "flex"
+        }
     }
 }));
 
@@ -28,13 +35,13 @@ const Header: React.FC<Props> = ({ title }: Props) => {
         <React.Fragment>
             <NextSeo title={title ? title + " | " + process.env.siteDisplayName : undefined} />
 
-            <AppBar position="sticky" color="default" elevation={0} className={classes.style}>
+            <AppBar position="sticky" color="default" elevation={0} className={classes.appbar}>
                 <Toolbar>
-                    <Drawer />
+                    <Drawer content={DrawerContent} />
                     <Typography component="h1" variant="h6" className={classes.title}>
                         {title}
                     </Typography>
-                    <nav>
+                    <nav className={classes.sectionDesktop}>
                         <Link href="/" passHref>
                             <Button component="a" color="inherit">
                                 Home
@@ -73,16 +80,6 @@ const Header: React.FC<Props> = ({ title }: Props) => {
                         <Link href="/resources" passHref>
                             <Button component="a" color="inherit">
                                 Resources
-                            </Button>
-                        </Link>
-                        <Link href="/admin" passHref>
-                            <Button component="a" color="inherit">
-                                Admin
-                            </Button>
-                        </Link>
-                        <Link href="/login" passHref>
-                            <Button component="a" color="inherit">
-                                Login
                             </Button>
                         </Link>
                     </nav>

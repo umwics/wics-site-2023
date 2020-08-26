@@ -9,7 +9,8 @@ const trimPathToSlug = (absPath: string): string => {
     return path
         .relative(docsDirectory, absPath)
         .replace(/\.md$/, "")
-        .replace(new RegExp("\\" + path.sep, "g"), "/");
+        .replace(new RegExp("\\" + path.sep, "g"), "/")
+        .replace(/index$/, "");
 };
 
 export const getDocSlugs = async (dir: string = docsDirectory): Promise<string[]> => {
@@ -24,21 +25,34 @@ export const getDocSlugs = async (dir: string = docsDirectory): Promise<string[]
     return slugs.flat();
 };
 
-export const getDoc = async (slug: string): Promise<Doc> => {
-    const fullPath = path.join(docsDirectory, `${slug}.md`);
-    const fileContents = await fs.readFile(fullPath, "utf8");
-    const { data, content } = matter(fileContents);
+export const getDoc = async (slug: string): Promise<Doc | null> => {
+    const pathRoute = path.join(docsDirectory, slug);
+    const fullPath = (await new Promise(resolve =>
+        fs
+            .access(`${pathRoute}.md`)
+            .then(() => resolve(true))
+            .catch(() => resolve(false))
+    ))
+        ? `${pathRoute}.md`
+        : path.join(pathRoute, "index.md");
 
-    const doc = {
-        ...data,
-        slug,
-        content
-    };
+    try {
+        const fileContents = await fs.readFile(fullPath, "utf8");
+        const { data, content } = matter(fileContents);
 
-    return doc;
+        const doc = {
+            ...data,
+            slug,
+            content
+        };
+
+        return doc;
+    } catch {
+        return null;
+    }
 };
 
 export const getAllDocs = async (): Promise<Doc[]> => {
     const slugs = await getDocSlugs();
-    return await Promise.all(slugs.map(slug => getDoc(slug)));
+    return (await Promise.all(slugs.map(slug => getDoc(slug)))).filter((doc): doc is Doc => !!doc);
 };

@@ -60,22 +60,7 @@ class CustomDocument extends Document {
                     {/* PWA primary color */}
                     <meta name="theme-color" content="#3f51b5" />
 
-                    {/* Global site tag (gtag.js) - Google Analytics */}
-                    {/* <script
-                        async
-                        src="https://www.googletagmanager.com/gtag/js?id=UA-172962346-1"
-                    />
-                    <script
-                        dangerouslySetInnerHTML={{
-                            __html: `window.dataLayer = window.dataLayer || [];
-                                    function gtag() {
-                                        dataLayer.push(arguments);
-                                    }
-                                    gtag("js", new Date());
-
-                                    gtag("config", "UA-172962346-1");`
-                        }}
-                    /> */}
+                    {/* <GoogleAnalytics /> */}
 
                     {/* favicon */}
                     <link rel="shortcut icon" href="/favicon/favicon.ico" />

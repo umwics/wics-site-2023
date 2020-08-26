@@ -9,13 +9,13 @@ import {
     ListSubheader
 } from "@material-ui/core";
 import { fade, makeStyles, Theme } from "@material-ui/core/styles";
-import { Cloud, CollectionsBookmark, ExpandLess, ExpandMore } from "@material-ui/icons";
+import { Cloud, ExpandLess, ExpandMore, Pages } from "@material-ui/icons";
 import Link from "next/link";
 import React from "react";
 
 interface Props {
-    onClick?: (event: React.KeyboardEvent | React.MouseEvent) => any;
-    onKeyDown?: (event: React.KeyboardEvent | React.MouseEvent) => any;
+    onClick?: (event: React.MouseEvent) => any;
+    onKeyDown?: (event: React.KeyboardEvent) => any;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -37,8 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 const DrawerContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
     const classes = useStyles();
 
-    const [collectionsOpen, setCollectionsOpen] = React.useState(true);
-    const [apiOpen, setApiOpen] = React.useState(true);
+    const [pagesOpen, setPagesOpen] = React.useState(true);
 
     return (
         <div className={classes.list} role="presentation">
@@ -52,26 +51,21 @@ const DrawerContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                     >
                         <Link href="/" passHref>
                             <MuiLink component="a" color="inherit" variant="h6">
-                                UMWics Admin
+                                UMWics
                             </MuiLink>
                         </Link>
                     </ListSubheader>
                 }
             >
                 <Divider />
-                <ListItem button onClick={() => setCollectionsOpen(!collectionsOpen)}>
+                <ListItem button onClick={() => setPagesOpen(!pagesOpen)}>
                     <ListItemIcon>
-                        <CollectionsBookmark />
+                        <Pages />
                     </ListItemIcon>
-                    <ListItemText primary="Collections" />
-                    {collectionsOpen ? <ExpandLess /> : <ExpandMore />}
+                    <ListItemText primary="Pages" />
+                    {pagesOpen ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
-                <Collapse
-                    in={collectionsOpen}
-                    className={classes.group}
-                    timeout="auto"
-                    unmountOnExit
-                >
+                <Collapse in={pagesOpen} className={classes.group} timeout="auto" unmountOnExit>
                     <List
                         component="div"
                         onClick={onClick}
@@ -79,37 +73,36 @@ const DrawerContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                         dense
                         disablePadding
                     >
-                        {["users", "members", "companies", "events"].map(text => (
-                            <Link key={text} href={`/admin/${text}`} passHref>
+                        <Link href="/" passHref>
+                            <ListItem button component="a">
+                                <ListItemText primary="Home" />
+                            </ListItem>
+                        </Link>
+                        {[
+                            "about",
+                            "members",
+                            "events",
+                            "outreach",
+                            "mentors",
+                            "coop",
+                            "resources"
+                        ].map(page => (
+                            <Link key={page} href={page} passHref>
                                 <ListItem button component="a">
-                                    <ListItemText primary={text} />
+                                    <ListItemText primary={page} />
                                 </ListItem>
                             </Link>
                         ))}
                     </List>
                 </Collapse>
-                <ListItem button onClick={() => setApiOpen(!apiOpen)}>
-                    <ListItemIcon>
-                        <Cloud />
-                    </ListItemIcon>
-                    <ListItemText primary="API" />
-                    {apiOpen ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
-                <Collapse in={apiOpen} className={classes.group} timeout="auto" unmountOnExit>
-                    <List
-                        component="div"
-                        onClick={onClick}
-                        onKeyDown={onKeyDown}
-                        dense
-                        disablePadding
-                    >
-                        {["users", "members", "companies"].map(text => (
-                            <ListItem button component="a" href={`/docs/v1/${text}`} key={text}>
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        ))}
-                    </List>
-                </Collapse>
+                <Link href="/docs/[[...slug]]" as="/docs" passHref>
+                    <ListItem button component="a">
+                        <ListItemIcon>
+                            <Cloud />
+                        </ListItemIcon>
+                        <ListItemText primary="API" />
+                    </ListItem>
+                </Link>
             </List>
         </div>
     );

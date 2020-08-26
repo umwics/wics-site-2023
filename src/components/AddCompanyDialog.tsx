@@ -224,7 +224,7 @@ const AddCompanyDialog: React.FC<Props> = ({
                                                     getOptionLabel={(memberId: string) =>
                                                         members.find(
                                                             member => member.id === memberId
-                                                        )?.name
+                                                        )?.name || ""
                                                     }
                                                     renderInput={(
                                                         params: AutocompleteRenderInputParams
@@ -268,7 +268,7 @@ const AddCompanyDialog: React.FC<Props> = ({
                                                 />
                                             ),
                                             fieldLabel: (idx: number) => `Member ${idx + 1}`,
-                                            initialValue: ""
+                                            initialValue: null
                                         }),
                                         term: Yup.object().default({
                                             props: {

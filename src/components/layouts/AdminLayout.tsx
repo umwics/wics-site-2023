@@ -1,8 +1,8 @@
 import { Box } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
+import AdminHeader from "../AdminHeader";
 import Footer from "../Footer";
-import Header from "../Header";
 
 interface Props {
     children?: React.ReactNode;
@@ -22,7 +22,7 @@ const AdminLayout: React.FC<Props> = ({ children, title }: Props) => {
 
     return (
         <Box className={classes.container}>
-            <Header title={title} />
+            <AdminHeader title={title} />
             {children}
             <Footer />
         </Box>
