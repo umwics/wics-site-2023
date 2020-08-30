@@ -6,7 +6,6 @@
         "build": "next build && npm run build-sitemap",
         "build-sitemap": "node ./scripts/generateSitemap.js",
         "start": "next start",
-        "type-check": "tsc",
         "format": "prettier --write \"**/*.{js,ts,tsx}\"",
         "lint": "eslint . --ext ts --ext tsx --ext js --ext jsx",
         "test": "jest",
@@ -14,8 +13,6 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "lint-staged",
-            "pre-push": "npm run type-check"
         }
     },
     "lint-staged": {
