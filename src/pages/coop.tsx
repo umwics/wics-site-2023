@@ -47,7 +47,7 @@ const About: NextPage = () => {
                         transform academic knowledge into real-world experience. The program has garnered much
                         success over the last few years and has become one of the university's largest co-op
                         programs securing an average of 180 placements per year. The program focuses on matching
-                        students with employers for three four-month work terms. The list of companies range
+                        students with employers for three four-month work terms. The list of companies ranges
                         from local Winnipeg-based start-ups to international corporations.
                     </p>
                 </div>
