@@ -1,8 +1,17 @@
-export const getCookie = (name: string): string => {
-    const regex = new RegExp(`(?:(?:^|.*;*)${name}*=*([^;]*).*$)|^.*$`);
-    return document.cookie.replace(regex, "$1");
+import { CookieSerializeOptions, parse, serialize } from "cookie";
+
+export const getCookies = (): Record<string, string> => {
+    return parse(document.cookie);
 };
 
-export const setCookie = (name: string, value: string, time?: number): void => {
-    document.cookie = `${name}=${value};path=/;max-age=${time || 31536000}`;
+export const getCookie = (name: string): string | undefined => {
+    return parse(document.cookie)[name];
+};
+
+export const deleteCookie = (name: string, options?: CookieSerializeOptions): void => {
+    document.cookie = serialize(name, "", { path: "/", ...options, expires: new Date(0) });
+};
+
+export const setCookie = (name: string, value: string, options?: CookieSerializeOptions): void => {
+    document.cookie = serialize(name, value, { path: "/", ...options });
 };

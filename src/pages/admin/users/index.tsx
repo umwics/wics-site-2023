@@ -1,12 +1,15 @@
 import { Container, makeStyles, Theme, Typography } from "@material-ui/core";
 import { GetStaticProps, NextPage } from "next";
+import useSWR from "swr";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import UserList from "../../../components/UserList";
 import { User } from "../../../interfaces";
-import { getAllUsers } from "../../../lib/db";
+import { AuthContextInstance, withAuth } from "../../../lib/auth";
+import { getAllUsers, updateUser } from "../../../lib/db";
 
 interface Props {
     users: User[];
+    auth: AuthContextInstance;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -21,6 +24,19 @@ const useStyles = makeStyles((theme: Theme) => ({
 const Users: NextPage<Props> = ({ users }: Props) => {
     const classes = useStyles();
 
+    const { data, mutate } = useSWR<{ users: User[] }>(`/api/${process.env.apiVersion}/users`, {
+        initialData: { users }
+    });
+
+    const revalidatedUsers = (data && data.users) || [];
+
+    const updateVisibleUser = async (user: User) => {
+        await updateUser(user.id, user);
+        mutate({
+            users: [user, ...revalidatedUsers.filter(checkUser => checkUser.id !== user.id)]
+        });
+    };
+
     return (
         <AdminLayout title="Users">
             <Container component="main" maxWidth="md">
@@ -28,7 +44,7 @@ const Users: NextPage<Props> = ({ users }: Props) => {
                     <Typography component="h1" variant="h5">
                         Users List
                     </Typography>
-                    <UserList users={users} />
+                    <UserList users={revalidatedUsers} updateUser={updateVisibleUser} />
                 </div>
             </Container>
         </AdminLayout>
@@ -40,4 +56,6 @@ export const getStaticProps: GetStaticProps = async () => {
     return { props: { users }, revalidate: 60 };
 };
 
-export default Users;
+export default withAuth(Users, {
+    allowedAccess: () => true
+});

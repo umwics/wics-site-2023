@@ -1,15 +1,18 @@
 import { Button, Container, makeStyles, Theme, Typography } from "@material-ui/core";
 import { GetStaticProps, NextPage } from "next";
 import { useState } from "react";
+import useSWR from "swr";
 import AddMemberDialog from "../../../components/AddMemberDialog";
 import { useConfirm } from "../../../components/ConfirmProvider";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import MemberList from "../../../components/MemberList";
 import { Member } from "../../../interfaces";
+import { AuthContextInstance, withAuth } from "../../../lib/auth";
 import { createMember, deleteMember, getAllMembers, updateMember } from "../../../lib/db";
 
 interface Props {
     members: Member[];
+    auth: AuthContextInstance;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -31,9 +34,16 @@ const Members: NextPage<Props> = ({ members }: Props) => {
     const classes = useStyles();
     const confirm = useConfirm();
 
-    const [visibleMembers, setVisibleMembers] = useState([...members]);
     const [editMember, setEditMember] = useState<Member | undefined>(undefined);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
+    const { data, mutate } = useSWR<{ members: Member[] }>(
+        `/api/${process.env.apiVersion}/members`,
+        {
+            initialData: { members }
+        }
+    );
+
+    const revalidatedMembers = (data && data.members) || [];
 
     const addMember = async (
         member: Member,
@@ -45,17 +55,19 @@ const Members: NextPage<Props> = ({ members }: Props) => {
 
         if (editing) {
             const editedMember = await updateMember(id, data, image, progressCallback);
-            setVisibleMembers([
-                {
-                    ...member,
-                    ...editedMember
-                },
-                ...visibleMembers.filter(checkMember => checkMember.id !== member.id)
-            ]);
+            mutate({
+                members: [
+                    {
+                        ...member,
+                        ...editedMember
+                    },
+                    ...revalidatedMembers.filter(checkMember => checkMember.id !== member.id)
+                ]
+            });
         } else {
             const newMember = await createMember(member, image, progressCallback);
             if (newMember) {
-                setVisibleMembers([newMember, ...visibleMembers]);
+                mutate({ members: [newMember, ...revalidatedMembers] });
             }
         }
     };
@@ -73,9 +85,11 @@ const Members: NextPage<Props> = ({ members }: Props) => {
             })
                 .then(async () => {
                     await deleteMember(member.id);
-                    setVisibleMembers(
-                        visibleMembers.filter(checkMember => checkMember.id !== member.id)
-                    );
+                    mutate({
+                        members: revalidatedMembers.filter(
+                            checkMember => checkMember.id !== member.id
+                        )
+                    });
                 })
                 .catch(() => {
                     // pass
@@ -99,7 +113,7 @@ const Members: NextPage<Props> = ({ members }: Props) => {
                         Members List
                     </Typography>
                     <MemberList
-                        members={visibleMembers}
+                        members={revalidatedMembers}
                         editMember={editVisibleMember}
                         deleteMember={deleteVisibleMember}
                     />
@@ -125,4 +139,6 @@ export const getStaticProps: GetStaticProps = async () => {
     return { props: { members }, revalidate: 60 };
 };
 
-export default Members;
+export default withAuth(Members, {
+    allowedAccess: () => true
+});

@@ -19,7 +19,7 @@ GET https://umwics.vercel.app/api/v1/members
 ---
 
 ```bash
-curl -X GET 'https://umwics.vercel.app/api/v1/members'
+curl -X GET "https://umwics.vercel.app/api/v1/members"
 ```
 
 #### Example Response

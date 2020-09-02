@@ -46,11 +46,13 @@ const AdminHeader: React.FC<Props> = ({ title }: Props) => {
                                 Docs
                             </Button>
                         </Link>
-                        <Link href="/admin" passHref>
-                            <Button component="a" color="inherit">
-                                Admin
-                            </Button>
-                        </Link>
+                        {auth?.user && (
+                            <Link href="/admin" passHref>
+                                <Button component="a" color="inherit">
+                                    Admin
+                                </Button>
+                            </Link>
+                        )}
                         {!auth?.user && (
                             <Link href="/login" passHref>
                                 <Button component="a" color="inherit">

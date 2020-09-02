@@ -68,7 +68,7 @@ export const storeImage = async (
     progressCallback?: (progress: number) => any
 ): Promise<string | null> => {
     const ext = image.name.split(".").pop();
-    const path = `images/${collection}/${uuid}${ext ? "." + ext : ""}`;
+    const path = `images/${collection}/${uuid}${ext ? "." + ext.toLowerCase() : ""}`;
 
     return storeFile(image, path, progressCallback);
 };

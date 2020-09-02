@@ -81,7 +81,7 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }: ThemeProvider
     }, []);
 
     useEffect(() => {
-        setCookie("paletteType", paletteType);
+        setCookie("paletteType", paletteType, { maxAge: 31536000 });
     }, [paletteType]);
 
     const theme = React.useMemo(() => {

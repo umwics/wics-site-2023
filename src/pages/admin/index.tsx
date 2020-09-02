@@ -15,6 +15,11 @@ import { NextPage } from "next";
 import Link from "next/link";
 import React from "react";
 import AdminLayout from "../../components/layouts/AdminLayout";
+import { AuthContextInstance, withAuth } from "../../lib/auth";
+
+interface Props {
+    auth: AuthContextInstance;
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -34,9 +39,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const collections = ["users", "members", "companies", "events"];
-
-const Admin: NextPage = () => {
+const Admin: NextPage<Props> = () => {
     const classes = useStyles();
 
     return (
@@ -51,7 +54,7 @@ const Admin: NextPage = () => {
                             Collections
                         </Typography>
                         <List className={classes.root}>
-                            {collections.map(value => {
+                            {["users", "members", "companies", "events"].map(value => {
                                 const labelId = `checkbox-list-label-${value}`;
 
                                 return (
@@ -78,4 +81,6 @@ const Admin: NextPage = () => {
     );
 };
 
-export default Admin;
+export default withAuth(Admin, {
+    allowedAccess: () => true
+});

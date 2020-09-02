@@ -3,6 +3,7 @@ import "firebase/auth";
 import "firebase/firestore";
 import "firebase/functions";
 import "firebase/storage";
+import { verifyService } from "./verifyService";
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -18,20 +19,9 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
-let auth: firebase.auth.Auth | null;
-let firestore: firebase.firestore.Firestore | null;
-let storage: firebase.storage.Storage | null;
-
-try {
-    auth = firebase.auth();
-    firestore = firebase.firestore();
-    storage = firebase.storage();
-} catch (e) {
-    auth = null;
-    firestore = null;
-    storage = null;
-    console.error(e);
-}
+const auth = verifyService(firebase.auth);
+const firestore = verifyService(firebase.firestore);
+const storage = verifyService(firebase.storage);
 
 export { auth, firestore, storage };
 

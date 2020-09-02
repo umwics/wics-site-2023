@@ -1,30 +1,20 @@
 import admin from "firebase-admin";
+import { verifyService } from "./verifyService";
 
 if (!admin.apps.length) {
     admin.initializeApp({
         credential: admin.credential.cert({
             projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
             clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-            privateKey: process.env.FIREBASE_PRIVATE_KEY
+            privateKey: (process.env.FIREBASE_PRIVATE_KEY || "").replace(/\\n/g, "\n")
         }),
         databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL
     });
 }
 
-let auth: admin.auth.Auth | null;
-let firestore: FirebaseFirestore.Firestore | null;
-let storage: admin.storage.Storage | null;
-
-try {
-    auth = admin.auth();
-    firestore = admin.firestore();
-    storage = admin.storage();
-} catch (e) {
-    auth = null;
-    firestore = null;
-    storage = null;
-    console.error(e);
-}
+const auth = verifyService(admin.auth);
+const firestore = verifyService(admin.firestore);
+const storage = verifyService(admin.storage);
 
 export { auth, firestore, storage };
 

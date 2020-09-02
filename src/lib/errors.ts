@@ -16,3 +16,11 @@ export class NotFoundError extends APIError {
         this.name = "NotFoundError";
     }
 }
+
+export class UnauthorizedError extends APIError {
+    constructor(message: string | undefined) {
+        super(401, message);
+
+        this.name = "UnauthorizedError";
+    }
+}

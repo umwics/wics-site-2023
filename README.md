@@ -27,7 +27,22 @@ Some recommended extensions to assist your workflow are
 > -   [Prettier](https://prettier.io/docs/en/editors.html)
 > -   [ESLint](https://eslint.org/docs/user-guide/integrations)
 
-Config files for these extensions are already setup for this project for consitent styling.
+Config files for these extensions are already setup for this project for consistent styling.
+
+If you're using VSCode you can setup the editor to format on save using
+
+##### settings.json
+
+```json
+{
+   "editor.defaultFormatter": "esbenp.prettier-vscode",
+   "editor.formatOnSave": true,
+   "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+   },
+   ...
+}
+```
 
 #### Setting up Git
 

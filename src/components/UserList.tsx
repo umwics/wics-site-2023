@@ -13,14 +13,14 @@ import {
 } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { User } from "../interfaces";
 import { useAuth } from "../lib/auth";
-import { updateUser } from "../lib/db";
 import { parseUserRole } from "../utils/parsers";
 
 interface Props {
     users: User[];
+    updateUser?: (user: User) => any;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -40,18 +40,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const UserList: React.FC<Props> = ({ users }: Props) => {
+const UserList: React.FC<Props> = ({ users, updateUser }: Props) => {
     const classes = useStyles();
     const auth = useAuth();
-
-    const [visibleUsers, setVisibleUsers] = useState([...users]);
-
-    const updateUserRole = async (event: React.ChangeEvent<HTMLInputElement>, user: User) => {
-        const newUser = { ...user, role: parseUserRole(event.target.value) };
-
-        await updateUser(user.id, newUser);
-        setVisibleUsers([newUser, ...visibleUsers.filter(checkUser => checkUser.id !== user.id)]);
-    };
 
     return (
         <TableContainer component={Paper} className={classes.tableContainer}>
@@ -65,7 +56,7 @@ const UserList: React.FC<Props> = ({ users }: Props) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {visibleUsers.map(user => (
+                    {users.map(user => (
                         <TableRow hover key={user.id}>
                             <TableCell component="th" scope="row" align="center">
                                 <div className={classes.identification}>
@@ -85,7 +76,11 @@ const UserList: React.FC<Props> = ({ users }: Props) => {
                                     select
                                     value={user.role}
                                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                                        updateUserRole(event, user)
+                                        updateUser &&
+                                        updateUser({
+                                            ...user,
+                                            role: parseUserRole(event.target.value)
+                                        })
                                     }
                                     disabled={user.id === auth?.user?.id}
                                     variant="standard"

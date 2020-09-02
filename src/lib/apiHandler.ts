@@ -1,8 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import nc from "next-connect";
+import nc, { NextConnect } from "next-connect";
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const getHandler = () => {
+const getHandler = (): NextConnect<NextApiRequest, NextApiResponse> => {
     return nc<NextApiRequest, NextApiResponse>({
         onError(error, _req, res) {
             res.status(error.code || error.status || 500).json({

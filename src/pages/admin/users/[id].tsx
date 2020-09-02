@@ -1,10 +1,12 @@
-import { CircularProgress, Container, Typography } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useRouter } from "next/router";
+import AdminLoading from "../../../components/AdminLoading";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import ListDetail from "../../../components/ListDetail";
 import { User } from "../../../interfaces";
+import { AuthContextInstance, ExcludeAuthProps, withAuth } from "../../../lib/auth";
 import { getUser } from "../../../lib/db";
 import { NotFoundError } from "../../../lib/errors";
 import { getAsString } from "../../../utils/queryParams";
@@ -12,6 +14,7 @@ import { getAsString } from "../../../utils/queryParams";
 interface Props {
     user: User | null;
     errors?: string;
+    auth: AuthContextInstance;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -30,15 +33,7 @@ const UserDetail: NextPage<Props> = ({ user, errors }: Props) => {
     // If the page is not yet generated, this will be displayed
     // initially until getStaticProps() finishes running
     if (router.isFallback) {
-        return (
-            <AdminLayout title={"Loading..."}>
-                <Container component="main" maxWidth="xs">
-                    <div className={classes.paper}>
-                        <CircularProgress />
-                    </div>
-                </Container>
-            </AdminLayout>
-        );
+        return <AdminLoading />;
     }
 
     if (errors) {
@@ -73,7 +68,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-    const staticProps: GetStaticPropsResult<Props> = { props: { user: null }, revalidate: 60 };
+    const staticProps: GetStaticPropsResult<ExcludeAuthProps<Props>> = {
+        props: { user: null },
+        revalidate: 60
+    };
 
     try {
         if (params?.id) {
@@ -90,4 +88,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     return staticProps;
 };
 
-export default UserDetail;
+export default withAuth(UserDetail, {
+    allowedAccess: () => true
+});

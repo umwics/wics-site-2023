@@ -54,15 +54,6 @@ export const getAllUsers = async (queryProps: GetAllQueryParams = {}): Promise<U
     return await getAllDocuments("users", queryProps);
 };
 
-export const createUser = (user: User): Promise<void> | undefined => {
-    const { id, username, ...data } = user;
-
-    return firestore
-        ?.collection("users")
-        .doc(id)
-        .set({ ...(username && { username }), ...data }, { merge: true });
-};
-
 export const updateUser = async (id: string, newValues: Partial<User>): Promise<void> => {
     return firestore?.collection("users").doc(id).update(newValues);
 };

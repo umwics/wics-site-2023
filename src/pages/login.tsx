@@ -16,7 +16,7 @@ import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import AdminLayout from "../components/layouts/AdminLayout";
+import ContentsLayout from "../components/layouts/AdminLayout";
 import LoginButtons from "../components/LoginButtons";
 import { useAuth } from "../lib/auth";
 import { loginSchema } from "../lib/validators";
@@ -66,7 +66,7 @@ const Login: NextPage = () => {
     };
 
     return (
-        <AdminLayout title="Login">
+        <ContentsLayout title="Login">
             <Container component="main" maxWidth="xs">
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
@@ -169,7 +169,7 @@ const Login: NextPage = () => {
                     </Grid>
                 </div>
             </Container>
-        </AdminLayout>
+        </ContentsLayout>
     );
 };
 

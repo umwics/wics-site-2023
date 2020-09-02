@@ -12,6 +12,7 @@ import { fade, makeStyles, Theme } from "@material-ui/core/styles";
 import { Cloud, CollectionsBookmark, ExpandLess, ExpandMore } from "@material-ui/icons";
 import Link from "next/link";
 import React from "react";
+import { useAuth } from "../lib/auth";
 
 interface Props {
     onClick?: (event: React.MouseEvent) => any;
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const DrawerAdminContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
     const classes = useStyles();
+    const auth = useAuth();
 
     const [collectionsOpen, setCollectionsOpen] = React.useState(true);
     const [apiOpen, setApiOpen] = React.useState(true);
@@ -59,35 +61,39 @@ const DrawerAdminContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                 }
             >
                 <Divider />
-                <ListItem button onClick={() => setCollectionsOpen(!collectionsOpen)}>
-                    <ListItemIcon>
-                        <CollectionsBookmark />
-                    </ListItemIcon>
-                    <ListItemText primary="Collections" />
-                    {collectionsOpen ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
-                <Collapse
-                    in={collectionsOpen}
-                    className={classes.group}
-                    timeout="auto"
-                    unmountOnExit
-                >
-                    <List
-                        component="div"
-                        onClick={onClick}
-                        onKeyDown={onKeyDown}
-                        dense
-                        disablePadding
-                    >
-                        {["users", "members", "companies", "events"].map(text => (
-                            <Link key={text} href={`/admin/${text}`} passHref>
-                                <ListItem button component="a">
-                                    <ListItemText primary={text} />
-                                </ListItem>
-                            </Link>
-                        ))}
-                    </List>
-                </Collapse>
+                {auth?.user && (
+                    <React.Fragment>
+                        <ListItem button onClick={() => setCollectionsOpen(!collectionsOpen)}>
+                            <ListItemIcon>
+                                <CollectionsBookmark />
+                            </ListItemIcon>
+                            <ListItemText primary="Collections" />
+                            {collectionsOpen ? <ExpandLess /> : <ExpandMore />}
+                        </ListItem>
+                        <Collapse
+                            in={collectionsOpen}
+                            className={classes.group}
+                            timeout="auto"
+                            unmountOnExit
+                        >
+                            <List
+                                component="div"
+                                onClick={onClick}
+                                onKeyDown={onKeyDown}
+                                dense
+                                disablePadding
+                            >
+                                {["users", "members", "companies", "events"].map(text => (
+                                    <Link key={text} href={`/admin/${text}`} passHref>
+                                        <ListItem button component="a">
+                                            <ListItemText primary={text} />
+                                        </ListItem>
+                                    </Link>
+                                ))}
+                            </List>
+                        </Collapse>
+                    </React.Fragment>
+                )}
                 <ListItem button onClick={() => setApiOpen(!apiOpen)}>
                     <ListItemIcon>
                         <Cloud />

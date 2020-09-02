@@ -1,10 +1,10 @@
 import { Router } from "next/router";
-import NProgress from "nprogress";
+import NProgress, { NProgressOptions } from "nprogress";
 import React, { useEffect } from "react";
 
 interface Props {
     color?: string;
-    options?: Partial<NProgress.NProgressOptions>;
+    options?: Partial<NProgressOptions>;
 }
 
 const ProgressBar: React.FC<Props> = ({ options, color }: Props) => {

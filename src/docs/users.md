@@ -8,6 +8,8 @@ Gets a list of User objects.
 
 The response is a JSON payload consisting of a `users` field containing an array of the user data.
 
+### URL
+
 ```bash
 GET https://umwics.vercel.app/api/v1/users
 ```
@@ -17,7 +19,7 @@ GET https://umwics.vercel.app/api/v1/users
 ---
 
 ```bash
-curl -X GET 'https://umwics.vercel.app/api/v1/users'
+curl -X GET "https://umwics.vercel.app/api/v1/users"
 ```
 
 #### Example Response

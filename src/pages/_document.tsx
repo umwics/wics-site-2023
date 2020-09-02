@@ -10,7 +10,7 @@ import Document, {
 } from "next/document";
 import React from "react";
 
-class CustomDocument extends Document {
+class DocumentWrapper extends Document {
     // `getInitialProps` belongs to `_document` (instead of `_app`),
     // it's compatible with server-side generation (SSG).
     static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
@@ -123,4 +123,4 @@ class CustomDocument extends Document {
     }
 }
 
-export default CustomDocument;
+export default DocumentWrapper;

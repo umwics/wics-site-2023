@@ -6,9 +6,13 @@ export const loginSchema = Yup.object({
 });
 
 export const registerSchema = Yup.object({
-    username: Yup.string().required(),
+    username: Yup.string().min(1).required(),
     email: Yup.string().email().required(),
     password: Yup.string().min(8).required()
+});
+
+export const createUserSchema = Yup.object({
+    username: Yup.string().min(1)
 });
 
 export const addMemberSchema = Yup.object({
@@ -47,3 +51,9 @@ export const addCompanySchema = Yup.object({
     ),
     image: Yup.string()
 });
+
+// written to satisfy weird Yup behavior https://github.com/jquense/yup/issues/670
+export const validateStrictStrip = async <T>(schema: Yup.Schema<T>, value: T): Promise<T> => {
+    const strict = await schema.validate(value, { strict: true, stripUnknown: false });
+    return await schema.validate(strict, { strict: false, stripUnknown: true });
+};
