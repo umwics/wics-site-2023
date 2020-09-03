@@ -15,6 +15,7 @@ import { NextPage } from "next";
 import Link from "next/link";
 import React from "react";
 import AdminLayout from "../../components/layouts/AdminLayout";
+import { hasPermission, User } from "../../interfaces";
 import { AuthContextInstance, withAuth } from "../../lib/auth";
 
 interface Props {
@@ -82,5 +83,5 @@ const Admin: NextPage<Props> = () => {
 };
 
 export default withAuth(Admin, {
-    allowedAccess: () => true
+    allowedAccess: (user: User | null) => !!user && hasPermission(user, "read")
 });

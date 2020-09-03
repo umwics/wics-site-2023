@@ -1,3 +1,5 @@
+import { PermissionSet } from "./Permission";
+
 export interface AuthUser {
     id: string;
     email: string;
@@ -13,7 +15,23 @@ export interface CustomUser {
 
 export type UserRole = "owner" | "admin" | "user";
 export const userRoles: UserRole[] = ["owner", "admin", "user"];
-export const defaultUserRole = "user";
+export const userRoleLabels: { [key in UserRole]: string } = {
+    owner: "Owner",
+    admin: "Admin",
+    user: "User"
+};
+export const defaultUserRole: UserRole = "user";
+
+export type UserPermission = "read" | "write" | "manage";
+export const userPermissionSet: PermissionSet<UserPermission> = {
+    user: ["read"],
+    admin: ["read", "write"],
+    owner: ["read", "write", "manage"]
+};
+
+export const hasPermission = (user: User, permission: UserPermission): boolean => {
+    return userPermissionSet[user.role].includes(permission);
+};
 
 export interface PermissionUser {
     role: UserRole;

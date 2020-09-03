@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import { MemberPosition, memberPositions, UserRole, userRoles } from "../interfaces";
 
 export const loginSchema = Yup.object({
     email: Yup.string().email().required(),
@@ -15,6 +16,16 @@ export const createUserSchema = Yup.object({
     username: Yup.string().min(1)
 });
 
+export const updateUserSchema = Yup.object({
+    username: Yup.string().min(1),
+    email: Yup.string().email(),
+    provider: Yup.string(),
+    avatarURL: Yup.string(),
+    role: Yup.string().test("role", "Must be a valid role", role =>
+        userRoles.includes(role as UserRole)
+    )
+});
+
 export const addMemberSchema = Yup.object({
     name: Yup.string().required(),
     displayName: Yup.string(),
@@ -27,6 +38,11 @@ export const addMemberSchema = Yup.object({
             title: Yup.string(),
             link: Yup.string().url()
         })
+    ),
+    positions: Yup.array().of(
+        Yup.string().test("position", "Must be a valid position", position =>
+            memberPositions.includes(position as MemberPosition)
+        )
     ),
     image: Yup.string()
 });

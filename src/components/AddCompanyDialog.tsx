@@ -185,8 +185,8 @@ const AddCompanyDialog: React.FC<Props> = ({
                                 name: "links",
                                 addLabel: "Add Link",
                                 schema: Yup.array().of(
-                                    Yup.object().default({
-                                        title: Yup.object().default({
+                                    Yup.object().default(() => ({
+                                        title: Yup.object().default(() => ({
                                             props: {
                                                 component: TextField,
                                                 variant: "outlined",
@@ -194,8 +194,8 @@ const AddCompanyDialog: React.FC<Props> = ({
                                             },
                                             fieldLabel: (idx: number) => `Link Title ${idx + 1}`,
                                             initialValue: ""
-                                        }),
-                                        link: Yup.object().default({
+                                        })),
+                                        link: Yup.object().default(() => ({
                                             props: {
                                                 component: TextField,
                                                 variant: "outlined",
@@ -203,8 +203,8 @@ const AddCompanyDialog: React.FC<Props> = ({
                                             },
                                             fieldLabel: (idx: number) => `Link ${idx + 1}`,
                                             initialValue: ""
-                                        })
-                                    })
+                                        }))
+                                    }))
                                 )
                             }
                         },
@@ -214,8 +214,8 @@ const AddCompanyDialog: React.FC<Props> = ({
                                 name: "members",
                                 addLabel: "Add Member",
                                 schema: Yup.array().of(
-                                    Yup.object().default({
-                                        memberId: Yup.object().default({
+                                    Yup.object().default(() => ({
+                                        memberId: Yup.object().default(() => ({
                                             component: ({ name, label }: ArrayComponentProps) => (
                                                 <Field
                                                     component={Autocomplete}
@@ -269,8 +269,8 @@ const AddCompanyDialog: React.FC<Props> = ({
                                             ),
                                             fieldLabel: (idx: number) => `Member ${idx + 1}`,
                                             initialValue: null
-                                        }),
-                                        term: Yup.object().default({
+                                        })),
+                                        term: Yup.object().default(() => ({
                                             props: {
                                                 component: TextField,
                                                 variant: "outlined",
@@ -278,9 +278,9 @@ const AddCompanyDialog: React.FC<Props> = ({
                                             },
                                             fieldLabel: (idx: number) => `Member Term ${idx + 1}`,
                                             initialValue: ""
-                                        }),
+                                        })),
                                         tools: Yup.array().of(
-                                            Yup.object().default({
+                                            Yup.object().default(() => ({
                                                 props: {
                                                     component: TextField,
                                                     variant: "outlined",
@@ -289,9 +289,9 @@ const AddCompanyDialog: React.FC<Props> = ({
                                                 fieldLabel: (idx: number) =>
                                                     `Member Tool ${idx + 1}`,
                                                 initialValue: ""
-                                            })
+                                            }))
                                         )
-                                    })
+                                    }))
                                 )
                             }
                         },

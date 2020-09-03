@@ -14,7 +14,7 @@ import {
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Link from "next/link";
 import React from "react";
-import { User } from "../interfaces";
+import { hasPermission, User, userRoleLabels } from "../interfaces";
 import { useAuth } from "../lib/auth";
 import { parseUserRole } from "../utils/parsers";
 
@@ -82,16 +82,15 @@ const UserList: React.FC<Props> = ({ users, updateUser }: Props) => {
                                             role: parseUserRole(event.target.value)
                                         })
                                     }
-                                    disabled={user.id === auth?.user?.id}
+                                    disabled={
+                                        !auth?.user ||
+                                        (auth?.user && !hasPermission(auth?.user, "manage"))
+                                    }
                                     variant="standard"
                                 >
-                                    {[
-                                        { value: "owner", label: "Owner" },
-                                        { value: "admin", label: "Admin" },
-                                        { value: "user", label: "User" }
-                                    ].map(option => (
-                                        <MenuItem key={option.value} value={option.value}>
-                                            {option.label}
+                                    {Object.entries(userRoleLabels).map(([value, label]) => (
+                                        <MenuItem key={value} value={value}>
+                                            {label}
                                         </MenuItem>
                                     ))}
                                 </TextField>

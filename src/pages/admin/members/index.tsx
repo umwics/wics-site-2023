@@ -1,14 +1,16 @@
 import { Button, Container, makeStyles, Theme, Typography } from "@material-ui/core";
 import { GetStaticProps, NextPage } from "next";
+import { useSnackbar } from "notistack";
 import { useState } from "react";
 import useSWR from "swr";
 import AddMemberDialog from "../../../components/AddMemberDialog";
 import { useConfirm } from "../../../components/ConfirmProvider";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import MemberList from "../../../components/MemberList";
-import { Member } from "../../../interfaces";
+import { hasPermission, Member, User } from "../../../interfaces";
 import { AuthContextInstance, withAuth } from "../../../lib/auth";
-import { createMember, deleteMember, getAllMembers, updateMember } from "../../../lib/db";
+import { getAllMembers } from "../../../lib/db";
+import { storeImage } from "../../../lib/storage";
 
 interface Props {
     members: Member[];
@@ -30,7 +32,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const Members: NextPage<Props> = ({ members }: Props) => {
+const Members: NextPage<Props> = ({ members, auth }: Props) => {
+    const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
     const confirm = useConfirm();
 
@@ -54,21 +57,46 @@ const Members: NextPage<Props> = ({ members }: Props) => {
         const editing = !!id;
 
         if (editing) {
-            const editedMember = await updateMember(id, data, image, progressCallback);
-            mutate({
-                members: [
-                    {
-                        ...member,
-                        ...editedMember
-                    },
-                    ...revalidatedMembers.filter(checkMember => checkMember.id !== member.id)
-                ]
+            const imageUrl = image
+                ? await storeImage(image, "members", progressCallback)
+                : member.image;
+            const response = await fetch(`/api/${process.env.apiVersion}/members/${id}`, {
+                method: "PATCH",
+                headers: {
+                    token: auth?.user?.token as string
+                },
+                body: JSON.stringify({ ...data, image: imageUrl })
             });
+            if (response.ok) {
+                const editedMember = await response.json();
+                const newMember = {
+                    ...member,
+                    ...editedMember
+                };
+                mutate({
+                    members: [
+                        newMember,
+                        ...revalidatedMembers.filter(checkMember => checkMember.id !== member.id)
+                    ]
+                });
+                enqueueSnackbar("Successfully Updated Member", { variant: "success" });
+            } else enqueueSnackbar("Failed to Update Member", { variant: "error" });
         } else {
-            const newMember = await createMember(member, image, progressCallback);
-            if (newMember) {
-                mutate({ members: [newMember, ...revalidatedMembers] });
-            }
+            const imageUrl = image
+                ? await storeImage(image, "members", progressCallback)
+                : member.image;
+            const response = await fetch(`/api/${process.env.apiVersion}/members`, {
+                method: "POST",
+                headers: {
+                    token: auth?.user?.token as string
+                },
+                body: JSON.stringify({ ...data, image: imageUrl })
+            });
+            if (response.ok) {
+                const newMember = await response.json();
+                if (newMember) mutate({ members: [newMember, ...revalidatedMembers] });
+                enqueueSnackbar("Successfully Created Member", { variant: "success" });
+            } else enqueueSnackbar("Failed to Create Member", { variant: "error" });
         }
     };
 
@@ -84,12 +112,24 @@ const Members: NextPage<Props> = ({ members }: Props) => {
                 confirmText: "Delete"
             })
                 .then(async () => {
-                    await deleteMember(member.id);
-                    mutate({
-                        members: revalidatedMembers.filter(
-                            checkMember => checkMember.id !== member.id
-                        )
-                    });
+                    const response = await fetch(
+                        `/api/${process.env.apiVersion}/members/${member.id}`,
+                        {
+                            method: "DELETE",
+                            headers: {
+                                token: auth?.user?.token as string
+                            }
+                        }
+                    );
+
+                    if (response.ok) {
+                        mutate({
+                            members: revalidatedMembers.filter(
+                                checkMember => checkMember.id !== member.id
+                            )
+                        });
+                        enqueueSnackbar("Successfully Deleted Member", { variant: "success" });
+                    } else enqueueSnackbar("Failed to Delete Member", { variant: "error" });
                 })
                 .catch(() => {
                     // pass
@@ -123,11 +163,13 @@ const Members: NextPage<Props> = ({ members }: Props) => {
                         addMember={addMember}
                         handleClose={handleClose}
                     />
-                    <div className={classes.addMember}>
-                        <Button variant="contained" color="primary" onClick={handleClickOpen}>
-                            Add Member
-                        </Button>
-                    </div>
+                    {auth?.user && hasPermission(auth?.user, "write") && (
+                        <div className={classes.addMember}>
+                            <Button variant="contained" color="primary" onClick={handleClickOpen}>
+                                Add Member
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </Container>
         </AdminLayout>
@@ -140,5 +182,5 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 export default withAuth(Members, {
-    allowedAccess: () => true
+    allowedAccess: (user: User | null) => !!user && hasPermission(user, "read")
 });

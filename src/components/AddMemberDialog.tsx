@@ -5,6 +5,7 @@ import {
     DialogContent,
     DialogTitle,
     IconButton,
+    MenuItem,
     Typography
 } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
@@ -13,7 +14,7 @@ import { Field, useFormikContext } from "formik";
 import { TextField } from "formik-material-ui";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { Member } from "../interfaces";
+import { Member, memberPositionLabels } from "../interfaces";
 import { addMemberSchema } from "../lib/validators";
 import ArrayField from "./ArrayField";
 import DynamicForm from "./DynamicForm";
@@ -49,6 +50,7 @@ const defaultInitialValues: Member = {
     description: "",
     facts: [],
     links: [],
+    positions: [],
     image: ""
 };
 
@@ -187,7 +189,7 @@ const AddMemberDialog: React.FC<Props> = ({
                                 name: "facts",
                                 addLabel: "Add Fact",
                                 schema: Yup.array().of(
-                                    Yup.object().default({
+                                    Yup.object().default(() => ({
                                         props: {
                                             component: TextField,
                                             variant: "outlined",
@@ -195,7 +197,7 @@ const AddMemberDialog: React.FC<Props> = ({
                                         },
                                         fieldLabel: (idx: number) => `Fact ${idx + 1}`,
                                         initialValue: ""
-                                    })
+                                    }))
                                 )
                             }
                         },
@@ -206,7 +208,7 @@ const AddMemberDialog: React.FC<Props> = ({
                                 addLabel: "Add Link",
                                 schema: Yup.array().of(
                                     Yup.object().default({
-                                        title: Yup.object().default({
+                                        title: Yup.object().default(() => ({
                                             props: {
                                                 component: TextField,
                                                 variant: "outlined",
@@ -214,8 +216,8 @@ const AddMemberDialog: React.FC<Props> = ({
                                             },
                                             fieldLabel: (idx: number) => `Link Title ${idx + 1}`,
                                             initialValue: ""
-                                        }),
-                                        link: Yup.object().default({
+                                        })),
+                                        link: Yup.object().default(() => ({
                                             props: {
                                                 component: TextField,
                                                 variant: "outlined",
@@ -223,8 +225,34 @@ const AddMemberDialog: React.FC<Props> = ({
                                             },
                                             fieldLabel: (idx: number) => `Link ${idx + 1}`,
                                             initialValue: ""
-                                        })
+                                        }))
                                     })
+                                )
+                            }
+                        },
+                        {
+                            component: ArrayField,
+                            props: {
+                                name: "positions",
+                                addLabel: "Add Position",
+                                schema: Yup.array().of(
+                                    Yup.object().default(() => ({
+                                        props: {
+                                            component: TextField,
+                                            select: true,
+                                            variant: "outlined",
+                                            children: Object.entries(memberPositionLabels).map(
+                                                ([value, label]) => (
+                                                    <MenuItem key={value} value={value}>
+                                                        {label}
+                                                    </MenuItem>
+                                                )
+                                            ),
+                                            fullWidth: true
+                                        },
+                                        fieldLabel: (idx: number) => `Position ${idx + 1}`,
+                                        initialValue: "activeMember"
+                                    }))
                                 )
                             }
                         },

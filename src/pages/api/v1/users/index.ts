@@ -18,6 +18,7 @@ const handler = getHandler()
     .post(async (req: NextApiRequest, res: NextApiResponse) => {
         try {
             const token = getAsString(req.headers.token || "");
+
             const rawCustomUser = <CustomUser>JSON.parse(req.body);
             const customUser = await validateStrictStrip(createUserSchema, rawCustomUser);
 

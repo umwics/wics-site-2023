@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { storage } from "./firebase";
 
 export const getFile = async (path: string): Promise<string | null> => {
@@ -64,11 +65,13 @@ export const deleteFile = async (path: string): Promise<boolean> => {
 export const storeImage = async (
     image: File,
     collection: string,
-    uuid: string,
     progressCallback?: (progress: number) => any
 ): Promise<string | null> => {
-    const ext = image.name.split(".").pop();
-    const path = `images/${collection}/${uuid}${ext ? "." + ext.toLowerCase() : ""}`;
+    const uuid = uuidv4();
+    const parts = image.name.split(".");
+    const ext = parts.pop()?.toLowerCase(); // extensions lowercase
+    const name = [...parts, ext].join(".");
+    const path = `images/${collection}/${uuid}/${name}`;
 
     return storeFile(image, path, progressCallback);
 };

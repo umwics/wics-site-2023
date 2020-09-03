@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useSnackbar } from "notistack";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import AdminLoading from "../components/AdminLoading";
 import { CustomUser, User } from "../interfaces";
@@ -30,6 +31,7 @@ interface AuthProviderProps {
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderProps) => {
+    const { enqueueSnackbar } = useSnackbar();
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -40,15 +42,21 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
 
             const { token } = authUser;
 
-            const newUser = await fetch(`/api/${process.env.apiVersion}/users`, {
+            const response = await fetch(`/api/${process.env.apiVersion}/users`, {
                 method: "POST",
                 headers: {
                     token: token as string
                 },
                 body: JSON.stringify({ ...customUser })
-            }).then(response => response.json());
+            });
+            const newUser = await response.json();
 
-            setUser({ token, ...newUser });
+            if (response.ok) {
+                setUser({ token, ...newUser });
+                enqueueSnackbar("Login Successful", { variant: "success" });
+            } else {
+                enqueueSnackbar("Login Failed", { variant: "error" });
+            }
             setLoading(false);
 
             return newUser;
@@ -145,13 +153,13 @@ export type ExcludeAuthProps<P> = Pick<P, Exclude<keyof P, keyof WithAuthProps>>
 interface WithAuthOptions {
     defaultRedirection: string;
     LoaderComponent: React.ComponentType;
-    allowedAccess: (user: User) => Promise<boolean> | boolean;
+    allowedAccess: (user: User | null) => Promise<boolean> | boolean;
 }
 
 const defaultOptions: WithAuthOptions = {
     defaultRedirection: "/login",
     LoaderComponent: () => <AdminLoading />,
-    allowedAccess: (user: User) => user.role === "owner"
+    allowedAccess: (user: User | null) => !!user && user.role === "owner"
 };
 
 export const withAuth = <P extends WithAuthProps>(
@@ -172,7 +180,7 @@ export const withAuth = <P extends WithAuthProps>(
         useEffect(() => {
             const checkAccess = async () => {
                 if (!auth?.loading) {
-                    const allowed = !!(auth?.user && (await allowedAccess(auth?.user)));
+                    const allowed = await allowedAccess(auth?.user || null);
 
                     setAllowedState(allowed);
                     if (!allowed) {

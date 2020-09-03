@@ -16,7 +16,8 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Delete, Edit } from "@material-ui/icons";
 import { AvatarGroup } from "@material-ui/lab";
 import React from "react";
-import { Company, Member } from "../interfaces";
+import { Company, hasPermission, Member } from "../interfaces";
+import { useAuth } from "../lib/auth";
 
 interface Props {
     companies: Company[];
@@ -66,6 +67,7 @@ const CompanyList: React.FC<Props> = ({
     deleteCompany
 }: Props) => {
     const classes = useStyles();
+    const auth = useAuth();
 
     return (
         <TableContainer component={Paper} className={classes.tableContainer}>
@@ -117,28 +119,32 @@ const CompanyList: React.FC<Props> = ({
                                 </div>
                             </TableCell>
                             <TableCell align="right">
-                                <div className={classes.actions}>
-                                    <Tooltip title="Edit" placement="top">
-                                        <IconButton
-                                            aria-label="edit"
-                                            size="small"
-                                            className={classes.edit}
-                                            onClick={() => editCompany && editCompany(company)}
-                                        >
-                                            <Edit />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Tooltip title="Delete" placement="top">
-                                        <IconButton
-                                            aria-label="delete"
-                                            size="small"
-                                            className={classes.delete}
-                                            onClick={() => deleteCompany && deleteCompany(company)}
-                                        >
-                                            <Delete />
-                                        </IconButton>
-                                    </Tooltip>
-                                </div>
+                                {auth?.user && hasPermission(auth?.user, "write") && (
+                                    <div className={classes.actions}>
+                                        <Tooltip title="Edit" placement="top">
+                                            <IconButton
+                                                aria-label="edit"
+                                                size="small"
+                                                className={classes.edit}
+                                                onClick={() => editCompany && editCompany(company)}
+                                            >
+                                                <Edit />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Delete" placement="top">
+                                            <IconButton
+                                                aria-label="delete"
+                                                size="small"
+                                                className={classes.delete}
+                                                onClick={() =>
+                                                    deleteCompany && deleteCompany(company)
+                                                }
+                                            >
+                                                <Delete />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </div>
+                                )}
                             </TableCell>
                         </TableRow>
                     ))}

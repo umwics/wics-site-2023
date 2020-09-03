@@ -15,7 +15,8 @@ import { blue, red } from "@material-ui/core/colors";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Delete, Edit } from "@material-ui/icons";
 import React from "react";
-import { Member } from "../interfaces";
+import { hasPermission, Member } from "../interfaces";
+import { useAuth } from "../lib/auth";
 
 interface Props {
     members: Member[];
@@ -55,6 +56,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const MemberList: React.FC<Props> = ({ members, editMember, deleteMember }: Props) => {
     const classes = useStyles();
+    const auth = useAuth();
 
     return (
         <TableContainer component={Paper} className={classes.tableContainer}>
@@ -81,28 +83,30 @@ const MemberList: React.FC<Props> = ({ members, editMember, deleteMember }: Prop
                             <TableCell align="right">{member.title}</TableCell>
                             <TableCell align="right">{member.email}</TableCell>
                             <TableCell align="right">
-                                <div className={classes.actions}>
-                                    <Tooltip title="Edit" placement="top">
-                                        <IconButton
-                                            aria-label="edit"
-                                            size="small"
-                                            className={classes.edit}
-                                            onClick={() => editMember && editMember(member)}
-                                        >
-                                            <Edit />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Tooltip title="Delete" placement="top">
-                                        <IconButton
-                                            aria-label="delete"
-                                            size="small"
-                                            className={classes.delete}
-                                            onClick={() => deleteMember && deleteMember(member)}
-                                        >
-                                            <Delete />
-                                        </IconButton>
-                                    </Tooltip>
-                                </div>
+                                {auth?.user && hasPermission(auth?.user, "write") && (
+                                    <div className={classes.actions}>
+                                        <Tooltip title="Edit" placement="top">
+                                            <IconButton
+                                                aria-label="edit"
+                                                size="small"
+                                                className={classes.edit}
+                                                onClick={() => editMember && editMember(member)}
+                                            >
+                                                <Edit />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Delete" placement="top">
+                                            <IconButton
+                                                aria-label="delete"
+                                                size="small"
+                                                className={classes.delete}
+                                                onClick={() => deleteMember && deleteMember(member)}
+                                            >
+                                                <Delete />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </div>
+                                )}
                             </TableCell>
                         </TableRow>
                     ))}

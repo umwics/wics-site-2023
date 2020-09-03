@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { NextComponentType } from "next";
 import { DefaultSeo } from "next-seo";
 import { AppContext, AppInitialProps, AppProps } from "next/app";
+import { SnackbarProvider } from "notistack";
 import React, { useEffect } from "react";
 import { SWRConfig } from "swr";
 import "../assets/css/style.css";
@@ -49,18 +50,19 @@ const AppWrapper: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
                         fetch(input, init).then(res => res.json())
                 }}
             >
-                <AuthProvider>
-                    <ThemeProvider>
-                        <ConfirmProvider>
-                            <CssBaseline />
-                            <ProgressBar options={{ showSpinner: false, trickleSpeed: 300 }} />
-                            <Component {...pageProps} />
-                        </ConfirmProvider>
-                    </ThemeProvider>
-                </AuthProvider>
+                <SnackbarProvider maxSnack={4}>
+                    <ConfirmProvider>
+                        <AuthProvider>
+                            <ThemeProvider>
+                                <CssBaseline />
+                                <ProgressBar options={{ showSpinner: false, trickleSpeed: 300 }} />
+                                <Component {...pageProps} />
+                            </ThemeProvider>
+                        </AuthProvider>
+                    </ConfirmProvider>
+                </SnackbarProvider>
             </SWRConfig>
         </React.Fragment>
     );
 };
-
 export default AppWrapper;

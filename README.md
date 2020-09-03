@@ -35,12 +35,11 @@ If you're using VSCode you can setup the editor to format on save using
 
 ```json
 {
-   "editor.defaultFormatter": "esbenp.prettier-vscode",
-   "editor.formatOnSave": true,
-   "editor.codeActionsOnSave": {
-      "source.organizeImports": true
-   },
-   ...
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    }
 }
 ```
 

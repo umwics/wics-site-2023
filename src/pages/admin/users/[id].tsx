@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import AdminLoading from "../../../components/AdminLoading";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import ListDetail from "../../../components/ListDetail";
-import { User } from "../../../interfaces";
+import { hasPermission, User } from "../../../interfaces";
 import { AuthContextInstance, ExcludeAuthProps, withAuth } from "../../../lib/auth";
 import { getUser } from "../../../lib/db";
 import { NotFoundError } from "../../../lib/errors";
@@ -89,5 +89,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export default withAuth(UserDetail, {
-    allowedAccess: () => true
+    allowedAccess: (user: User | null) => !!user && hasPermission(user, "read")
 });

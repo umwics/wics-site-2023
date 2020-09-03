@@ -4,9 +4,13 @@ title: Companies
 
 # Get Companies
 
+---
+
 Gets a list of Company objects.
 
 The response is a JSON payload consisting of a `companies` field containing an array of the company data.
+
+---
 
 ### URL
 
@@ -14,17 +18,17 @@ The response is a JSON payload consisting of a `companies` field containing an a
 GET https://umwics.vercel.app/api/v1/companies
 ```
 
-#### Example Request
-
 ---
+
+#### Example Request
 
 ```bash
 curl -X GET "https://umwics.vercel.app/api/v1/companies"
 ```
 
-#### Example Response
-
 ---
+
+#### Example Response
 
 ```json
 {
@@ -49,11 +53,15 @@ curl -X GET "https://umwics.vercel.app/api/v1/companies"
 }
 ```
 
+---
+
 # Get Company By Id
 
 Gets a Company object by its ID.
 
 The response is a JSON payload consisting of the company data.
+
+---
 
 ### URL
 
@@ -61,17 +69,17 @@ The response is a JSON payload consisting of the company data.
 GET https://umwics.vercel.app/api/v1/companies/[id]
 ```
 
-#### Example Request
-
 ---
+
+#### Example Request
 
 ```bash
 curl -X GET 'https://umwics.vercel.app/api/v1/companies/eaMkbb2IALVzRBcw4p4y'
 ```
 
-#### Example Response
-
 ---
+
+#### Example Response
 
 ```json
 {
