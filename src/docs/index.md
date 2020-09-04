@@ -14,7 +14,7 @@ The UMWics API provieds access to the data for this, <https://umwics.vercel.app>
 
 ## Setup
 
-To make calls to the API you just need to specify the URL to the data you wish to access. For example if you want to access all the UMWics members you can send a request to `https://umwics.vercel.app/api/v1/users` and you will get a JSON response with a list of our members.
+To make calls to the API you just need to specify the URL to the data you wish to access. For example if you want to access all the UMWics members you can send a request to `https://umwics.vercel.app/api/v1/members` and you will get a JSON response with a list of our members.
 
 ---
 
@@ -41,11 +41,13 @@ print(response.json()) # { 'members': [ { 'id': 'UAcL...', ... }, ... ] }
 #### Java
 
 ```java
-import java.net.http.HttpRequest;
 import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.net.URI;
+
+import org.json.JSONObject;
 
 public class Main {
     public static void main(String[] args) {
@@ -57,6 +59,7 @@ public class Main {
             .build();
         client.sendAsync(request, BodyHandlers.ofString())
             .thenApply(HttpResponse::body)
+            .thenApply(JSONObject::new) // If you want to work with JSON
             .thenAccept(System.out::println) // { "members": [ { "id": "UAcL...", ... }, ... ] }
             .join();
     }

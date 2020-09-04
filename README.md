@@ -111,6 +111,12 @@ Now you can navigate to `http://localhost:3000` to view the website.
 
 While the site is running in the terminal, you can edit pages and they will update in [real time](https://nextjs.org/docs/basic-features/fast-refresh).
 
+### Getting database access in development
+
+If you are modifying a page that uses our API or requires authentication you probably want to have access to the firebase project.
+You can reach out to us on slack and we will give you the API key's required to work on the page. Once you have the keys you can add
+them to a `.env.local` file. You can find an example of this file called `.env.local.example`.
+
 ### Submitting Changes
 
 Now that you've written a great new feature, the next step is to _commit_ those changes, and _push_ them to the GitHub repository.

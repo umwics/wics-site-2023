@@ -1,0 +1,12 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read;
+      allow write: if resource == null && // don't allow overwrites
+      	request.auth != null &&  // user must have account
+        request.resource.contentType.matches('image/.*') && // only allow images
+        request.resource.size < 10 * 1024 * 1024; // file must be less than 10MB
+    }
+  }
+}
