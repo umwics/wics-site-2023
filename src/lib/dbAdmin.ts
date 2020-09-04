@@ -1,4 +1,4 @@
-import { Company, Member, User } from "../interfaces";
+import { Company, Event, Member, User } from "../interfaces";
 import { firestore } from "./firebaseAdmin";
 
 export const deleteDocument = async (collection: string, id: string): Promise<boolean> => {
@@ -17,7 +17,7 @@ export const deleteDocument = async (collection: string, id: string): Promise<bo
 export const createUser = async (user: User): Promise<User | null> => {
     if (firestore) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { id, token, ...data } = user;
+        const { id, ...data } = user;
 
         await firestore
             .collection("users")
@@ -38,7 +38,7 @@ export const updateUser = async (
 ): Promise<Partial<User> | null> => {
     if (firestore) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { id, token, ...newValues } = partialUser;
+        const { id, ...newValues } = partialUser;
         return firestore
             .collection("users")
             .doc(uid)
@@ -115,6 +115,43 @@ export const updateCompany = async (
 
         return await firestore
             .collection("companies")
+            .doc(uid)
+            .update(newValues)
+            .then(() => newValues)
+            .catch(() => null);
+    }
+
+    return null;
+};
+
+export const createEvent = async (event: Event): Promise<Event | null> => {
+    if (firestore) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...data } = event;
+        const doc = await firestore.collection("events").add({ ...data });
+
+        const newEvent = <Event>{ id: doc.id, ...data };
+
+        return newEvent;
+    }
+
+    return null;
+};
+
+export const deleteEvent = async (id: string): Promise<boolean> => {
+    return await deleteDocument("events", id);
+};
+
+export const updateEvent = async (
+    uid: string,
+    partialEvent: Partial<Event>
+): Promise<Partial<Event> | null> => {
+    if (firestore) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...newValues } = partialEvent;
+
+        return await firestore
+            .collection("events")
             .doc(uid)
             .update(newValues)
             .then(() => newValues)

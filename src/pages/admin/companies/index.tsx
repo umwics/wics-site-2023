@@ -64,7 +64,7 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
             const response = await fetch(`/api/${process.env.apiVersion}/companies/${id}`, {
                 method: "PATCH",
                 headers: {
-                    token: auth?.user?.token as string
+                    token: (await auth?.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
@@ -91,7 +91,7 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
             const response = await fetch(`/api/${process.env.apiVersion}/companies`, {
                 method: "POST",
                 headers: {
-                    token: auth?.user?.token as string
+                    token: (await auth?.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
@@ -120,7 +120,7 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
                         {
                             method: "DELETE",
                             headers: {
-                                token: auth?.user?.token as string
+                                token: (await auth?.getUserToken()) as string
                             }
                         }
                     );

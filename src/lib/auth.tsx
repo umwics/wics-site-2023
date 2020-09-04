@@ -20,6 +20,7 @@ export type AuthContextInstance =
           signinWithEmailPassword: (loginInfo: LoginFields) => Promise<User | null> | undefined;
           signinWithGitHub: () => Promise<User | null> | undefined;
           signinWithGoogle: () => Promise<User | null> | undefined;
+          getUserToken: () => Promise<string | null> | undefined;
           signout: () => Promise<User | null> | undefined;
       }
     | undefined;
@@ -38,9 +39,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
     const handleUser = async (rawUser: any, customUser?: CustomUser): Promise<User | null> => {
         if (rawUser && customUser) {
             // register
-            const authUser = mapProviderUser(rawUser);
-
-            const { token } = authUser;
+            const token = await getUserToken();
 
             const response = await fetch(`/api/${process.env.apiVersion}/users`, {
                 method: "POST",
@@ -64,11 +63,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
             // login
             const authUser = mapProviderUser(rawUser);
 
-            const { token } = authUser;
-
             const newUser = await getUser(authUser.id);
 
-            if (newUser) setUser({ token, ...newUser });
+            if (newUser) setUser({ ...newUser });
             setLoading(false);
 
             return newUser;
@@ -113,6 +110,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
             );
     };
 
+    const getUserToken = async () => {
+        return (await auth?.currentUser?.getIdToken()) || null;
+    };
+
     const signout = () => {
         return auth?.signOut().then(() => handleUser(null));
     };
@@ -132,6 +133,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
                 signinWithEmailPassword,
                 signinWithGitHub,
                 signinWithGoogle,
+                getUserToken,
                 signout
             }}
         >

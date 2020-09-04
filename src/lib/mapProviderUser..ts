@@ -7,7 +7,6 @@ export const mapProviderUser = (rawUser?: Record<string, any>): AuthUser | never
         id: rawUser.uid || rawUser.sub,
         username: rawUser.displayName || rawUser.name || "",
         email: rawUser.email || "",
-        token: rawUser.xa,
         provider: rawUser.firebase?.sign_in_provider || rawUser.providerId || "",
         avatarURL: rawUser.picture || rawUser.photoURL || ""
     };

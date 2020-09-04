@@ -299,6 +299,8 @@ const AddCompanyDialog: React.FC<Props> = ({
                             component: UploadImage,
                             props: {
                                 uploading,
+                                name: "image",
+                                label: "Image URL",
                                 uploadingProgress,
                                 image,
                                 onChange: handleImageUpload,

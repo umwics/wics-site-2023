@@ -73,5 +73,26 @@ export const storeImage = async (
     const name = [...parts, ext].join(".");
     const path = `images/${collection}/${uuid}/${name}`;
 
-    return storeFile(image, path, progressCallback);
+    return await storeFile(image, path, progressCallback);
+};
+
+export const storeImages = async (
+    images: File[],
+    collection: string,
+    progressCallback?: (progress: number) => any
+): Promise<(string | null)[]> => {
+    const promises = [];
+    let completed = 0;
+
+    for (const image of images) {
+        promises.push(
+            storeImage(image, collection).then(imageURl => {
+                completed++;
+                progressCallback && progressCallback((completed / images.length) * 100);
+                return imageURl;
+            })
+        );
+    }
+
+    return await Promise.all(promises);
 };

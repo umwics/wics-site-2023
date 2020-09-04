@@ -8,6 +8,8 @@ import UploadImageButton from "./UploadImageButton";
 
 interface Props {
     uploading?: boolean;
+    name: string;
+    label?: string;
     uploadingProgress?: number;
     image?: { file: File; url: string } | null;
     onChange?: (selectedFile: File, preview: string) => any;
@@ -48,6 +50,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const UploadImage: React.FC<Props> = ({
     uploading,
+    name,
+    label = "Image URL",
     uploadingProgress,
     image,
     onChange,
@@ -67,8 +71,8 @@ const UploadImage: React.FC<Props> = ({
                     <Field
                         component={TextField}
                         variant="outlined"
-                        name="image"
-                        label="Image URL"
+                        name={name}
+                        label={label}
                         disabled={!!image}
                         fullWidth
                     />

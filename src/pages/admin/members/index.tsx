@@ -63,7 +63,7 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
             const response = await fetch(`/api/${process.env.apiVersion}/members/${id}`, {
                 method: "PATCH",
                 headers: {
-                    token: auth?.user?.token as string
+                    token: (await auth?.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
@@ -88,7 +88,7 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
             const response = await fetch(`/api/${process.env.apiVersion}/members`, {
                 method: "POST",
                 headers: {
-                    token: auth?.user?.token as string
+                    token: (await auth?.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
@@ -117,7 +117,7 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
                         {
                             method: "DELETE",
                             headers: {
-                                token: auth?.user?.token as string
+                                token: (await auth?.getUserToken()) as string
                             }
                         }
                     );

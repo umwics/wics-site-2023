@@ -1,4 +1,6 @@
+import DateFnsUtils from "@date-io/date-fns";
 import { CssBaseline } from "@material-ui/core";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { NextComponentType } from "next";
 import { DefaultSeo } from "next-seo";
@@ -50,17 +52,21 @@ const AppWrapper: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
                         fetch(input, init).then(res => res.json())
                 }}
             >
-                <SnackbarProvider maxSnack={4}>
-                    <ConfirmProvider>
-                        <AuthProvider>
-                            <ThemeProvider>
-                                <CssBaseline />
-                                <ProgressBar options={{ showSpinner: false, trickleSpeed: 300 }} />
-                                <Component {...pageProps} />
-                            </ThemeProvider>
-                        </AuthProvider>
-                    </ConfirmProvider>
-                </SnackbarProvider>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <SnackbarProvider maxSnack={4}>
+                        <ConfirmProvider>
+                            <AuthProvider>
+                                <ThemeProvider>
+                                    <CssBaseline />
+                                    <ProgressBar
+                                        options={{ showSpinner: false, trickleSpeed: 300 }}
+                                    />
+                                    <Component {...pageProps} />
+                                </ThemeProvider>
+                            </AuthProvider>
+                        </ConfirmProvider>
+                    </SnackbarProvider>
+                </MuiPickersUtilsProvider>
             </SWRConfig>
         </React.Fragment>
     );

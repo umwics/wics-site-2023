@@ -68,6 +68,17 @@ export const addCompanySchema = Yup.object({
     image: Yup.string()
 });
 
+export const addEventSchema = Yup.object({
+    name: Yup.string().required(),
+    title: Yup.string(),
+    term: Yup.string(),
+    location: Yup.string(),
+    description: Yup.string(),
+    date: Yup.string(),
+    photoCredits: Yup.array().of(Yup.string()),
+    images: Yup.array().of(Yup.string())
+});
+
 // written to satisfy weird Yup behavior https://github.com/jquense/yup/issues/670
 export const validateStrictStrip = async <T>(schema: Yup.Schema<T>, value: T): Promise<T> => {
     const strict = await schema.validate(value, { strict: true, stripUnknown: false });

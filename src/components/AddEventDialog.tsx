@@ -5,26 +5,30 @@ import {
     DialogContent,
     DialogTitle,
     IconButton,
-    MenuItem,
     Typography
 } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Close } from "@material-ui/icons";
 import { Field, useFormikContext } from "formik";
 import { TextField } from "formik-material-ui";
+import { KeyboardDatePicker } from "formik-material-ui-pickers";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { Member, memberPositionLabels } from "../interfaces";
-import { addMemberSchema } from "../lib/validators";
+import { Event } from "../interfaces";
+import { addEventSchema } from "../lib/validators";
 import ArrayField from "./ArrayField";
 import DynamicForm from "./DynamicForm";
 import TransitionSlide from "./TransitionSlide";
-import UploadImage from "./UploadImage";
+import UploadImages from "./UploadImages";
 
 interface Props {
     open: boolean;
-    initialValues?: Member;
-    addMember?: (member: Member, image?: File, progressCallback?: (progress: number) => any) => any;
+    initialValues?: Event;
+    addEvent?: (
+        event: Event,
+        images: { file: File | null; url: string }[],
+        progressCallback?: (progress: number) => any
+    ) => any;
     handleClose?: () => void;
 }
 
@@ -41,35 +45,45 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const defaultInitialValues: Member = {
+const defaultInitialValues: Event = {
     id: "",
     name: "",
-    displayName: "",
     title: "",
-    email: "",
+    term: "",
+    location: "",
     description: "",
-    facts: [],
-    links: [],
-    positions: [],
-    image: ""
+    date: new Date().toISOString(),
+    photoCredits: [],
+    images: []
 };
 
-const AddMemberDialog: React.FC<Props> = ({
+const AddEventDialog: React.FC<Props> = ({
     open,
     initialValues = defaultInitialValues,
-    addMember,
+    addEvent,
     handleClose
 }: Props) => {
     const classes = useStyles();
 
     const editing = !!initialValues.id;
 
-    const [image, setImage] = useState<{ file: File; url: string } | null>(null);
+    const [images, setImages] = useState<{ file: File | null; url: string }[]>([]);
     const [uploading, setUploading] = useState<boolean>(false);
     const [uploadingProgress, setUploadingProgress] = useState<number>(0);
 
-    const handleImageUpload = (selectedFile: File, preview: string) => {
-        setImage({ file: selectedFile, url: preview });
+    const handleImageUpload = (selectedFiles: FileList, previews: string[]) => {
+        const newImages = [
+            ...Array.from(selectedFiles).map((file, idx) => ({ file, url: previews[idx] }))
+        ];
+        setImages([...images, ...newImages]);
+    };
+
+    const handleClearImage = (idx: number) => {
+        setImages([...images.slice(0, idx), ...images.slice(idx + 1, images.length)]);
+    };
+
+    const handleClearImages = () => {
+        setImages([]);
     };
 
     const imageUploadProgress = (progress: number) => {
@@ -81,7 +95,10 @@ const AddMemberDialog: React.FC<Props> = ({
     }, [uploading]);
 
     useEffect(() => {
-        if (!open) setImage(null);
+        if (!open) setImages([]);
+        else {
+            setImages([...initialValues.images.map(url => ({ file: null, url }))]);
+        }
     }, [open]);
 
     return (
@@ -93,7 +110,7 @@ const AddMemberDialog: React.FC<Props> = ({
         >
             <DialogTitle id="form-dialog-title">
                 <Typography component="p" variant="h6">
-                    {editing ? "Edit Member" : "Add Member"}
+                    {editing ? "Edit Event" : "Add Event"}
                 </Typography>
                 {handleClose && (
                     <IconButton
@@ -110,20 +127,29 @@ const AddMemberDialog: React.FC<Props> = ({
                     className={classes.form}
                     validateOnChange={false}
                     validateOnBlur={true}
-                    validationSchema={addMemberSchema}
+                    validationSchema={addEventSchema}
                     initialValues={initialValues}
-                    onSubmit={async (data: Member, { setSubmitting }) => {
+                    onSubmit={async (data: Event, { setSubmitting }) => {
+                        const newImages = images.some(image => !!image.file);
+
                         setSubmitting(true);
-                        image && setUploading(true);
+                        newImages && setUploading(true);
+
+                        // date picker gives the date as a date object, however we store it as string
+                        const event = {
+                            ...data,
+                            date:
+                                typeof data.date !== "string"
+                                    ? (data.date as Date).toISOString()
+                                    : data.date
+                        };
 
                         // handle submit
-                        if (addMember) {
-                            if (image) await addMember(data, image.file, imageUploadProgress);
-                            else addMember(data);
-                        }
+
+                        addEvent && (await addEvent(event, [...images], imageUploadProgress));
                         handleClose && handleClose();
 
-                        image && setUploading(false);
+                        newImages && setUploading(false);
                         setSubmitting(false);
                     }}
                     fields={[
@@ -144,8 +170,8 @@ const AddMemberDialog: React.FC<Props> = ({
                             props: {
                                 component: TextField,
                                 variant: "outlined",
-                                name: "displayName",
-                                label: "Display Name",
+                                name: "title",
+                                label: "Title",
                                 fullWidth: true
                             }
                         },
@@ -154,10 +180,9 @@ const AddMemberDialog: React.FC<Props> = ({
                             props: {
                                 component: TextField,
                                 variant: "outlined",
-                                name: "title",
-                                label: "Title",
-                                fullWidth: true,
-                                required: true
+                                name: "term",
+                                label: "Term",
+                                fullWidth: true
                             }
                         },
                         {
@@ -165,8 +190,8 @@ const AddMemberDialog: React.FC<Props> = ({
                             props: {
                                 component: TextField,
                                 variant: "outlined",
-                                name: "email",
-                                label: "Email Address",
+                                name: "location",
+                                label: "Location",
                                 fullWidth: true
                             }
                         },
@@ -184,10 +209,23 @@ const AddMemberDialog: React.FC<Props> = ({
                             }
                         },
                         {
+                            component: Field,
+                            props: {
+                                component: KeyboardDatePicker,
+                                variant: "inline",
+                                inputVariant: "outlined",
+                                name: "date",
+                                label: "Date",
+                                format: "MM/dd/yyyy",
+                                type: "string",
+                                fullWidth: true
+                            }
+                        },
+                        {
                             component: ArrayField,
                             props: {
-                                name: "facts",
-                                addLabel: "Add Fact",
+                                name: "photoCredits",
+                                addLabel: "Add Photo Credit",
                                 schema: Yup.array().of(
                                     Yup.object().default(() => ({
                                         props: {
@@ -195,77 +233,23 @@ const AddMemberDialog: React.FC<Props> = ({
                                             variant: "outlined",
                                             fullWidth: true
                                         },
-                                        fieldLabel: (idx: number) => `Fact ${idx + 1}`,
+                                        fieldLabel: (idx: number) => `Photo Credit ${idx + 1}`,
                                         initialValue: ""
                                     }))
                                 )
                             }
                         },
                         {
-                            component: ArrayField,
-                            props: {
-                                name: "links",
-                                addLabel: "Add Link",
-                                schema: Yup.array().of(
-                                    Yup.object().default({
-                                        title: Yup.object().default(() => ({
-                                            props: {
-                                                component: TextField,
-                                                variant: "outlined",
-                                                fullWidth: true
-                                            },
-                                            fieldLabel: (idx: number) => `Link Title ${idx + 1}`,
-                                            initialValue: ""
-                                        })),
-                                        link: Yup.object().default(() => ({
-                                            props: {
-                                                component: TextField,
-                                                variant: "outlined",
-                                                fullWidth: true
-                                            },
-                                            fieldLabel: (idx: number) => `Link ${idx + 1}`,
-                                            initialValue: ""
-                                        }))
-                                    })
-                                )
-                            }
-                        },
-                        {
-                            component: ArrayField,
-                            props: {
-                                name: "positions",
-                                addLabel: "Add Position",
-                                schema: Yup.array().of(
-                                    Yup.object().default(() => ({
-                                        props: {
-                                            component: TextField,
-                                            select: true,
-                                            variant: "outlined",
-                                            children: Object.entries(memberPositionLabels).map(
-                                                ([value, label]) => (
-                                                    <MenuItem key={value} value={value}>
-                                                        {label}
-                                                    </MenuItem>
-                                                )
-                                            ),
-                                            fullWidth: true
-                                        },
-                                        fieldLabel: (idx: number) => `Position ${idx + 1}`,
-                                        initialValue: "activeMember"
-                                    }))
-                                )
-                            }
-                        },
-                        {
-                            component: UploadImage,
+                            component: UploadImages,
                             props: {
                                 uploading,
-                                name: "image",
-                                label: "Image URL",
+                                addLabel: "Add Image",
+                                fieldLabel: (idx: number) => `Image ${idx + 1}`,
                                 uploadingProgress,
-                                image,
+                                images,
                                 onChange: handleImageUpload,
-                                clearImage: () => setImage(null)
+                                clearImage: handleClearImage,
+                                clearImages: handleClearImages
                             }
                         },
                         {
@@ -296,4 +280,4 @@ const AddMemberDialog: React.FC<Props> = ({
     );
 };
 
-export default AddMemberDialog;
+export default AddEventDialog;

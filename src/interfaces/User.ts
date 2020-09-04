@@ -6,7 +6,6 @@ export interface AuthUser {
     provider: string;
     avatarURL: string;
     username: string;
-    token?: string; // Should not be included in database
 }
 
 export interface CustomUser {

@@ -1,4 +1,4 @@
-import { Company, Member, User } from "../interfaces";
+import { Company, Event, Member, User } from "../interfaces";
 import firebase, { firestore } from "./firebase";
 
 export interface GetAllQueryParams {
@@ -63,4 +63,12 @@ export const getCompany = async (id: string): Promise<Company | null> => {
 
 export const getAllCompanies = async (queryProps: GetAllQueryParams = {}): Promise<Company[]> => {
     return await getAllDocuments<Company>("companies", queryProps);
+};
+
+export const getEvent = async (id: string): Promise<Event | null> => {
+    return await getDocument("events", id);
+};
+
+export const getAllEvents = async (queryProps: GetAllQueryParams = {}): Promise<Event[]> => {
+    return await getAllDocuments<Event>("events", queryProps);
 };

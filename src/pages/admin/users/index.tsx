@@ -36,7 +36,7 @@ const Users: NextPage<Props> = ({ users, auth }: Props) => {
         const response = await fetch(`/api/${process.env.apiVersion}/users/${user.id}`, {
             method: "PATCH",
             headers: {
-                token: auth?.user?.token as string
+                token: (await auth?.getUserToken()) as string
             },
             body: JSON.stringify({ ...user })
         });
