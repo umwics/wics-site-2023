@@ -20,7 +20,6 @@ const About: NextPage = () => {
                 <div className={classes.paper}>
                     <h1> Resources page - coming soon</h1>
 
-                            {/* **Your code here** */}
 
                 </div>
             </Container>
