@@ -1,4 +1,4 @@
-import { Button, Container, Typography } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { NextPage } from "next";
 import Carousel from "react-bootstrap/Carousel";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -13,14 +13,22 @@ import ContentsLayout from "../components/layouts/ContentsLayout";
 const Home: NextPage = () => {
     return (
         <ContentsLayout title="Home">
-            <Container>
-                <Fade bottom duration={1000} delay={500} distance="30px">
-                    <Typography component="h1" variant="h3" className="maintitle">
-                        U of M Women in Computer Science
-                    </Typography>
-                </Fade>
-                <span className="mainblink">
-                    <Typical
+            <Carousel>
+                <Carousel.Item>
+                    <div className="carouselcontainer">
+                        <img className="d-block w-100 cropped" src="img/main/ubisoft-group.jpg" />
+
+                        <div className="home-title-center">
+                    <div className="maintitle">
+                    <Fade bottom duration={1000} delay={100} distance="30px">
+                        <h2>University of Manitoba</h2></Fade>
+                        <Fade bottom duration={1000} delay={300} distance="30px">
+                        <h1>
+                        Women in Computer Science</h1></Fade>
+                    </div>
+                    <span>
+                <Fade bottom duration={1000} delay={400} distance="30px">
+                    <Typical className="mainblink"
                         steps={[
                             "We are women in computer science.",
                             1000,
@@ -32,41 +40,18 @@ const Home: NextPage = () => {
                             1000
                         ]}
                         loop={Infinity}
-                        wrapper="p"
                     />
-                </span>
-            </Container>
-
-            <Carousel>
-                <Carousel.Item>
-                    <div className="carouselcontainer">
-                        <img className="d-block w-100 cropped" src="img/main/ubisoft-group.jpg" />
-                        <div className="bottom-right">
-                            <h2>MENTOR MINGLE</h2>
-                            <h1>Ubisoft</h1>
-                            <p>2019 WINTER</p>
-                            <Button variant="contained" color="secondary" href="#contained-buttons">
-                                See more
-                            </Button>
-                        </div>
+                    </Fade>
+                </span>  
+                <Fade bottom duration={1000} delay={500} distance="30px">
+                <div className="button_cont"><a className="example_d" href="add-website-here" target="_blank" rel="nofollow noopener">About US</a></div></Fade>
+                </div>
                     </div>
                 </Carousel.Item>
                 <Carousel.Item>
                     <div className="carouselcontainer">
                         <img className="d-block w-100 cropped" src="img/main/amazon-talk.jpg" />
-                        <div className="bottom-left">
-                            <h2>Thinkbox Intro Event</h2>
-                            <h1>AWS</h1>
-                            <p>2020 WINTER</p>
-                            <Button variant="contained" color="secondary" href="#contained-buttons">
-                                See more
-                            </Button>
-                        </div>
-                    </div>
-                </Carousel.Item>
-                <Carousel.Item>
-                    <div className="carouselcontainer">
-                        <img className="d-block w-100 cropped" src="img/main/amazon-group.jpg" />
+                        <Fade bottom duration={1000} delay={100} distance="30px">
                         <div className="bottom-right">
                             <h2>Thinkbox Intro Event</h2>
                             <h1>AWS</h1>
@@ -75,11 +60,13 @@ const Home: NextPage = () => {
                                 See more
                             </Button>
                         </div>
+                        </Fade>
                     </div>
                 </Carousel.Item>
                 <Carousel.Item>
                     <div className="carouselcontainer">
                         <img className="d-block w-100 cropped" src="img/main/skip-clap.jpg" />
+                        <Fade bottom duration={1000} delay={100} distance="30px">
                         <div className="top-left">
                             <h2>MENTOR MINGLE</h2>
                             <h1>SkipTheDishes</h1>
@@ -87,12 +74,13 @@ const Home: NextPage = () => {
                             <Button variant="contained" color="secondary" href="#contained-buttons">
                                 See more
                             </Button>
-                        </div>
+                        </div></Fade>
                     </div>
                 </Carousel.Item>
                 <Carousel.Item>
                     <div className="carouselcontainer">
                         <img className="d-block w-100 cropped" src="img/main/skip-group.jpg" />
+                        <Fade bottom duration={1000} delay={100} distance="30px">
                         <div className="bottom-right">
                             <h2>MENTOR MINGLE</h2>
                             <h1>SkipTheDishes</h1>
@@ -100,7 +88,7 @@ const Home: NextPage = () => {
                             <Button variant="contained" color="secondary" href="#contained-buttons">
                                 See more
                             </Button>
-                        </div>
+                        </div></Fade>
                     </div>
                 </Carousel.Item>
                 <Carousel.Item>
@@ -109,6 +97,7 @@ const Home: NextPage = () => {
                             className="d-block w-100 cropped"
                             src="img/main/skip-scholarship.jpg"
                         />
+                        <Fade bottom duration={1000} delay={100} distance="30px">
                         <div className="bottom-left">
                             <h2>Scholarship</h2>
                             <h1>SkipTheDishes</h1>
@@ -116,12 +105,13 @@ const Home: NextPage = () => {
                             <Button variant="contained" color="secondary" href="#contained-buttons">
                                 See more
                             </Button>
-                        </div>
+                        </div></Fade>
                     </div>
                 </Carousel.Item>
                 <Carousel.Item>
                     <div className="carouselcontainer">
                         <img className="d-block w-100 cropped" src="img/main/bold-presenter.jpg" />
+                        <Fade bottom duration={1000} delay={100} distance="30px">
                         <div className="top-right">
                             <h2>MENTOR MINGLE</h2>
                             <h1>Bold</h1>
@@ -129,7 +119,7 @@ const Home: NextPage = () => {
                             <Button variant="contained" color="secondary" href="#contained-buttons">
                                 See more
                             </Button>
-                        </div>
+                        </div></Fade>
                     </div>
                 </Carousel.Item>
                 <Carousel.Item>
@@ -138,6 +128,7 @@ const Home: NextPage = () => {
                             className="d-block w-100 cropped"
                             src="img/main/iqmetrix-reception.jpg"
                         />
+                        <Fade bottom duration={1000} delay={100} distance="30px">
                         <div className="bottom-right">
                             <h2>MENTOR MINGLE</h2>
                             <h1>iQmetrix</h1>
@@ -145,7 +136,7 @@ const Home: NextPage = () => {
                             <Button variant="contained" color="secondary" href="#contained-buttons">
                                 See more
                             </Button>
-                        </div>
+                        </div></Fade>
                     </div>
                 </Carousel.Item>
             </Carousel>
