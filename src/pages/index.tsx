@@ -44,7 +44,7 @@ const Home: NextPage = () => {
                     </Fade>
                 </span>  
                 <Fade bottom duration={1000} delay={500} distance="30px">
-                <div className="button_cont"><a className="example_d" href="add-website-here" target="_blank" rel="nofollow noopener">About US</a></div></Fade>
+                <div className="button_cont"><a className="example_d" href="/about" rel="nofollow noopener">About US</a></div></Fade>
                 </div>
                     </div>
                 </Carousel.Item>

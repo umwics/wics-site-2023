@@ -5,6 +5,8 @@ import React from "react";
 import ContentsLayout from "../components/layouts/ContentsLayout";
 import Carousel from "react-bootstrap/Carousel";
 import BackToTop from "../components/BackToTop";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import Fade from "react-reveal/Fade";
 
 const useStyles = makeStyles((theme: Theme) => ({
