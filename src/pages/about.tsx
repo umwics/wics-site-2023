@@ -1,4 +1,4 @@
-import { Container} from "@material-ui/core";
+import { Container, Button} from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { NextPage } from "next";
 import React from "react";
@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     paper: {
         marginTop: theme.spacing(8),
         fontFamily: "Lato"
+    },
+    center: {
+        textAlign: "center"
     }
 }));
 
@@ -82,6 +85,22 @@ const About: NextPage = () => {
         <br />
     </p>
 </div></Fade>
+
+
+<div className={classes.center}>
+        <h1>Join Us</h1><br />
+        <Button variant="contained" color="primary" href="https://wicsuofm.slack.com" target="_blank">Join Our Slack Here
+        </Button><br /><br />
+        <h6>This is where we discuss upcoming events, current news, and it is a chance to connect with other members!</h6><br />
+    <iframe
+        id="googleForm"
+        src="https://docs.google.com/forms/d/e/1FAIpQLSfBp6u_AGJv0PyPSP8_-foI3IdyuEv52DnNa1Evm9Ap6YnNfQ/viewform?embedded=true"
+        width="760"
+        height="1500"
+        frameBorder="0"
+        scrolling="no">Loading...</iframe>
+</div>
+
                 </div>
             </Container>
             <BackToTop />
