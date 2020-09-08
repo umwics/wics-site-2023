@@ -1,22 +1,100 @@
-import { Container, Button} from "@material-ui/core";
-import { makeStyles, Theme } from "@material-ui/core/styles";
+import { Container, Button, Typography} from "@material-ui/core";
+import { makeStyles, Theme, ThemeProvider } from "@material-ui/core/styles";
 import { NextPage } from "next";
 import React from "react";
 import ContentsLayout from "../components/layouts/ContentsLayout";
-import Carousel from "react-bootstrap/Carousel";
 import BackToTop from "../components/BackToTop";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Fade from "react-reveal/Fade";
+import { createMuiTheme } from '@material-ui/core/styles';
+import AboutCarousel from "../components/carousel/AboutCarousel"
 
+const theme = createMuiTheme();
+theme.typography.h1 = {
+    fontSize: '2.5rem',
+    '@media (min-width:600px)': {
+      fontSize: '4.0rem',
+    },
+    '@media (max-width:420px)': {
+        fontSize: '1.5rem',
+      },
+  };
+theme.typography.h2 = {
+    fontSize: '2.0rem',
+    '@media (min-width:600px)': {
+      fontSize: '2.5rem',
+    },
+    '@media (max-width:420px)': {
+        fontSize: '1.5rem',
+      },
+  };
+theme.typography.h3 = {
+  fontSize: '1.5rem',
+  '@media (min-width:600px)': {
+    fontSize: '1.75rem',
+  },
+  '@media (max-width:420px)': {
+      fontSize: '1.25rem',
+    },
+};
+theme.typography.h4 = {
+    fontSize: '1.25rem',
+    '@media (min-width:600px)': {
+      fontSize: '1.5rem',
+    },
+    '@media (max-width:420px)': {
+        fontSize: '1.0rem',
+      },
+  };
+theme.typography.h5 = {
+    fontSize: '1.0rem',
+    '@media (min-width:600px)': {
+      fontSize: '1.25rem',
+    },
+    '@media (max-width:420px)': {
+        fontSize: '0.75rem',
+      },
+};
+theme.typography.h6 = {
+    fontSize: '0.75rem',
+    '@media (min-width:600px)': {
+      fontSize: '1.0rem',
+    }
+  };
+  
 const useStyles = makeStyles((theme: Theme) => ({
     paper: {
         marginTop: theme.spacing(8),
         fontFamily: "Lato"
     },
     center: {
-        textAlign: "center"
-    }
+        textAlign: "center",
+        '& h1': {
+          color: '#ff6f6f',
+          fontSize:40,
+          marginBottom: 30,
+        fontWeight: 700,
+        textTransform: "uppercase",
+        position: 'relative'
+      }
+    },
+    title: {
+        top: '40%',
+        marginBottom: 50,
+      fontFamily: 'Lato',
+      position: 'absolute',
+      textAlign: 'center',
+      color: 'white',
+      justifyContent: 'center',
+      textTransform: 'uppercase',
+      fontWeight: 700,
+      width: '100%',
+          '& h1': {
+            marginTop: 0,
+            marginBottom: 6,
+        }
+        }
 }));
 
 
@@ -25,27 +103,13 @@ const About: NextPage = () => {
 
     return (
         <ContentsLayout title="About">
-            <Carousel>
-                <Carousel.Item>
-                    <div className="carouselcontainer">
-                        <img className="d-block w-100 cropped" src="img/about/wics-0540.jpg" />
-                    </div>
-                </Carousel.Item>
-                <Carousel.Item>
-                    <div className="carouselcontainer">
-                        <img className="d-block w-100 cropped" src="img/about/wics-0567.jpg" />
-                    </div>
-                </Carousel.Item>
-                <Carousel.Item>
-                    <div className="carouselcontainer">
-                        <img className="d-block w-100 cropped" src="img/about/wics-0612.jpg" />
-                    </div>
-                </Carousel.Item>
-            </Carousel>
+            <AboutCarousel />
             
-            <div className="title-center">
+            <div className={classes.title}>
             <Fade bottom duration={1000} delay={100} distance="30px">
-                <h1>About Us</h1></Fade>
+            <ThemeProvider theme={theme}>
+                        <Typography variant="h1">About Us</Typography>
+                    </ThemeProvider></Fade>
                 <Fade bottom duration={1000} delay={300} distance="30px">
                 <p>We are a group of University of Manitoba students who support women in technology.<br/>All are welcome to join!</p></Fade>
             </div>
@@ -53,7 +117,7 @@ const About: NextPage = () => {
             <Container component="main">
                 <div className={classes.paper}>
 
-                <Fade bottom duration={1000} delay={300} distance="30px">
+                <Fade bottom duration={1000} delay={0} distance="30px">
 <div className="container">
     <p className="text-justify">
         <br />
@@ -86,7 +150,7 @@ const About: NextPage = () => {
     </p>
 </div></Fade>
 
-
+<Fade bottom duration={1000} delay={100} distance="30px">
 <div className={classes.center}>
         <h1>Join Us</h1><br />
         <Button variant="contained" color="primary" href="https://wicsuofm.slack.com" target="_blank">Join Our Slack Here
@@ -99,7 +163,10 @@ const About: NextPage = () => {
         height="1500"
         frameBorder="0"
         scrolling="no">Loading...</iframe>
-</div>
+</div></Fade>
+
+
+
 
                 </div>
             </Container>
