@@ -1,14 +1,12 @@
 import DateFnsUtils from "@date-io/date-fns";
 import { CssBaseline } from "@material-ui/core";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { NextComponentType } from "next";
 import { DefaultSeo } from "next-seo";
 import { AppContext, AppInitialProps, AppProps } from "next/app";
 import { SnackbarProvider } from "notistack";
 import React, { useEffect } from "react";
 import { SWRConfig } from "swr";
-import "../assets/css/style.css";
 import ConfirmProvider from "../components/ConfirmProvider";
 import ProgressBar from "../components/ProgressBar";
 import ThemeProvider from "../components/ThemeProvider";

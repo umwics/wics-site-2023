@@ -169,7 +169,6 @@ Here are some tutorials for getting you on your feet with various tools and tech
 Optional:
 
 -   [Material-UI](https://material-ui.com/getting-started/installation/)
--   [React Bootstrap](https://react-bootstrap.github.io/)
 -   [Firebase](https://firebase.google.com/)
 -   [Jest](https://jestjs.io/docs/en/getting-started)
 -   [Yarn](https://yarnpkg.com/)
