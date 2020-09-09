@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         paddingBottom: theme.spacing(4),
         color: '#fff',
         backgroundColor: "#333333",
-        marginTop: "auto"
     },
     alignRight: {
         textAlign: "right"
