@@ -56,13 +56,14 @@ const defaultInitialValues: Member = {
 
 const AddMemberDialog: React.FC<Props> = ({
     open,
-    initialValues = defaultInitialValues,
+    initialValues,
     addMember,
     handleClose
 }: Props) => {
     const classes = useStyles();
 
-    const editing = !!initialValues.id;
+    const composedInitialValues = { ...defaultInitialValues, ...initialValues };
+    const editing = !!composedInitialValues.id;
 
     const [image, setImage] = useState<{ file: File; url: string } | null>(null);
     const [uploading, setUploading] = useState<boolean>(false);
@@ -111,7 +112,7 @@ const AddMemberDialog: React.FC<Props> = ({
                     validateOnChange={false}
                     validateOnBlur={true}
                     validationSchema={addMemberSchema}
-                    initialValues={initialValues}
+                    initialValues={composedInitialValues}
                     onSubmit={async (data: Member, { setSubmitting }) => {
                         setSubmitting(true);
                         image && setUploading(true);

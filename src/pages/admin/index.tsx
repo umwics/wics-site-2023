@@ -1,11 +1,11 @@
 import {
     Avatar,
+    Card,
+    CardActionArea,
+    CardContent,
+    CardHeader,
     Container,
     Grid,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
     makeStyles,
     Theme,
     Typography
@@ -37,44 +37,73 @@ const useStyles = makeStyles((theme: Theme) => ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center"
+    },
+    card: {
+        margin: theme.spacing(2)
+    },
+    buttonBase: {
+        position: "relative",
+        width: "100%",
+        minHeight: "100px"
     }
 }));
 
+const collections = [
+    { title: "Users", link: "/admin/users" },
+    { title: "Members", link: "/admin/members" },
+    { title: "Companies", link: "/admin/companies" },
+    { title: "Events", link: "/admin/events" }
+];
+
 const Admin: NextPage<Props> = () => {
     const classes = useStyles();
+
+    const dateString = new Date().toDateString();
 
     return (
         <AdminLayout title="Admin">
             <Container component="main" maxWidth="md">
                 <div className={classes.paper}>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h3">
                         Admin Panel
                     </Typography>
                     <Grid item sm={12} xs={12} className={classes.grid}>
-                        <Typography component="h1" variant="h6">
+                        <Typography component="h2" variant="h5">
                             Collections
                         </Typography>
-                        <List className={classes.root}>
-                            {["users", "members", "companies", "events"].map(value => {
-                                const labelId = `checkbox-list-label-${value}`;
-
-                                return (
-                                    <Link key={value} href={`/admin/${value}`} passHref>
-                                        <ListItem button component="a">
-                                            <ListItemIcon>
-                                                <Avatar className={classes.avatar}>
-                                                    <CollectionsBookmarkOutlined />
-                                                </Avatar>
-                                            </ListItemIcon>
-                                            <ListItemText
-                                                id={labelId}
-                                                primary={`${value} Collection`}
-                                            />
-                                        </ListItem>
-                                    </Link>
-                                );
-                            })}
-                        </List>
+                        <Grid container className={classes.root}>
+                            {collections.map(({ title, link }) => (
+                                <Grid key={title} item sm={6} xs={12}>
+                                    <Card className={classes.card}>
+                                        <Link href={link} passHref>
+                                            <CardActionArea
+                                                className={classes.buttonBase}
+                                                component="a"
+                                            >
+                                                <CardHeader
+                                                    avatar={
+                                                        <Avatar className={classes.avatar}>
+                                                            <CollectionsBookmarkOutlined />
+                                                        </Avatar>
+                                                    }
+                                                    title={title}
+                                                    subheader={dateString}
+                                                />
+                                                <CardContent>
+                                                    <Typography
+                                                        component="p"
+                                                        variant="body2"
+                                                        color="textSecondary"
+                                                    >
+                                                        {`${title} Collection`}
+                                                    </Typography>
+                                                </CardContent>
+                                            </CardActionArea>
+                                        </Link>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
                     </Grid>
                 </div>
             </Container>
