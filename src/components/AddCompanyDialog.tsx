@@ -63,13 +63,14 @@ const defaultInitialValues: Company = {
 const AddCompanyDialog: React.FC<Props> = ({
     open,
     members,
-    initialValues = defaultInitialValues,
+    initialValues,
     addCompany,
     handleClose
 }: Props) => {
     const classes = useStyles();
 
-    const editing = !!initialValues.id;
+    const composedInitialValues = { ...defaultInitialValues, ...initialValues };
+    const editing = !!composedInitialValues.id;
 
     const [image, setImage] = useState<{ file: File; url: string } | null>(null);
     const [uploading, setUploading] = useState<boolean>(false);
@@ -118,7 +119,7 @@ const AddCompanyDialog: React.FC<Props> = ({
                     validateOnChange={false}
                     validateOnBlur={true}
                     validationSchema={addCompanySchema}
-                    initialValues={initialValues}
+                    initialValues={composedInitialValues}
                     onSubmit={async (data: Company, { setSubmitting }) => {
                         setSubmitting(true);
                         image && setUploading(true);

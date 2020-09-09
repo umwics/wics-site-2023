@@ -25,9 +25,60 @@ const defaultTheme: ThemeOptions = {
     direction: "ltr",
     palette: {
         type: "light"
+    },
+    typography: {
+        h1: {
+            fontSize: "3.0rem",
+            "@media (min-width:600px)": {
+                fontSize: "3.5rem"
+            },
+            "@media (max-width:420px)": {
+                fontSize: "1.5rem"
+            }
+        },
+        h2: {
+            fontSize: "2.0rem",
+            "@media (min-width:600px)": {
+                fontSize: "2.5rem"
+            },
+            "@media (max-width:420px)": {
+                fontSize: "1.5rem"
+            }
+        },
+        h3: {
+            fontSize: "1.5rem",
+            "@media (min-width:600px)": {
+                fontSize: "1.75rem"
+            },
+            "@media (max-width:420px)": {
+                fontSize: "1.25rem"
+            }
+        },
+        h4: {
+            fontSize: "1.25rem",
+            "@media (min-width:600px)": {
+                fontSize: "1.5rem"
+            },
+            "@media (max-width:420px)": {
+                fontSize: "1.0rem"
+            }
+        },
+        h5: {
+            fontSize: "1.0rem",
+            "@media (min-width:600px)": {
+                fontSize: "1.25rem"
+            },
+            "@media (max-width:420px)": {
+                fontSize: "0.75rem"
+            }
+        },
+        h6: {
+            fontSize: "0.75rem",
+            "@media (min-width:600px)": {
+                fontSize: "1.0rem"
+            }
+        }
     }
-    // typography: {
-    // },
     // shape: {
     // },
     // overrides: {

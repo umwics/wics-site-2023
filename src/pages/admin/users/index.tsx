@@ -53,7 +53,7 @@ const Users: NextPage<Props> = ({ users, auth }: Props) => {
         <AdminLayout title="Users">
             <Container component="main" maxWidth="md">
                 <div className={classes.paper}>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h3">
                         Users List
                     </Typography>
                     <UserList users={revalidatedUsers} updateUser={updateVisibleUser} />

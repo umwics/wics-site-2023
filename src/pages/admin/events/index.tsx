@@ -145,7 +145,7 @@ const Events: NextPage<Props> = ({ events, auth }: Props) => {
         <AdminLayout title="Events">
             <Container component="main" maxWidth="md">
                 <div className={classes.paper}>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h3">
                         Events List
                     </Typography>
                     <EventList

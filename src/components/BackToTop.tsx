@@ -20,8 +20,25 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
+const useFabStyles = makeStyles((theme: Theme) => ({
+    root: {
+        "& $label": {
+            transition: "0.3s cubic-bezier(0.47, 1.64, 0.41, 0.8)"
+        },
+        "&:hover": {
+            "& $label": {
+                transform: "scale(1.3)"
+            }
+        }
+    },
+    label: {
+        color: theme.palette.secondary.contrastText
+    }
+}));
+
 const BackToTop: React.FC<Props> = ({ window }: Props) => {
     const classes = useStyles();
+    const fabClasses = useFabStyles();
 
     const trigger = useScrollTrigger({
         target: window ? window() : undefined,
@@ -44,7 +61,12 @@ const BackToTop: React.FC<Props> = ({ window }: Props) => {
             <div id="back-to-top-anchor" className={classes.anchor} />
             <Zoom in={trigger}>
                 <div onClick={handleClick} role="presentation" className={classes.root}>
-                    <Fab color="secondary" size="small" aria-label="scroll back to top">
+                    <Fab
+                        classes={fabClasses}
+                        color="secondary"
+                        size="small"
+                        aria-label="scroll back to top"
+                    >
                         <KeyboardArrowUp />
                     </Fab>
                 </div>

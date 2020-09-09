@@ -57,15 +57,11 @@ const defaultInitialValues: Event = {
     images: []
 };
 
-const AddEventDialog: React.FC<Props> = ({
-    open,
-    initialValues = defaultInitialValues,
-    addEvent,
-    handleClose
-}: Props) => {
+const AddEventDialog: React.FC<Props> = ({ open, initialValues, addEvent, handleClose }: Props) => {
     const classes = useStyles();
 
-    const editing = !!initialValues.id;
+    const composedInitialValues = { ...defaultInitialValues, ...initialValues };
+    const editing = !!composedInitialValues.id;
 
     const [images, setImages] = useState<{ file: File | null; url: string }[]>([]);
     const [uploading, setUploading] = useState<boolean>(false);
@@ -97,7 +93,7 @@ const AddEventDialog: React.FC<Props> = ({
     useEffect(() => {
         if (!open) setImages([]);
         else {
-            setImages([...initialValues.images.map(url => ({ file: null, url }))]);
+            setImages([...composedInitialValues.images.map(url => ({ file: null, url }))]);
         }
     }, [open]);
 
@@ -128,7 +124,7 @@ const AddEventDialog: React.FC<Props> = ({
                     validateOnChange={false}
                     validateOnBlur={true}
                     validationSchema={addEventSchema}
-                    initialValues={initialValues}
+                    initialValues={composedInitialValues}
                     onSubmit={async (data: Event, { setSubmitting }) => {
                         const newImages = images.some(image => !!image.file);
 

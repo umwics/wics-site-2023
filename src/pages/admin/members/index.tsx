@@ -149,7 +149,7 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
         <AdminLayout title="Members">
             <Container component="main" maxWidth="md">
                 <div className={classes.paper}>
-                    <Typography component="h1" variant="h5">
+                    <Typography component="h1" variant="h3">
                         Members List
                     </Typography>
                     <MemberList
