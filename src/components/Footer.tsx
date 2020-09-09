@@ -10,9 +10,9 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginTop: "auto",
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
-        fontFamily: "Lato",
-        color: "#fff",
-        backgroundColor: "#333333"
+        color: '#fff',
+        backgroundColor: "#333333",
+        marginTop: "auto"
     },
     alignRight: {
         textAlign: "right"
