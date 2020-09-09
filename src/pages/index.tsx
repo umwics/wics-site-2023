@@ -18,16 +18,19 @@ const useStyles = makeStyles((theme: Theme) => ({
         paddingTop: 100,
         textAlign: "center",
         marginBottom: 70,
+        fontFamily: "Lato",
         "& h2": {
             color: "#ff6f6f",
             marginBottom: 30,
             fontWeight: 700,
             textTransform: "uppercase",
-            position: "relative"
+            position: "relative",
+            fontFamily: "Lato"
         },
         "& h5": {
             color: "#363b3f",
-            position: "relative"
+            position: "relative",
+            fontFamily: "Lato"
         }
     },
     sectionEmbed: {

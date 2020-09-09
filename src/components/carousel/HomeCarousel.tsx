@@ -47,19 +47,22 @@ const useStyles = makeStyles((_theme: Theme) =>
                 marginBottom: 6,
                 textTransform: "uppercase",
                 color: "#fff",
-                fontWeight: 700
+                fontWeight: 700,
+                fontFamily: "Lato",
             },
             "& h2": {
                 marginTop: 0,
                 marginBottom: 0,
                 color: "#fff",
                 fontWeight: 400,
-                letterSpaceing: 2
+                letterSpaceing: 2,
+                fontFamily: "Lato",
             },
             "& p": {
                 fontWeight: 400,
                 fontSize: 18,
-                letterSpaceing: 1
+                letterSpaceing: 1,
+                fontFamily: "Lato",
             }
         }
     })
