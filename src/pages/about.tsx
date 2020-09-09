@@ -1,4 +1,4 @@
-import { Button, Container, Typography } from "@material-ui/core";
+import { Button, Container, Typography, Grid } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { NextPage } from "next";
 import React from "react";
@@ -38,7 +38,9 @@ const useStyles = makeStyles((theme: Theme) => ({
         width: "100%",
         "& h1": {
             marginTop: 0,
-            marginBottom: 6
+            marginBottom: 6,
+            fontWeight: 700,
+            fontFamily: "Lato",
         }
     }
 }));
@@ -138,21 +140,23 @@ const About: NextPage = () => {
                             </Button>
                             <br />
                             <br />
-                            <h6>
+                            <p>
                                 This is where we discuss upcoming events, current news, and it is a
                                 chance to connect with other members!
-                            </h6>
+                            </p>
                             <br />
+                            <Grid container spacing={0}>
+                    <Grid item sm={12} xs={12}>
                             <iframe
                                 id="googleForm"
                                 src="https://docs.google.com/forms/d/e/1FAIpQLSfBp6u_AGJv0PyPSP8_-foI3IdyuEv52DnNa1Evm9Ap6YnNfQ/viewform?embedded=true"
-                                width="760"
-                                height="1500"
+                                width="100%"
+                                height="2000"
                                 frameBorder="0"
-                                scrolling="no"
+                                scrolling="yes"
                             >
                                 Loading...
-                            </iframe>
+                            </iframe></Grid></Grid>
                         </div>
                     </Fade>
                 </div>

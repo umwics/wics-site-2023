@@ -1,4 +1,4 @@
-import { Container } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { NextPage } from "next";
 import React from "react";
@@ -74,11 +74,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     title: {
         marginTop: theme.spacing(4),
         marginBottom: theme.spacing(4),
-        fontSize: 50,
         textAlign: "center",
-        fontWeight: 700,
-        textTransform: "uppercase",
-        fontFamily: 'Lato'
+        "& h1": {
+          color: "#363b3f",
+            textTransform: "uppercase",
+            fontWeight: 700,
+            fontFamily: 'Lato',
+        },
     }
 }));
 
@@ -89,7 +91,7 @@ const About: NextPage = () => {
     return (
         <ContentsLayout title="Resources">
             <Container component="main">
-                <div className={classes.title}><Fade bottom duration={1000} delay={100} distance="30px">Resources</Fade></div>
+                <div className={classes.title}><Fade bottom duration={1000} delay={100} distance="30px"><Typography variant="h1">Resources</Typography></Fade></div>
                 <Fade bottom duration={1000} delay={300} distance="30px"><EventTab /></Fade>
                 
 
