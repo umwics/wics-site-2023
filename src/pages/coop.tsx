@@ -4,13 +4,9 @@ import { NextPage } from "next";
 import React from "react";
 import ContentsLayout from "../components/layouts/ContentsLayout";
 import Card from "react-bootstrap/Card";
-import CardDeck from "react-bootstrap/CardDeck";
-import CardColumns from "react-bootstrap/CardColumns";
-// import Card from '@material-ui/core/Card';
-// import CardActions from '@material-ui/core/CardActions';
-// import CardContent from '@material-ui/core/CardContent';
+import CardGroup from "react-bootstrap/CardGroup";
+//import CardColumns from "react-bootstrap/CardColumns";
 import Button from "react-bootstrap/Button";
-// import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme: Theme) => ({
     paper: {
@@ -42,7 +38,7 @@ const About: NextPage = () => {
             <Container component="main">
                 <div className={classes.paper}>
                     <h1>Co-op</h1>
-                    <p>The <a href="http://coop.cs.umanitoba.ca/" className="black-link" target="_blank">Computer Science Co-op Program </a>
+                    <p className="description">The <a href="http://coop.cs.umanitoba.ca/" target="_blank">Computer Science Co-op Program </a>
                         at the University of Manitoba provides students with a fantastic opportunity to
                         transform academic knowledge into real-world experience. The program has garnered much
                         success over the last few years and has become one of the university's largest co-op
@@ -54,7 +50,7 @@ const About: NextPage = () => {
             </Container>
 
             <Container component="main">
-                <CardDeck>
+                <CardGroup>
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\amazon.png" />
                         <Card.Body>
@@ -76,7 +72,7 @@ const About: NextPage = () => {
                         </Card.Body>
                     </Card>
                     <Card style={{ width: '18rem' }}>
-                        <Card.Img variant="top" src="img\coop\amazon.png" />
+                        <Card.Img variant="top" src="img\coop\bold-icon.png" />
                         <Card.Body>
                             <Card.Title>Card Title</Card.Title>
                                 <Card.Text>
@@ -87,7 +83,7 @@ const About: NextPage = () => {
                         </Card.Body>
                     </Card>
                     <Card style={{ width: '18rem' }}>
-                        <Card.Img variant="top" src="img\coop\Blackberry.png" />
+                        <Card.Img variant="top" src="img\coop\d2l.png" />
                         <Card.Body>
                             <Card.Title>Card Title</Card.Title>
                                 <Card.Text>
@@ -96,7 +92,182 @@ const About: NextPage = () => {
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
                     </Card>
-                </CardDeck>
+                
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\google.png" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                World's largest online
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                </CardGroup>
+
+                <CardGroup>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\hydro.png" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\invenia-logo.png" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                Some quick example text to build on the card title and make up the bulk of
+                                the card's content.
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\iqmetrix.png" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\johnston-group.jpg" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                World's largest online
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\MasterOfCode.png" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                </CardGroup>
+
+                <CardGroup>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\MB_Buffalo.png" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                Some quick example text to build on the card title and make up the bulk of
+                                the card's content.
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\mhi.png" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\payworks.png" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                World's largest online
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\phac.png" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\priceline-partner-network.png" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                Some quick example text to build on the card title and make up the bulk of
+                                the card's content.
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                </CardGroup>
+
+                <CardGroup>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\rbc.png" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\shopify.png" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                World's largest online
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\Ubisoft.png" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\varian.png" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                Some quick example text to build on the card title and make up the bulk of
+                                the card's content.
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                    <Card style={{ width: '18rem' }}>
+                        <Card.Img variant="top" src="img\coop\wawanesa.png" />
+                        <Card.Body>
+                            <Card.Title>Card Title</Card.Title>
+                                <Card.Text>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                </Card.Text>
+                            <Button variant="primary">More Details</Button>
+                        </Card.Body>
+                    </Card>
+                </CardGroup>
+
             </Container>
         </ContentsLayout>
     );

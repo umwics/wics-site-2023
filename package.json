@@ -14,13 +14,16 @@
     },
     "husky": {
         "hooks": {
+            "pre-push": "npm run type-check"
         }
     },
     "lint-staged": {
         "*.@(ts|tsx)": [
             "npm run lint",
             "npm run format"
-        ]
+        ],
+        "*.{ts,tsx,js,jsx}": "eslint --cache --fix",
+        "*.{js,ts,tsx}": "prettier --write"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -65,13 +68,13 @@
         "@typescript-eslint/eslint-plugin": "^3.8.0",
         "@typescript-eslint/parser": "^3.8.0",
         "babel-jest": "^26.2.2",
-        "eslint": "^7.6.0",
+        "eslint": "^7.8.1",
         "eslint-config-prettier": "^6.11.0",
         "eslint-plugin-react": "^7.20.5",
         "husky": "^4.2.5",
         "jest": "^26.2.2",
         "jest-watch-typeahead": "^0.6.0",
-        "lint-staged": "^10.2.11",
+        "lint-staged": "^10.3.0",
         "prettier": "^2.0.5",
         "typescript": "3.7.3"
     },
