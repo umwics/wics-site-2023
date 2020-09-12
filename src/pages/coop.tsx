@@ -5,7 +5,6 @@ import React from "react";
 import ContentsLayout from "../components/layouts/ContentsLayout";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";
-//import CardColumns from "react-bootstrap/CardColumns";
 import Button from "react-bootstrap/Button";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -37,7 +36,9 @@ const About: NextPage = () => {
         <ContentsLayout title="Co-op">
             <Container component="main">
                 <div className={classes.paper}>
-                    <h1>Co-op</h1>
+                    <div className="coopTitle">
+                        <h2>University of Manitoba Co-operative Education</h2>
+                    </div>
                     <p className="description">The <a href="http://coop.cs.umanitoba.ca/" target="_blank">Computer Science Co-op Program </a>
                         at the University of Manitoba provides students with a fantastic opportunity to
                         transform academic knowledge into real-world experience. The program has garnered much
@@ -54,9 +55,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\amazon.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Amazon</Card.Title>
                                 <Card.Text>
-                                World's largest online
+                                Amazon.com, Inc. (/ˈæməzɒn/), is an American multinational technology company based in Seattle, Washington. Amazon focuses on e-commerce, cloud computing, digital streaming, and artificial intelligence. It is considered one of the Big Four technology companies, along with Google, Apple, and Facebook
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -64,9 +65,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\Blackberry.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>BlackBerry</Card.Title>
                                 <Card.Text>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                BlackBerry Ltd. engages in the provision of security software and services to enterprises and governments. It offers cybersecurity consulting, enterprise consulting, endpoint management, and unified endpoint security
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -74,10 +75,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\bold-icon.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Bold e-commerce</Card.Title>
                                 <Card.Text>
-                                Some quick example text to build on the card title and make up the bulk of
-                                the card's content.
+                                Bold Commerce is a software development company that provides industry-leading eCommerce solutions for the world's most innovative brands. We empower entrepreneurs by providing them with tools they can use to make their eCommerce stores truly awesome
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -85,9 +85,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\d2l.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Desire 2 Learn</Card.Title>
                                 <Card.Text>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                D2L is a global software company with offices in the United States, Canada, Singapore, Australia, Europe, and Brazil. It is the developer of the Brightspace learning management system, which is a cloud-based software used by schools, higher education, and businesses for online and blended classroom learning
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -96,9 +96,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\google.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Google</Card.Title>
                                 <Card.Text>
-                                World's largest online
+                                Google, LLC is an American multinational technology company that specializes in Internet-related services and products, which include online advertising technologies, a search engine, cloud computing, software, and hardware
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -109,9 +109,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\hydro.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Manitoba Hydro</Card.Title>
                                 <Card.Text>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                Manitoba Hydro is a Crown Corporation and the province's major energy utility. From our head office in downtown Winnipeg, Manitoba, Canada, we: serve 586,795 electric customers in Manitoba and 284,996 natural gas customers in southern Manitoba; are one of the lowest cost providers of electricity in Canada
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -119,10 +119,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\invenia-logo.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Invenia</Card.Title>
                                 <Card.Text>
-                                Some quick example text to build on the card title and make up the bulk of
-                                the card's content.
+                                Invenia's Energy Intelligence System is a cloud-based machine learning platform that uses big, high frequency data to solve complex problems in real time. Invenia currently applies its platform to optimize electric utility operations as well as electricity markets themselves
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -130,9 +129,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\iqmetrix.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>iQMetrix</Card.Title>
                                 <Card.Text>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                iQmetrix is the leading provider of retail management and interactive retail solutions for wireless industry. You can find our innovative software changing the customer experience in stores across North America, including WirelessWave, Walmart Canada, Cricket (AT&T) and Loblaws
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -140,9 +139,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\johnston-group.jpg" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Johnston Group</Card.Title>
                                 <Card.Text>
-                                World's largest online
+                                Johnston Group is a 'third party administrator', a company that specializes in group benefit programs. The concept behind a Third Party Administrator (TPA) is that an insurance company cannot be all things to all people. The Company's line of business includes providing management consulting services
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -150,9 +149,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\MasterOfCode.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Master of Code</Card.Title>
                                 <Card.Text>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                Your full-service software partner in developing and maintaining the web, mobile applications, and chatbots. From hot startups to established enterprise companies - now anyone can get an elite team of engineers to build their next big thing
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -163,10 +162,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\MB_Buffalo.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Government of Manitoba</Card.Title>
                                 <Card.Text>
-                                Some quick example text to build on the card title and make up the bulk of
-                                the card's content.
+                                Manitoba is a prairie province located in the heart of Canada. Founded in 1870, Manitoba means “where the spirit lives” in the languages of the Indigenous people who first lived in the region. Commonly referred to as ‘Friendly Manitoba’, the province’s urban and rural communities are diverse and welcoming
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -174,9 +172,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\mhi.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Manitoba Hydro International</Card.Title>
                                 <Card.Text>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                Manitoba Hydro International Ltd. (MHI) assists power utilities, governments, and private sector clients around the world in the efficient, effective, and sustainable delivery of electricity and natural gas
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -184,9 +182,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\payworks.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>PayWorks</Card.Title>
                                 <Card.Text>
-                                World's largest online
+                                Payworks is a leading expert in the field of total workforce management solutions, providing cloud-based Payroll, Human Resources, Employee Time and Absence Management to businesses across Canada
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -194,9 +192,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\phac.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Public Health Agency of Canada</Card.Title>
                                 <Card.Text>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                The Public Health Agency of Canada empowers Canadians to improve their health. In partnership with others, its activities focus on preventing disease and injuries, promoting good physical and mental health, and providing information to support informed decision making. It values scientific excellence and provides national leadership in response to public health threats
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -204,10 +202,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\priceline-partner-network.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Priceline</Card.Title>
                                 <Card.Text>
-                                Some quick example text to build on the card title and make up the bulk of
-                                the card's content.
+                                Priceline.com is an online travel agency for finding discount rates for travel-related purchases such as airline tickets and hotel stays. The company facilitates the provision of travel services from its suppliers to its clients
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -218,9 +215,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\rbc.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>RBC Financial</Card.Title>
                                 <Card.Text>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                One of North America's leading diversified financial services companies, and provide personal and commercial banking, wealth management, insurance, investor services and capital markets products and services on a global basis
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -228,9 +225,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\shopify.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Shopify</Card.Title>
                                 <Card.Text>
-                                World's largest online
+                                Shopify, Inc. operates a cloud-based commerce platform designed for small and medium-sized businesses. Its software is used by merchants to run business across all sales channels, including web, tablet and mobile storefronts, social media storefronts, and brick-and-mortar and pop-up shops
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -238,9 +235,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\Ubisoft.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Ubisoft</Card.Title>
                                 <Card.Text>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                Ubisoft is a publishing and distribution company of interactive entertainment products worldwide. In 1989, Ubisoft released its first game called “Zombi”. It produces, publishes, and distributes video games for consoles, PCs, smart phones, and tablets in physical and digital formats worldwide
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -248,10 +245,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\varian.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Varian Medical Systems</Card.Title>
                                 <Card.Text>
-                                Some quick example text to build on the card title and make up the bulk of
-                                the card's content.
+                                Varian Medical Systems (VAR) is an American radiation oncology treatments and software maker based in Palo Alto, California. Their medical devices include linear accelerators and software for treating cancer and other medical conditions with radiotherapy, radiosurgery, proton therapy, and brachytherapy
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
@@ -259,9 +255,9 @@ const About: NextPage = () => {
                     <Card style={{ width: '18rem' }}>
                         <Card.Img variant="top" src="img\coop\wawanesa.png" />
                         <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
+                            <Card.Title>Wawanesa</Card.Title>
                                 <Card.Text>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque dolor, velit nobis maxime similique inventore accusantium rerum quae voluptates ducimus nulla natus eum error explicabo earum incidunt eligendi consequatur porro.
+                                Wawanesa Insurance is a Canadian mutual company owned by its policyholders. It is one of the largest property and casualty insurers in Canada
                                 </Card.Text>
                             <Button variant="primary">More Details</Button>
                         </Card.Body>
