@@ -62,13 +62,13 @@ const Home: NextPage = () => {
                         <Fade bottom duration={1000} delay={100} distance="30px">
                             <Typography variant="h2">Welcome to UM WICS!</Typography>
                         </Fade>
-                        <Fade bottom duration={1000} delay={500} distance="30px">
+                        <Fade bottom duration={1000} delay={200} distance="30px">
                             <Typography variant="h5">Meet our team 2020-2021</Typography>
                         </Fade>
                     </div>
 
                     <div className={classes.sectionEmbed}>
-                        <Fade bottom duration={1000} delay={500} distance="30px">
+                        <Fade bottom duration={1000} delay={300} distance="30px">
                             <iframe
                                 frameBorder="0"
                                 width="100%"
@@ -80,20 +80,18 @@ const Home: NextPage = () => {
                 </div>
 
                 <div className={classes.paper}>
-                    <Fade bottom duration={1000} delay={500} distance="30px">
                         <div className={classes.sectionTitle}>
                             <Fade bottom duration={1000} delay={100} distance="30px">
                                 <Typography variant="h2">Stay Connected #umwics</Typography>
                             </Fade>
-                            <Fade bottom duration={1000} delay={500} distance="30px">
+                            <Fade bottom duration={1000} delay={200} distance="30px">
                                 <Typography variant="h5">
                                     Follow us on social media and checkout our upcoming events!
                                 </Typography>
                             </Fade>
                         </div>
-                    </Fade>
                     <div className={classes.sectionEmbed}>
-                        <Fade bottom duration={1000} delay={500} distance="30px">
+                        <Fade bottom duration={1000} delay={300} distance="30px">
                             <iframe
                                 id="linktree-frame"
                                 src="https://linktr.ee/umwics"
