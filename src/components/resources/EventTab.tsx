@@ -1,502 +1,167 @@
-import React from 'react';
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tab from '@material-ui/core/Tab';
-import TabContext from '@material-ui/lab/TabContext';
-import TabList from '@material-ui/lab/TabList';
-import TabPanel from '@material-ui/lab/TabPanel';
-import { Typography, Grid, Card, CardActionArea, CardMedia, CardContent, CardActions, Button } from '@material-ui/core';
+import {
+    Button,
+    Card,
+    CardActionArea,
+    CardActions,
+    CardContent,
+    CardMedia,
+    Grid,
+    Typography,
+    useMediaQuery
+} from "@material-ui/core";
+import AppBar from "@material-ui/core/AppBar";
+import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
+import Tab from "@material-ui/core/Tab";
+import TabContext from "@material-ui/lab/TabContext";
+import TabList from "@material-ui/lab/TabList";
+import TabPanel from "@material-ui/lab/TabPanel";
+import React from "react";
+import SwipeableViews from "react-swipeable-views";
+import { Resource, resourceTypeLabels, resourceTypes } from "../../interfaces";
 
-import { createMuiTheme } from '@material-ui/core/styles';
+interface TabContentProps {
+    resource: Resource;
+}
 
-const theme = createMuiTheme();
-theme.typography.h1 = {
-    fontSize: '3.0rem',
-    '@media (min-width:600px)': {
-      fontSize: '3.5rem',
-    },
-    '@media (max-width:420px)': {
-        fontSize: '1.5rem',
-      },
-  };
-theme.typography.h2 = {
-    fontSize: '2.0rem',
-    '@media (min-width:600px)': {
-      fontSize: '2.5rem',
-    },
-    '@media (max-width:420px)': {
-        fontSize: '1.5rem',
-      },
-  };
-theme.typography.h3 = {
-  fontSize: '1.5rem',
-  '@media (min-width:600px)': {
-    fontSize: '1.75rem',
-  },
-  '@media (max-width:420px)': {
-      fontSize: '1.25rem',
-    },
-};
-theme.typography.h4 = {
-    fontSize: '1.25rem',
-    '@media (min-width:600px)': {
-      fontSize: '1.5rem',
-    },
-    '@media (max-width:420px)': {
-        fontSize: '1.0rem',
-      },
-  };
-theme.typography.h5 = {
-    fontSize: '1.0rem',
-    '@media (min-width:600px)': {
-      fontSize: '1.25rem',
-    },
-    '@media (max-width:420px)': {
-        fontSize: '0.75rem',
-      },
-};
-theme.typography.h6 = {
-    fontSize: '0.75rem',
-    '@media (min-width:600px)': {
-      fontSize: '1.0rem',
-    }
-  };
+interface TabPanelProps {
+    resources: Resource[];
+    value: string;
+}
 
+interface Props {
+    resources: Resource[];
+}
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
-  },
-  subtitle: {
-      marginTop: theme.spacing(8),
-      marginBottom: theme.spacing(8),
-      color: '#363b3f',
-      textAlign: "left",
-      fontWeight: 700,
-      textTransform: "uppercase",
-      fontFamily: 'Raleway'
-  },
-  rootcard: {
-      maxWidth: 345,
-    },
-    media: {
-      height: 140,
-    },
+const useTabPanelStyles = makeStyles((theme: Theme) => ({
     section: {
         marginTop: theme.spacing(2),
-        marginBottom: theme.spacing(8),
-    },
+        marginBottom: theme.spacing(8)
+    }
 }));
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default function LabTabs() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState('1');
+const useTabContentStyles = makeStyles((_theme: Theme) => ({
+    rootcard: {
+        maxWidth: 345
+    },
+    media: {
+        height: 140
+    }
+}));
 
+const useStyles = makeStyles((theme: Theme) => ({
+    root: {
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.paper
+    }
+}));
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  const handleChange = (_event: React.ChangeEvent<{}>, newValue: string) => {
-    setValue(newValue);
-  };
+const ResourceTabContent: React.FC<TabContentProps> = ({ resource }: TabContentProps) => {
+    const classes = useTabContentStyles();
 
-  return (
-    <div className={classes.root}>
-      <TabContext value={value}>
-      
-        <AppBar position="static">
-          <TabList onChange={handleChange} variant="scrollable" aria-label="simple tabs example" centered>
-            <Tab label="Events" value="1" />
-            <Tab label="Beginners" value="2" />
-            <Tab label="Intermediate" value="3" />
-            <Tab label="Tutorials" value="4" />
-            <Tab label="Libraries" value="5" />
-            <Tab label="CS Course Tech Tree" value="6" />
-          </TabList>
-        </AppBar>
+    if (!resource.image)
+        return (
+            <Grid container item xs={12} sm={4}>
+                <Button size="small" color="primary" href={resource.link} target="_blank">
+                    {resource.title}
+                </Button>
+            </Grid>
+        );
 
+    return (
+        <Grid container item xs={12} sm={4}>
+            <Card className={classes.rootcard}>
+                <CardActionArea href={resource.link} target="_blank">
+                    <CardMedia
+                        className={classes.media}
+                        image={resource.image}
+                        title={resource.title}
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            {resource.title}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            {resource.description}
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+                <CardActions>
+                    <Button size="small" color="primary" href={resource.link} target="_blank">
+                        Learn More
+                    </Button>
+                </CardActions>
+            </Card>
+        </Grid>
+    );
+};
 
-        <TabPanel value="1">
-        <div className={classes.section}>
+const ResourceTabPanel: React.FC<TabPanelProps> = ({ resources, value }: TabPanelProps) => {
+    const classes = useTabPanelStyles();
 
+    return (
+        <TabPanel value={value}>
+            <div className={classes.section}>
                 <Grid container spacing={1}>
-  <Grid container item xs={12} sm={4}>
-<Card className={classes.rootcard}>
-      <CardActionArea href="https://www.freecodecamp.org/" target="_blank">
-        <CardMedia
-          className={classes.media}
-          image="img/resources/FreeCodeCamp_logo.png"
-          title="freeCodeCamp"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-          freeCodeCamp
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-          freeCodeCamp is a non-profit organization that consists of an interactive learning web platform, an online community forum, chat rooms, online publications and local organizations that intend to make learning web development accessible to anyone.
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary" href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site https://www.freecodecamp.org/."
-   title="Share by Email">
-          Share
-        </Button>
-        <Button size="small" color="primary" href="https://www.freecodecamp.org/" target="_blank">
-          Learn More
-        </Button>
-      </CardActions>
-    </Card>
-  </Grid>
-  <Grid container item xs={12} sm={4}>
-  <Card className={classes.rootcard}>
-      <CardActionArea href="https://www.kodewithklossy.com/" target="_blank">
-        <CardMedia
-          className={classes.media}
-          image="img/resources/kwk.webp"
-          title="Kode with Klossy"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-          Kode with Klossy
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-          With the Kode with Klossy Career Scholarship, you complete over 700 lessons and solve hundreds of labs to gain a mastery of programming fundamentals 
-          as well as build fully functioning web apps and a massive digital portfolio of your skills on GitHub.
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary" href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site https://www.kodewithklossy.com/."
-   title="Share by Email">
-          Share
-        </Button>
-        <Button size="small" color="primary" href="https://www.kodewithklossy.com/" target="_blank">
-          Learn More
-        </Button>
-      </CardActions>
-    </Card>
-  </Grid>
-  <Grid container item xs={12} sm={4}>
-  <Card className={classes.rootcard}>
-      <CardActionArea href="https://www.canadalearningcode.ca/" target="_blank">
-        <CardMedia
-          className={classes.media}
-          image="img/resources/canada-learning-code.svg"
-          title="Canada Learning Code"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            Canada Learning Code
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-          Offers beginner-friendly workshops for adults who want to learn computer programming and other technical skills in a social, collaborative way.
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary" href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site https://www.canadalearningcode.ca/."
-   title="Share by Email">
-          Share
-        </Button>
-        <Button size="small" color="primary"href="https://www.canadalearningcode.ca/" target="_blank">
-          Learn More
-        </Button>
-      </CardActions>
-    </Card>
-  </Grid>
-</Grid>
-</div>
+                    {resources.map(resource => (
+                        <ResourceTabContent key={resource.name} resource={resource} />
+                    ))}
+                </Grid>
+            </div>
         </TabPanel>
+    );
+};
 
+const LabTabs: React.FC<Props> = ({ resources }: Props) => {
+    const classes = useStyles();
+    const theme = useTheme();
+    const matchesLg = useMediaQuery(theme.breakpoints.up("md"));
+    const [value, setValue] = React.useState("1");
 
-        <TabPanel value="2">        <div className={classes.section}>
+    const resourceBuckets: { [key: string]: Resource[] } = resourceTypes.reduce(
+        (acc, type) => ({ ...acc, [type]: [] }),
+        {}
+    );
+    resources.forEach(resource =>
+        resource.types.forEach(type => resourceBuckets[type].push(resource))
+    );
 
-<Grid container spacing={1}>
-<Grid container item xs={12} sm={4}>
-<Card className={classes.rootcard}>
-<CardActionArea href="https://www.codecademy.com/catalog" target="_blank">
-<CardMedia
-className={classes.media}
-image="img/resources/codeacademy.png"
-title="CODECADEMY"
-/>
-<CardContent>
-<Typography gutterBottom variant="h5" component="h2">
-CODECADEMY
-</Typography>
-<Typography variant="body2" color="textSecondary" component="p">
-Tons of online courses to help beginners get a start with many popular languages and technologies.
-</Typography>
-</CardContent>
-</CardActionArea>
-<CardActions>
-<Button size="small" color="primary" href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site https://www.codecademy.com/catalog."
-title="Share by Email">
-Share
-</Button>
-<Button size="small" color="primary" href="https://www.codecademy.com/catalog" target="_blank">
-Learn More
-</Button>
-</CardActions>
-</Card>
-</Grid>
-<Grid container item xs={12} sm={4}>
-<Card className={classes.rootcard}>
-<CardActionArea href="https://hourofcode.com/ca/learn" target="_blank">
-<CardMedia
-className={classes.media}
-image="img/resources/hour-of-code.png"
-title="HOUR OF CODE"
-/>
-<CardContent>
-<Typography gutterBottom variant="h5" component="h2">
-HOUR OF CODE
-</Typography>
-<Typography variant="body2" color="textSecondary" component="p">
+    const handleChange = (newValue: string) => {
+        setValue(newValue);
+    };
 
-One hour coding tutorials for most ages and abilities.
-</Typography>
-</CardContent>
-</CardActionArea>
-<CardActions>
-<Button size="small" color="primary" href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site https://hourofcode.com/ca/learn."
-title="Share by Email">
-Share
-</Button>
-<Button size="small" color="primary" href="https://hourofcode.com/ca/learn" target="_blank">
-Learn More
-</Button>
-</CardActions>
-</Card>
-</Grid>
-<Grid container item xs={12} sm={4}>
-<Card className={classes.rootcard}>
-<CardActionArea href="https://www.learn-c.org/" target="_blank">
-<CardMedia
-className={classes.media}
-image="img/resources/learn-c.png"
-title="Learn-C.org"
-/>
-<CardContent>
-<Typography gutterBottom variant="h5" component="h2">
-Learn-C.org
-</Typography>
-<Typography variant="body2" color="textSecondary" component="p">
-Free online interactive language tutorials, using short and effective exercises.
-</Typography>
-</CardContent>
-</CardActionArea>
-<CardActions>
-<Button size="small" color="primary" href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site https://www.learn-c.org/."
-title="Share by Email">
-Share
-</Button>
-<Button size="small" color="primary"href="https://www.learn-c.org/" target="_blank">
-Learn More
-</Button>
-</CardActions>
-</Card>
-</Grid>
-</Grid>
-</div>
-</TabPanel>
-
-
-        <TabPanel value="3"><div className={classes.section}>
-
-<Grid container spacing={1}>
-<Grid container item xs={12} sm={4}>
-<Card className={classes.rootcard}>
-<CardActionArea href="https://lagunita.stanford.edu/courses/DB/SQL/SelfPaced/about" target="_blank">
-<CardMedia
-className={classes.media}
-image="img/resources/stanford.png"
-title="Stanford University"
-/>
-<CardContent>
-<Typography gutterBottom variant="h5" component="h2">
-Stanford University
-</Typography>
-<Typography variant="body2" color="textSecondary" component="p">
-Free online university courses in areas such as databases, automata theory, networking and more.
-</Typography>
-</CardContent>
-</CardActionArea>
-<CardActions>
-<Button size="small" color="primary" href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site https://lagunita.stanford.edu/courses/DB/SQL/SelfPaced/about."
-title="Share by Email">
-Share
-</Button>
-<Button size="small" color="primary" href="https://lagunita.stanford.edu/courses/DB/SQL/SelfPaced/about" target="_blank">
-Learn More
-</Button>
-</CardActions>
-</Card>
-</Grid>
-<Grid container item xs={12} sm={4}>
-<Card className={classes.rootcard}>
-<CardActionArea href="https://www.w3schools.com/" target="_blank">
-<CardMedia
-className={classes.media}
-image="img/resources/w3.jpg"
-title="w3schools"
-/>
-<CardContent>
-<Typography gutterBottom variant="h5" component="h2">
-w3schools
-</Typography>
-<Typography variant="body2" color="textSecondary" component="p">
-Basically tutorials on everything ever.
-</Typography>
-</CardContent>
-</CardActionArea>
-<CardActions>
-<Button size="small" color="primary" href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site https://www.w3schools.com/."
-title="Share by Email">
-Share
-</Button>
-<Button size="small" color="primary" href="https://www.w3schools.com/" target="_blank">
-Learn More
-</Button>
-</CardActions>
-</Card>
-</Grid>
-
-</Grid>
-</div>
-</TabPanel>
-
-        <TabPanel value="4"><div className={classes.section}>
-
-<Grid container spacing={1}>
-<Grid container item xs={12} sm={4}>
-<Card className={classes.rootcard}>
-<CardActionArea href="https://product.hubspot.com/blog/git-and-github-tutorial-for-beginners" target="_blank">
-<CardMedia
-className={classes.media}
-image="img/resources/hubspot.png"
-title="HubSpot"
-/>
-<CardContent>
-<Typography gutterBottom variant="h5" component="h2">
-HubSpot
-</Typography>
-<Typography variant="body2" color="textSecondary" component="p">
-Git and Github tutorial for beginners.
-</Typography>
-</CardContent>
-</CardActionArea>
-<CardActions>
-<Button size="small" color="primary" href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site https://product.hubspot.com/blog/git-and-github-tutorial-for-beginners."
-title="Share by Email">
-Share
-</Button>
-<Button size="small" color="primary" href="https://product.hubspot.com/blog/git-and-github-tutorial-for-beginners" target="_blank">
-Learn More
-</Button>
-</CardActions>
-</Card>
-</Grid>
-<Grid container item xs={12} sm={4}>
-<Card className={classes.rootcard}>
-<CardActionArea href="https://developer.android.com/training/basics/firstapp" target="_blank">
-<CardMedia
-className={classes.media}
-image="img/resources/android.png"
-title="Google Android Developers"
-/>
-<CardContent>
-<Typography gutterBottom variant="h5" component="h2">
-Google Android Developers
-</Typography>
-<Typography variant="body2" color="textSecondary" component="p">
-Step by step tutorial on making your first android app.
-</Typography>
-</CardContent>
-</CardActionArea>
-<CardActions>
-<Button size="small" color="primary" href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site https://developer.android.com/training/basics/firstapp."
-title="Share by Email">
-Share
-</Button>
-<Button size="small" color="primary" href="https://developer.android.com/training/basics/firstapp" target="_blank">
-Learn More
-</Button>
-</CardActions>
-</Card>
-</Grid>
-
-</Grid>
-</div></TabPanel>
-
-        <TabPanel value="5"><div className={classes.section}>
-
-<Grid container spacing={1}>
-<Grid container item xs={12} sm={4}>
-<Card className={classes.rootcard}>
-<CardActionArea href="https://getbootstrap.com/" target="_blank">
-<CardMedia
-className={classes.media}
-image="img/resources/bootstrap.png"
-title="Bootstrap"
-/>
-<CardContent>
-<Typography gutterBottom variant="h5" component="h2">
-Bootstrap
-</Typography>
-<Typography variant="body2" color="textSecondary" component="p">
-Most popular front end library.
-</Typography>
-</CardContent>
-</CardActionArea>
-<CardActions>
-<Button size="small" color="primary" href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site https://getbootstrap.com/."
-title="Share by Email">
-Share
-</Button>
-<Button size="small" color="primary" href="https://getbootstrap.com/" target="_blank">
-Learn More
-</Button>
-</CardActions>
-</Card>
-</Grid>
-<Grid container item xs={12} sm={4}>
-<Card className={classes.rootcard}>
-<CardActionArea href="https://semantic-ui.com/" target="_blank">
-<CardMedia
-className={classes.media}
-image="img/resources/semantic-ui.svg"
-title="Semantic UI"
-/>
-<CardContent>
-<Typography gutterBottom variant="h5" component="h2">
-Semantic UI
-</Typography>
-<Typography variant="body2" color="textSecondary" component="p">
-Another snazzy and easy to use front end library.
-</Typography>
-</CardContent>
-</CardActionArea>
-<CardActions>
-<Button size="small" color="primary" href="mailto:?subject=I wanted you to see this site&amp;body=Check out this site https://semantic-ui.com/."
-title="Share by Email">
-Share
-</Button>
-<Button size="small" color="primary" href="https://semantic-ui.com/" target="_blank">
-Learn More
-</Button>
-</CardActions>
-</Card>
-</Grid>
-
-</Grid>
-</div></TabPanel>
-
-        <TabPanel value="6"><Typography variant="h4">Coming soon...</Typography></TabPanel>
-        
-
-      </TabContext>
-    </div>
-  );
-}
+    return (
+        <div className={classes.root}>
+            <TabContext value={value}>
+                <AppBar position="static">
+                    <TabList
+                        onChange={(_, value) => handleChange(value)}
+                        variant={matchesLg ? "fullWidth" : "scrollable"}
+                        aria-label="simple tabs example"
+                    >
+                        {resourceTypes.map((type, idx) => (
+                            <Tab
+                                key={idx}
+                                label={resourceTypeLabels[type]}
+                                value={(idx + 1).toString()}
+                            />
+                        ))}
+                    </TabList>
+                </AppBar>
+                <SwipeableViews
+                    axis={theme.direction === "rtl" ? "x-reverse" : "x"}
+                    index={parseInt(value) - 1}
+                    onChangeIndex={idx => handleChange((idx + 1).toString())}
+                >
+                    {Object.entries(resourceBuckets).map(([_resourceType, tabResources], idx) => (
+                        <ResourceTabPanel
+                            key={idx}
+                            resources={tabResources}
+                            value={(idx + 1).toString()}
+                        />
+                    ))}
+                </SwipeableViews>
+            </TabContext>
+        </div>
+    );
+};
+export default LabTabs;
