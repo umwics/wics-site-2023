@@ -1,5 +1,12 @@
 import * as Yup from "yup";
-import { MemberPosition, memberPositions, UserRole, userRoles } from "../interfaces";
+import {
+    EventType,
+    eventTypes,
+    MemberPosition,
+    memberPositions,
+    UserRole,
+    userRoles
+} from "../interfaces";
 
 export const loginSchema = Yup.object({
     email: Yup.string().email().required(),
@@ -72,6 +79,9 @@ export const addEventSchema = Yup.object({
     name: Yup.string().required(),
     title: Yup.string(),
     term: Yup.string(),
+    type: Yup.string().test("type", "Must be a valid type", type =>
+        eventTypes.includes(type as EventType)
+    ),
     location: Yup.string(),
     description: Yup.string(),
     date: Yup.string(),

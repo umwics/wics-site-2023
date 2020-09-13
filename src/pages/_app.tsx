@@ -17,6 +17,12 @@ const AppWrapper: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
     pageProps
 }: AppProps) => {
     useEffect(() => {
+        // Remove the server-side injected CSS.
+        const jssStyles = document.querySelector("#jss-server-side");
+        if (jssStyles && jssStyles.parentElement) {
+            jssStyles.parentElement.removeChild(jssStyles);
+        }
+
         if (process.env.NODE_ENV === "production") {
             // eslint-disable-next-line no-console
             console.log(
@@ -51,19 +57,19 @@ const AppWrapper: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
                 }}
             >
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <SnackbarProvider maxSnack={4}>
-                        <ConfirmProvider>
-                            <AuthProvider>
-                                <ThemeProvider>
+                    <ThemeProvider>
+                        <SnackbarProvider maxSnack={4}>
+                            <ConfirmProvider>
+                                <AuthProvider>
                                     <CssBaseline />
                                     <ProgressBar
                                         options={{ showSpinner: false, trickleSpeed: 300 }}
                                     />
                                     <Component {...pageProps} />
-                                </ThemeProvider>
-                            </AuthProvider>
-                        </ConfirmProvider>
-                    </SnackbarProvider>
+                                </AuthProvider>
+                            </ConfirmProvider>
+                        </SnackbarProvider>
+                    </ThemeProvider>
                 </MuiPickersUtilsProvider>
             </SWRConfig>
         </React.Fragment>

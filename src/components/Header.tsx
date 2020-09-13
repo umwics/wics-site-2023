@@ -8,7 +8,6 @@ import Drawer from "./Drawer";
 import DrawerContent from "./DrawerContent";
 import ProfileDropdown from "./ProfileDropdown";
 
-
 interface Props {
     title?: string;
 }
@@ -16,7 +15,7 @@ interface Props {
 const useStyles = makeStyles((theme: Theme) => ({
     title: {
         flexGrow: 1,
-        fontFamily: 'Raleway'
+        fontFamily: "Raleway"
     },
     appbar: {
         backgroundColor: theme.palette.grey[50]
@@ -28,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         }
     },
     appbarmenu: {
-        fontFamily: 'Raleway'
+        fontFamily: "Raleway"
     }
 }));
 
@@ -37,14 +36,8 @@ const Header: React.FC<Props> = ({ title }: Props) => {
     const auth = useAuth();
 
     return (
-          
         <React.Fragment>
-            <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css" />
-            <link href="https://fonts.googleapis.com/css2?family=Raleway" rel="stylesheet" type="text/css" />
-            <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
-
             <NextSeo title={title ? title + " | " + process.env.siteDisplayName : undefined} />
-
             <AppBar position="sticky" color="default" elevation={0} className={classes.appbar}>
                 <Toolbar>
                     <Drawer content={DrawerContent} />

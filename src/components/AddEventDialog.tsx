@@ -5,6 +5,7 @@ import {
     DialogContent,
     DialogTitle,
     IconButton,
+    MenuItem,
     Typography
 } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
@@ -14,7 +15,7 @@ import { TextField } from "formik-material-ui";
 import { KeyboardDatePicker } from "formik-material-ui-pickers";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { Event } from "../interfaces";
+import { Event, eventTypeLabels } from "../interfaces";
 import { addEventSchema } from "../lib/validators";
 import ArrayField from "./ArrayField";
 import DynamicForm from "./DynamicForm";
@@ -50,6 +51,7 @@ const defaultInitialValues: Event = {
     name: "",
     title: "",
     term: "",
+    type: "otherEvent",
     location: "",
     description: "",
     date: new Date().toISOString(),
@@ -178,6 +180,22 @@ const AddEventDialog: React.FC<Props> = ({ open, initialValues, addEvent, handle
                                 variant: "outlined",
                                 name: "term",
                                 label: "Term",
+                                fullWidth: true
+                            }
+                        },
+                        {
+                            component: Field,
+                            props: {
+                                component: TextField,
+                                select: true,
+                                variant: "outlined",
+                                name: "type",
+                                label: "Type",
+                                children: Object.entries(eventTypeLabels).map(([value, label]) => (
+                                    <MenuItem key={value} value={value}>
+                                        {label}
+                                    </MenuItem>
+                                )),
                                 fullWidth: true
                             }
                         },
