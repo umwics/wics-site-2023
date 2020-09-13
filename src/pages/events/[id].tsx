@@ -1,8 +1,10 @@
+import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     Container,
+    Grid,
     GridList,
     GridListTile,
-    ListSubheader,
     Typography,
     useMediaQuery
 } from "@material-ui/core";
@@ -64,21 +66,46 @@ const EventDetail: NextPage<Props> = ({ event, errors }: Props) => {
         );
     }
 
+    // TODO: Images should be lazy loaded with a fallback to either a lower quality version or given fallback.
+    // checkout Next.js RFC for status on Image component progress https://github.com/vercel/next.js/discussions/16832
     return (
         <ContentsLayout title={`${event ? event.name : "Event Detail"}`}>
             <Container component="main">
                 <div className={classes.paper}>
                     {event && (
-                        <GridList cellHeight={400} cols={cols}>
-                            <GridListTile key="Previews" cols={cols} style={{ height: "auto" }}>
-                                <ListSubheader component="div">{event.name}</ListSubheader>
-                            </GridListTile>
-                            {event.images.map((url, idx) => (
-                                <GridListTile key={idx}>
-                                    <img src={url} />
+                        <Grid container>
+                            <GridList cellHeight={400} cols={cols}>
+                                <GridListTile key="Previews" cols={cols} style={{ height: "auto" }}>
+                                    <div>
+                                        <Typography gutterBottom color="textPrimary" variant="h4">
+                                            {event.name}
+                                        </Typography>
+                                        <Typography>{event.term}</Typography>
+                                        <Typography gutterBottom variant="subtitle1">
+                                            {new Date(event.date).toDateString()}
+                                        </Typography>
+                                        <Typography gutterBottom variant="subtitle1">
+                                            <FontAwesomeIcon icon={faMapMarker} /> {event.location}
+                                        </Typography>
+                                        <Typography paragraph variant="body2">
+                                            {event.description}
+                                        </Typography>
+                                        <Typography
+                                            gutterBottom
+                                            color="textSecondary"
+                                            variant="subtitle2"
+                                        >
+                                            {event.photoCredits.join(" ")}
+                                        </Typography>
+                                    </div>
                                 </GridListTile>
-                            ))}
-                        </GridList>
+                                {event.images.map((url, idx) => (
+                                    <GridListTile key={idx}>
+                                        <img src={url} />
+                                    </GridListTile>
+                                ))}
+                            </GridList>
+                        </Grid>
                     )}
                 </div>
             </Container>

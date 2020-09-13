@@ -8,6 +8,7 @@ import {
     CardMedia,
     Container,
     Grid,
+    Link as MuiLink,
     Typography
 } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
@@ -160,30 +161,44 @@ const Section: React.FC<SectionProps> = ({ className, type, events }: SectionPro
                     {events.map(item => (
                         <Grid item key={item.name} xs={12} sm={6} md={4}>
                             <Card className={classes.card}>
-                                <Link href={`events/${item.id}`} passHref>
+                                <Link href="/events/[id]" as={`/events/${item.id}`} passHref>
                                     <CardActionArea component="a">
                                         <CardMedia
                                             className={classes.cardMedia}
                                             image={item.images[0]}
                                             title={item.name}
                                         />
-                                        <CardContent className={classes.cardContent}>
-                                            <Typography gutterBottom variant="h5" component="h2">
-                                                {item.name}
-                                            </Typography>
-                                            <Typography>
-                                                {item.term}
-                                                <h5>
-                                                    {new Date(item.date).toDateString()} <br />
-                                                    <FontAwesomeIcon icon={faMapMarker} />{" "}
-                                                    {item.location}
-                                                </h5>
-                                                <p>{item.description}</p>
-                                                <h6>{item.photoCredits.join(" ")}</h6>
-                                            </Typography>
-                                        </CardContent>
                                     </CardActionArea>
                                 </Link>
+                                <CardContent className={classes.cardContent}>
+                                    <Link href="/events/[id]" as={`/events/${item.id}`} passHref>
+                                        <MuiLink
+                                            component="a"
+                                            gutterBottom
+                                            color="textPrimary"
+                                            variant="h4"
+                                        >
+                                            {item.name}
+                                        </MuiLink>
+                                    </Link>
+                                    <Typography>{item.term}</Typography>
+                                    <Typography gutterBottom variant="subtitle1">
+                                        {new Date(item.date).toDateString()}
+                                    </Typography>
+                                    <Typography gutterBottom variant="subtitle1">
+                                        <FontAwesomeIcon icon={faMapMarker} /> {item.location}
+                                    </Typography>
+                                    <Typography paragraph variant="body2">
+                                        {item.description}
+                                    </Typography>
+                                    <Typography
+                                        gutterBottom
+                                        color="textSecondary"
+                                        variant="subtitle2"
+                                    >
+                                        {item.photoCredits.join(" ")}
+                                    </Typography>
+                                </CardContent>
                             </Card>
                         </Grid>
                     ))}
