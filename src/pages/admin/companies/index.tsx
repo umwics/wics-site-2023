@@ -40,14 +40,21 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
 
     const [editCompany, setEditCompany] = useState<Company | undefined>(undefined);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
-    const { data, mutate } = useSWR<{ companies: Company[] }>(
+    const { data: companyData, mutate } = useSWR<{ companies: Company[] }>(
         `/api/${process.env.apiVersion}/companies`,
         {
             initialData: { companies }
         }
     );
+    const { data: memberData } = useSWR<{ members: Member[] }>(
+        `/api/${process.env.apiVersion}/members`,
+        {
+            initialData: { members }
+        }
+    );
 
-    const revalidatedCompanies = (data && data.companies) || [];
+    const revalidatedCompanies = (companyData && companyData.companies) || [];
+    const revalidatedMembers = (memberData && memberData.members) || [];
 
     const addCompany = async (
         company: Company,
@@ -157,13 +164,13 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
                     </Typography>
                     <CompanyList
                         companies={revalidatedCompanies}
-                        members={members}
+                        members={revalidatedMembers}
                         editCompany={editVisibleCompany}
                         deleteCompany={deleteVisibleCompany}
                     />
                     <AddCompanyDialog
                         open={addDialogOpen}
-                        members={members}
+                        members={revalidatedMembers}
                         initialValues={editCompany}
                         addCompany={addCompany}
                         handleClose={handleClose}

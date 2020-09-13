@@ -113,6 +113,23 @@ class DocumentWrapper extends Document {
                     <meta name="msapplication-TileColor" content="#FFFFFF" />
                     <meta name="msapplication-TileImage" content="/favicon/favicon-144.png" />
                     <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+
+                    {/* Fonts */}
+                    <link
+                        href="https://fonts.googleapis.com/css?family=Montserrat"
+                        rel="stylesheet"
+                        type="text/css"
+                    />
+                    <link
+                        href="https://fonts.googleapis.com/css2?family=Raleway"
+                        rel="stylesheet"
+                        type="text/css"
+                    />
+                    <link
+                        href="https://fonts.googleapis.com/css?family=Lato"
+                        rel="stylesheet"
+                        type="text/css"
+                    />
                 </Head>
                 <body>
                     <Main />

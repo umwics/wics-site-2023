@@ -28,7 +28,6 @@ const AdminHeader: React.FC<Props> = ({ title }: Props) => {
     return (
         <React.Fragment>
             <NextSeo title={title ? title + " | " + process.env.siteDisplayName : undefined} />
-
             <AppBar position="sticky" color="default" elevation={0} className={classes.style}>
                 <Toolbar>
                     <Drawer content={DrawerAdminContent} />
