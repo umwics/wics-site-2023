@@ -1,6 +1,5 @@
-import { AppBar, Button, Card, CardActions, CardContent, CardMedia, Container, CssBaseline, Grid, Toolbar, Typography} from "@material-ui/core";
+import { Button, Card, CardActions, CardContent, CardMedia, Container, CssBaseline, Grid, Typography} from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import CameraIcon from '@material-ui/icons/PhotoCamera';
 import { NextPage } from "next";
 import React from "react";
 import ContentsLayout from "../components/layouts/ContentsLayout";
