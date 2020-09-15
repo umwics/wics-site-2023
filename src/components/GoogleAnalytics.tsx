@@ -1,9 +1,13 @@
 import React from "react";
 
-const GoogleAnalytics: React.FC = () => {
+interface Props {
+    trackingId: string;
+}
+
+const GoogleAnalytics: React.FC<Props> = ({ trackingId }: Props) => {
     return (
         <React.Fragment>
-            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-172962346-1" />
+            <script async src={`https://www.googletagmanager.com/gtag/js?id=${trackingId}`} />
             <script
                 dangerouslySetInnerHTML={{
                     __html: `window.dataLayer = window.dataLayer || [];
@@ -12,7 +16,7 @@ const GoogleAnalytics: React.FC = () => {
                                 }
                                 gtag("js", new Date());
 
-                                gtag("config", "UA-172962346-1");`
+                                gtag("config", "${trackingId}");`
                 }}
             />
         </React.Fragment>

@@ -9,6 +9,7 @@ import Document, {
     NextScript
 } from "next/document";
 import React from "react";
+import GoogleAnalytics from "../components/GoogleAnalytics";
 
 class DocumentWrapper extends Document {
     // `getInitialProps` belongs to `_document` (instead of `_app`),
@@ -60,7 +61,7 @@ class DocumentWrapper extends Document {
                     {/* PWA primary color */}
                     <meta name="theme-color" content="#3f51b5" />
 
-                    {/* <GoogleAnalytics /> */}
+                    <GoogleAnalytics trackingId={process.env.googleAnalyticsTrackingId || ""} />
 
                     {/* favicon */}
                     <link rel="shortcut icon" href="/favicon/favicon.ico" />

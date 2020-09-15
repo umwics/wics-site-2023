@@ -10,7 +10,8 @@ const baseConfig = {
         siteDisplayName: "U of M WICS",
         description: "U of M Women in Computer Science",
         locale: "en_CA",
-        apiVersion: "v1"
+        apiVersion: "v1",
+        googleAnalyticsTrackingId: "UA-172962346-1"
     }
 };
 
