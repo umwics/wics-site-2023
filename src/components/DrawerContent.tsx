@@ -87,7 +87,7 @@ const DrawerContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                             "coop",
                             "resources"
                         ].map(page => (
-                            <Link key={page} href={page} passHref>
+                            <Link key={page} href={`/${page}`} passHref>
                                 <ListItem button component="a">
                                     <ListItemText primary={page} />
                                 </ListItem>

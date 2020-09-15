@@ -42,7 +42,8 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
     const { data, mutate } = useSWR<{ members: Member[] }>(
         `/api/${process.env.apiVersion}/members`,
         {
-            initialData: { members }
+            initialData: { members },
+            revalidateOnMount: true
         }
     );
 

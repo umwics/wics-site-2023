@@ -151,6 +151,7 @@ const LabTabs: React.FC<Props> = ({ resources }: Props) => {
                     axis={theme.direction === "rtl" ? "x-reverse" : "x"}
                     index={parseInt(value) - 1}
                     onChangeIndex={idx => handleChange((idx + 1).toString())}
+                    ignoreNativeScroll
                 >
                     {Object.entries(resourceBuckets).map(([_resourceType, tabResources], idx) => (
                         <ResourceTabPanel

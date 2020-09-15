@@ -43,13 +43,15 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
     const { data: companyData, mutate } = useSWR<{ companies: Company[] }>(
         `/api/${process.env.apiVersion}/companies`,
         {
-            initialData: { companies }
+            initialData: { companies },
+            revalidateOnMount: true
         }
     );
     const { data: memberData } = useSWR<{ members: Member[] }>(
         `/api/${process.env.apiVersion}/members`,
         {
-            initialData: { members }
+            initialData: { members },
+            revalidateOnMount: true
         }
     );
 

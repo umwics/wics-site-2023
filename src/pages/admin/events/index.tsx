@@ -40,7 +40,8 @@ const Events: NextPage<Props> = ({ events, auth }: Props) => {
     const [editEvent, setEditEvent] = useState<Event | undefined>(undefined);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
     const { data, mutate } = useSWR<{ events: Event[] }>(`/api/${process.env.apiVersion}/events`, {
-        initialData: { events }
+        initialData: { events },
+        revalidateOnMount: true
     });
 
     const revalidatedEvents = (data && data.events) || [];

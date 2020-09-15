@@ -1,0 +1,15 @@
+on:
+    push:
+        branches:
+            - master
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  entrypoint: .github/workflows/deploy-production.sh
+              env:
+                  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+                  VERCEL_ORG_ID: ${{ secretes.VERCEL_ORG_ID }}
+                  VERCEL_PROJECT_ID: ${{ secretes.VERCEL_PROJECT_ID }}

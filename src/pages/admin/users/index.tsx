@@ -27,7 +27,8 @@ const Users: NextPage<Props> = ({ users, auth }: Props) => {
     const classes = useStyles();
 
     const { data, mutate } = useSWR<{ users: User[] }>(`/api/${process.env.apiVersion}/users`, {
-        initialData: { users }
+        initialData: { users },
+        revalidateOnMount: true
     });
 
     const revalidatedUsers = (data && data.users) || [];
