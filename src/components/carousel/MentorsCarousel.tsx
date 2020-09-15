@@ -35,15 +35,11 @@ const useStyles = makeStyles(() =>
 const items = [
     {
         name: "1",
-        src: "img/about/wics-0540.jpg"
+        src: "img/mentors-page/mentors.jpg"
     },
     {
         name: "2",
-        src: "img/about/wics-0567.jpg"
-    },
-    {
-        name: "3",
-        src: "img/about/wics-0612.jpg"
+        src: "img/mentors-page/Bold.jpg"
     }
 ];
 
@@ -54,7 +50,7 @@ const CarouselSetting = {
     navButtonsAlwaysInvisible: true
 };
 
-const AboutCarousel: React.FC = () => {
+const MentorsCarousel: React.FC = () => {
     const classes = useStyles();
 
     return (
@@ -71,4 +67,4 @@ const AboutCarousel: React.FC = () => {
     );
 };
 
-export default AboutCarousel;
+export default MentorsCarousel;

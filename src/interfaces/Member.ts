@@ -5,25 +5,25 @@ export interface MemberLink {
 
 export type MemberPosition =
     | "exec"
-    | "pastExec"
     | "management"
     | "websiteCommittee"
     | "activeMember"
+    | "pastExec"
     | "alumni";
 export const memberPositions: MemberPosition[] = [
     "exec",
-    "pastExec",
     "management",
     "websiteCommittee",
     "activeMember",
+    "pastExec",
     "alumni"
 ];
 export const memberPositionLabels: { [key in MemberPosition]: string } = {
     exec: "Exec",
-    pastExec: "Past Exec",
     management: "Management",
     websiteCommittee: "Website Committee",
     activeMember: "Active Member",
+    pastExec: "Past Exec",
     alumni: "Alumni"
 };
 
