@@ -104,12 +104,7 @@ const Section: React.FC<SectionProps> = ({ className, type, members }: SectionPr
                                             <FontAwesomeIcon icon={faEnvelope} />
                                         </Link>
                                         {item.links.map(itemlink => (
-                                            <Link
-                                                key={itemlink.title}
-                                                href={itemlink.link}
-                                                target="_blank"
-                                                rel="noreferrer"
-                                            >
+                                            <Link key={itemlink.title} href={itemlink.link}>
                                                 <Button size="small" color="primary">
                                                     {itemlink.title}
                                                 </Button>
