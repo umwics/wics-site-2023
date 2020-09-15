@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-function Copyright() {
+const Copyright: React.FC = () => {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {"Copyright © "}
@@ -74,9 +74,9 @@ function Copyright() {
             {"."}
         </Typography>
     );
-}
+};
 
-function SocialLinks() {
+const SocialLinks: React.FC = () => {
     const classes = useStyles();
     return (
         <Typography variant="body2" color="textSecondary" align="center">
@@ -102,7 +102,7 @@ function SocialLinks() {
             </Link>
         </Typography>
     );
-}
+};
 
 const Footer: React.FC = () => {
     const classes = useStyles();

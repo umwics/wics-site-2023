@@ -156,7 +156,9 @@ const Members: NextPage<Props> = ({ members }: Props) => {
         {}
     );
     revalidatedMembers.forEach(member => {
-        memberBuckets[member.positions[0]].push(member);
+        member.positions.forEach(position => {
+            memberBuckets[position].push(member);
+        });
     });
 
     return (
