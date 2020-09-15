@@ -52,14 +52,16 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginBottom: theme.spacing(2)
     },
     footer: {
-        borderTop: `1px solid ${theme.palette.divider}`,
         marginTop: "auto",
-        paddingTop: theme.spacing(0),
+        paddingTop: theme.spacing(3),
         paddingBottom: theme.spacing(3),
         [theme.breakpoints.up("md")]: {
-            paddingTop: theme.spacing(2),
+            paddingTop: theme.spacing(6),
             paddingBottom: theme.spacing(6)
         }
+    },
+    subfooter: {
+        borderTop: `1px solid ${theme.palette.divider}`
     }
 }));
 
@@ -109,7 +111,7 @@ const Footer: React.FC = () => {
 
     return (
         <footer className={classes.footer}>
-            <Container maxWidth="lg" component="footer">
+            <Container maxWidth="lg" component="footer" className={classes.subfooter}>
                 <Box mt={5}>
                     <SocialLinks />
                 </Box>
