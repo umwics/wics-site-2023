@@ -97,6 +97,9 @@ const Section: React.FC<SectionProps> = ({ className, type, members }: SectionPr
                                 />
 
                                 <CardContent className={classes.cardContent}>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                {item.displayName}
+          </Typography>
                                     <Typography>{item.title}</Typography>
 
                                     <Typography gutterBottom variant="subtitle1">
