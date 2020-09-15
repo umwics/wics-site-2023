@@ -48,7 +48,7 @@ const useStyles = makeStyles((_theme: Theme) =>
                 textTransform: "uppercase",
                 color: "#fff",
                 fontWeight: 700,
-                fontFamily: "Lato",
+                fontFamily: "Lato"
             },
             "& h2": {
                 marginTop: 0,
@@ -56,13 +56,13 @@ const useStyles = makeStyles((_theme: Theme) =>
                 color: "#fff",
                 fontWeight: 400,
                 letterSpaceing: 2,
-                fontFamily: "Lato",
+                fontFamily: "Lato"
             },
             "& p": {
                 fontWeight: 400,
                 fontSize: 18,
                 letterSpaceing: 1,
-                fontFamily: "Lato",
+                fontFamily: "Lato"
             }
         }
     })
@@ -85,7 +85,7 @@ const items = [
         p: "2020 WINTER",
         src: "img/main/amazon-talk.jpg",
         linkname: "See more",
-        link: "/"
+        link: "/events/Pt64iizn3heSvZMWrZME"
     },
     {
         name: "3",
@@ -94,7 +94,7 @@ const items = [
         p: "2020 WINTER",
         src: "img/main/skip-clap.jpg",
         linkname: "See more",
-        link: "/"
+        link: "/events/UkRjhWKAFJpYh8A2m0hB"
     },
     {
         name: "4",
@@ -103,7 +103,7 @@ const items = [
         p: "2020 WINTER",
         src: "img/main/skip-group.jpg",
         linkname: "See more",
-        link: "/"
+        link: "/events/UkRjhWKAFJpYh8A2m0hB"
     },
     {
         name: "5",
@@ -112,7 +112,7 @@ const items = [
         p: "Recipient Claire",
         src: "img/main/skip-scholarship.jpg",
         linkname: "See more",
-        link: "/"
+        link: "/events/UkRjhWKAFJpYh8A2m0hB"
     },
     {
         name: "6",
@@ -121,7 +121,7 @@ const items = [
         p: "2019 SUMMER",
         src: "img/main/bold-presenter.jpg",
         linkname: "See more",
-        link: "/"
+        link: "/events/HoYELJw2D6jk6NHtqpzF"
     },
     {
         name: "7",
@@ -130,7 +130,7 @@ const items = [
         p: "2019 FALL",
         src: "img/main/iqmetrix-reception.jpg",
         linkname: "See more",
-        link: "/"
+        link: "/events/toVPDFFswghAI9DyJcv0"
     }
 ];
 
