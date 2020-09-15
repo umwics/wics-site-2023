@@ -29,7 +29,6 @@ export const memberPositionLabels: { [key in MemberPosition]: string } = {
 
 export interface Member {
     id: string;
-    rank: number;
     name: string;
     displayName: string;
     title: string;
@@ -38,5 +37,6 @@ export interface Member {
     facts: string[];
     links: MemberLink[];
     positions: MemberPosition[];
+    rank: number;
     image: string;
 }

@@ -51,6 +51,7 @@ const defaultInitialValues: Member = {
     facts: [],
     links: [],
     positions: [],
+    rank: 0,
     image: ""
 };
 
@@ -255,6 +256,17 @@ const AddMemberDialog: React.FC<Props> = ({
                                         initialValue: "activeMember"
                                     }))
                                 )
+                            }
+                        },
+                        {
+                            component: Field,
+                            props: {
+                                component: TextField,
+                                variant: "outlined",
+                                name: "rank",
+                                label: "Rank",
+                                type: "number",
+                                fullWidth: true
                             }
                         },
                         {

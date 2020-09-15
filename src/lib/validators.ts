@@ -35,7 +35,6 @@ export const updateUserSchema = Yup.object({
 
 export const addMemberSchema = Yup.object({
     name: Yup.string().required(),
-    rank: Yup.number().default(0),
     displayName: Yup.string(),
     title: Yup.string().required(),
     email: Yup.string().email(),
@@ -52,6 +51,7 @@ export const addMemberSchema = Yup.object({
             memberPositions.includes(position as MemberPosition)
         )
     ),
+    rank: Yup.number().default(0),
     image: Yup.string()
 });
 
