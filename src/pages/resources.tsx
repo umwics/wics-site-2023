@@ -13,6 +13,22 @@ const useStyles = makeStyles((theme: Theme) => ({
     paper: {
         marginTop: theme.spacing(8)
     },
+    heroContent: {
+        padding: theme.spacing(8, 0, 6),
+        "& h2": {
+            color: "#363b3f",
+            textTransform: "uppercase",
+            fontWeight: 700,
+            fontFamily: "Lato"
+        },
+        "& h5": {
+            fontFamily: "Lato"
+        },
+        "& h4": {
+            color: "#ff6f6f",
+            fontFamily: "Lato"
+        }
+    },
     section: {
         marginBottom: theme.spacing(8)
     },
@@ -400,11 +416,30 @@ const Resources: NextPage = () => {
     return (
         <ContentsLayout title="Resources">
             <Container component="main">
-                <div className={classes.title}>
-                    <Fade bottom duration={1000} delay={100} distance="30px">
-                        <Typography variant="h1">Resources</Typography>
-                    </Fade>
-                </div>
+                <Fade bottom duration={1000} delay={100} distance="30px">
+                    <div className={classes.heroContent}>
+                        <Container maxWidth="sm">
+                            <Typography
+                                component="h2"
+                                variant="h2"
+                                align="center"
+                                color="textPrimary"
+                                gutterBottom
+                            >
+                                Resources
+                            </Typography>
+                            <Typography
+                                component="h5"
+                                variant="h5"
+                                align="center"
+                                color="textSecondary"
+                                paragraph
+                            >
+                                Discover more resources!
+                            </Typography>
+                        </Container>
+                    </div>
+                </Fade>
                 <Fade bottom duration={1000} delay={300} distance="30px">
                     <EventTab resources={resources} />
                 </Fade>

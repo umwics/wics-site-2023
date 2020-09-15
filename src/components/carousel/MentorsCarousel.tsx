@@ -35,11 +35,11 @@ const useStyles = makeStyles(() =>
 const items = [
     {
         name: "1",
-        src: "img/outreach/GoCodeGirl.jpg"
+        src: "img/mentors-page/mentors.jpg"
     },
     {
         name: "2",
-        src: "img/outreach/sciencerendezvous.jpg"
+        src: "img/mentors-page/Bold.jpg"
     }
 ];
 
@@ -50,7 +50,7 @@ const CarouselSetting = {
     navButtonsAlwaysInvisible: true
 };
 
-const OutreachCarousel: React.FC = () => {
+const MentorsCarousel: React.FC = () => {
     const classes = useStyles();
 
     return (
@@ -67,4 +67,4 @@ const OutreachCarousel: React.FC = () => {
     );
 };
 
-export default OutreachCarousel;
+export default MentorsCarousel;

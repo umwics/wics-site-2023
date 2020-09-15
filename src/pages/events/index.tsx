@@ -255,7 +255,7 @@ const Events: NextPage<Props> = ({ events }: Props) => {
                                     <Grid key={type} item>
                                         <Button
                                             variant="contained"
-                                            color="secondary"
+                                            color="primary"
                                             href={`#${type}`}
                                         >
                                             {eventTypeLabels[type]}
@@ -263,7 +263,7 @@ const Events: NextPage<Props> = ({ events }: Props) => {
                                     </Grid>
                                 ))}
                                 <Grid item>
-                                    <Button variant="contained" color="secondary" href="#calendar">
+                                    <Button variant="contained" color="primary" href="#calendar">
                                         Calendar
                                     </Button>
                                 </Grid>

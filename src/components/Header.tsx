@@ -15,19 +15,21 @@ interface Props {
 const useStyles = makeStyles((theme: Theme) => ({
     title: {
         flexGrow: 1,
-        fontFamily: "Raleway"
+        fontFamily: "Roboto"
     },
     appbar: {
-        backgroundColor: theme.palette.grey[50]
+        backgroundColor: "#ffffff",
+        borderBottom: `1px solid ${theme.palette.divider}`
     },
     sectionDesktop: {
         display: "none",
+        fontFamily: "Roboto",
         [theme.breakpoints.up("md")]: {
             display: "flex"
         }
     },
     appbarmenu: {
-        fontFamily: "Raleway"
+        fontFamily: "Roboto"
     }
 }));
 
