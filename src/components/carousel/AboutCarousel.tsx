@@ -54,7 +54,7 @@ const CarouselSetting = {
     navButtonsAlwaysInvisible: true
 };
 
-const HomeCarousel: React.FC = () => {
+const AboutCarousel: React.FC = () => {
     const classes = useStyles();
 
     return (
@@ -71,4 +71,4 @@ const HomeCarousel: React.FC = () => {
     );
 };
 
-export default HomeCarousel;
+export default AboutCarousel;
