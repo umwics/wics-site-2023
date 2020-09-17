@@ -4,13 +4,8 @@ title: Events
 
 # Get Events
 
----
-
 Gets a list of Event objects.
-
 The response is a JSON payload consisting of a `events` field containing an array of the event data.
-
----
 
 ### URL
 
@@ -18,15 +13,11 @@ The response is a JSON payload consisting of a `events` field containing an arra
 GET https://umwics.vercel.app/api/v1/events
 ```
 
----
-
 #### Example Request
 
 ```bash
 curl -X GET "https://umwics.vercel.app/api/v1/events"
 ```
-
----
 
 #### Example Response
 
@@ -48,17 +39,10 @@ curl -X GET "https://umwics.vercel.app/api/v1/events"
 }
 ```
 
----
-
 # Get Event By Id
 
----
-
 Gets an Event object by its ID.
-
 The response is a JSON payload consisting of the event data.
-
----
 
 ### URL
 
@@ -66,15 +50,11 @@ The response is a JSON payload consisting of the event data.
 GET https://umwics.vercel.app/api/v1/events/[id]
 ```
 
----
-
 #### Example Request
 
 ```bash
 curl -X GET 'https://umwics.vercel.app/api/v1/events/UAcL3OxVSdyx5jD4Pwem'
 ```
-
----
 
 #### Example Response
 

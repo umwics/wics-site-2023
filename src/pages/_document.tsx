@@ -61,6 +61,7 @@ class DocumentWrapper extends Document {
                     {/* PWA primary color */}
                     <meta name="theme-color" content="#3f51b5" />
 
+                    {/* Analytics */}
                     <GoogleAnalytics trackingId={process.env.googleAnalyticsTrackingId || ""} />
 
                     {/* favicon */}

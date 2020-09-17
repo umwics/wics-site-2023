@@ -4,13 +4,8 @@ title: Members
 
 # Get Members
 
----
-
 Gets a list of Member objects.
-
 The response is a JSON payload consisting of a `members` field containing an array of the member data.
-
----
 
 ### URL
 
@@ -18,15 +13,11 @@ The response is a JSON payload consisting of a `members` field containing an arr
 GET https://umwics.vercel.app/api/v1/members
 ```
 
----
-
 #### Example Request
 
 ```bash
 curl -X GET "https://umwics.vercel.app/api/v1/members"
 ```
-
----
 
 #### Example Response
 
@@ -49,17 +40,10 @@ curl -X GET "https://umwics.vercel.app/api/v1/members"
 }
 ```
 
----
-
 # Get Member By Id
 
----
-
 Gets a Member object by its ID.
-
 The response is a JSON payload consisting of the member data.
-
----
 
 ### URL
 
@@ -67,15 +51,11 @@ The response is a JSON payload consisting of the member data.
 GET https://umwics.vercel.app/api/v1/members/[id]
 ```
 
----
-
 #### Example Request
 
 ```bash
 curl -X GET 'https://umwics.vercel.app/api/v1/members/UAcL9OxVSdyx5jD4Owem'
 ```
-
----
 
 #### Example Response
 

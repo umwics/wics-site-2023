@@ -4,25 +4,17 @@ title: Docs v1
 
 # UMWics API Docs
 
----
-
 ## Introduction
 
 The UMWics API provieds access to the data for this, <https://umwics.vercel.app>, website. Although the API was built for our site, we allow anyone to use the API as it's a great way to learn how to interface with API's. You don't need an API key to make "read" API calls (GET requests), however if you want to write data with our API you will need to request access from the WICS Website committee.
-
----
 
 ## Setup
 
 To make calls to the API you just need to specify the URL to the data you wish to access. For example if you want to access all the UMWics members you can send a request to `https://umwics.vercel.app/api/v1/members` and you will get a JSON response with a list of our members.
 
----
-
 ## Sample Code
 
 Below is some sample code in various languages showing how to use our API.
-
----
 
 #### Python
 
@@ -35,8 +27,6 @@ response = requests.get(url)
 print(response.status_code) # 200
 print(response.json()) # { 'members': [ { 'id': 'UAcL...', ... }, ... ] }
 ```
-
----
 
 #### Java
 
@@ -66,8 +56,6 @@ public class Main {
 }
 ```
 
----
-
 #### Javascript
 
 ```javascript
@@ -78,8 +66,6 @@ fetch(url)
     .then(console.log) // { members: [ { id: "UAcL...", ... }, ... ] }
     .catch(console.error);
 ```
-
----
 
 #### Javascript (Node.js)
 
@@ -94,15 +80,11 @@ fetch(url)
     .catch(console.error);
 ```
 
----
-
 #### With curl
 
 ```bash
 curl -X GET "https://umwics.vercel.app/api/v1/members" # { "members": [ { "id": "UAcL...", ... }, ... ] }
 ```
-
----
 
 ## What's Next?
 

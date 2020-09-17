@@ -1,5 +1,6 @@
 import DateFnsUtils from "@date-io/date-fns";
-import { CssBaseline } from "@material-ui/core";
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { NextComponentType } from "next";
 import { DefaultSeo } from "next-seo";
@@ -11,6 +12,8 @@ import ConfirmProvider from "../components/ConfirmProvider";
 import ProgressBar from "../components/ProgressBar";
 import ThemeProvider from "../components/ThemeProvider";
 import AuthProvider from "../lib/auth";
+
+config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
 const AppWrapper: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
     Component,
@@ -61,7 +64,6 @@ const AppWrapper: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
                         <SnackbarProvider maxSnack={4}>
                             <ConfirmProvider>
                                 <AuthProvider>
-                                    <CssBaseline />
                                     <ProgressBar
                                         options={{ showSpinner: false, trickleSpeed: 300 }}
                                     />

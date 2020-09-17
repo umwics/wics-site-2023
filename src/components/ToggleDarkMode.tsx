@@ -11,7 +11,7 @@ const ToggleDarkMode: React.FC = () => {
     const handleTogglePaletteType = () => {
         const paletteType = theme.palette.type === "light" ? "dark" : "light";
 
-        changeTheme({ palette: { ...theme.palette, type: paletteType } });
+        changeTheme({ palette: { type: paletteType } });
     };
 
     return (

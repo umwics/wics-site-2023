@@ -1,5 +1,6 @@
 import {
     Avatar,
+    Link as MuiLink,
     MenuItem,
     Paper,
     Table,
@@ -61,10 +62,14 @@ const UserList: React.FC<Props> = ({ users, updateUser }: Props) => {
                             <TableCell component="th" scope="row" align="center">
                                 <div className={classes.identification}>
                                     <Avatar className={classes.avatar} src={user.avatarURL} />
-                                    <Link href="/admin/users/[id]" as={`/admin/users/${user.id}`}>
-                                        <a>
+                                    <Link
+                                        href="/admin/users/[id]"
+                                        as={`/admin/users/${user.id}`}
+                                        passHref
+                                    >
+                                        <MuiLink component="a" color="inherit" variant="body2">
                                             <Typography>{user.username}</Typography>
-                                        </a>
+                                        </MuiLink>
                                     </Link>
                                 </div>
                             </TableCell>

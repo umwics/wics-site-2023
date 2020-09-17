@@ -29,7 +29,7 @@ const ProfileDropdown: React.FC = () => {
     };
 
     return (
-        <div>
+        <React.Fragment>
             <Tooltip
                 title={
                     <React.Fragment>
@@ -101,7 +101,7 @@ const ProfileDropdown: React.FC = () => {
                     <ListItemText>Sign out</ListItemText>
                 </MenuItem>
             </Menu>
-        </div>
+        </React.Fragment>
     );
 };
 

@@ -161,15 +161,15 @@ const HomeCarousel: React.FC = () => {
                                 <p>{item.p}</p>
                             </Fade>
 
-                            <p>
-                                <Fade bottom duration={1000} delay={500} distance="30px">
+                            <Fade bottom duration={1000} delay={500} distance="30px">
+                                <p>
                                     <Link href={item.link} passHref>
                                         <Button component="a" variant="contained" color="secondary">
                                             {item.linkname}
                                         </Button>
                                     </Link>
-                                </Fade>
-                            </p>
+                                </p>
+                            </Fade>
                         </div>
                     </div>
                 );

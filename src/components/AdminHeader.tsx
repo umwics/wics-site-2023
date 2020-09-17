@@ -7,6 +7,7 @@ import { useAuth } from "../lib/auth";
 import Drawer from "./Drawer";
 import DrawerAdminContent from "./DrawerAdminContent";
 import ProfileDropdown from "./ProfileDropdown";
+import ToggleDarkMode from "./ToggleDarkMode";
 
 interface Props {
     title?: string;
@@ -14,10 +15,15 @@ interface Props {
 
 const useStyles = makeStyles((theme: Theme) => ({
     title: {
-        flexGrow: 1
+        flexGrow: 1,
+        fontFamily: "Roboto"
     },
-    style: {
-        backgroundColor: theme.palette.grey[50]
+    appbar: {
+        backgroundColor: theme.palette.type === "light" ? "#fff" : undefined,
+        borderBottom: `1px solid ${theme.palette.divider}`
+    },
+    appbarmenu: {
+        fontFamily: "Roboto"
     }
 }));
 
@@ -28,7 +34,7 @@ const AdminHeader: React.FC<Props> = ({ title }: Props) => {
     return (
         <React.Fragment>
             <NextSeo title={title ? title + " | " + process.env.siteDisplayName : undefined} />
-            <AppBar position="sticky" color="default" elevation={0} className={classes.style}>
+            <AppBar position="sticky" color="default" elevation={0} className={classes.appbar}>
                 <Toolbar>
                     <Drawer content={DrawerAdminContent} />
                     <Typography component="h1" variant="h6" className={classes.title}>
@@ -36,30 +42,39 @@ const AdminHeader: React.FC<Props> = ({ title }: Props) => {
                     </Typography>
                     <nav>
                         <Link href="/" passHref>
-                            <Button component="a" color="inherit">
+                            <Button component="a" color="inherit" className={classes.appbarmenu}>
                                 Home
                             </Button>
                         </Link>
                         <Link href="/docs/[[...slug]]" as="/docs" passHref>
-                            <Button component="a" color="inherit">
+                            <Button component="a" color="inherit" className={classes.appbarmenu}>
                                 Docs
                             </Button>
                         </Link>
                         {auth?.user && (
                             <Link href="/admin" passHref>
-                                <Button component="a" color="inherit">
+                                <Button
+                                    component="a"
+                                    color="inherit"
+                                    className={classes.appbarmenu}
+                                >
                                     Admin
                                 </Button>
                             </Link>
                         )}
                         {!auth?.user && (
                             <Link href="/login" passHref>
-                                <Button component="a" color="inherit">
+                                <Button
+                                    component="a"
+                                    color="inherit"
+                                    className={classes.appbarmenu}
+                                >
                                     Login
                                 </Button>
                             </Link>
                         )}
                     </nav>
+                    <ToggleDarkMode />
                     {auth?.user && <ProfileDropdown />}
                 </Toolbar>
             </AppBar>

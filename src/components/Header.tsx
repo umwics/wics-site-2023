@@ -7,6 +7,7 @@ import { useAuth } from "../lib/auth";
 import Drawer from "./Drawer";
 import DrawerContent from "./DrawerContent";
 import ProfileDropdown from "./ProfileDropdown";
+import ToggleDarkMode from "./ToggleDarkMode";
 
 interface Props {
     title?: string;
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         fontFamily: "Roboto"
     },
     appbar: {
-        backgroundColor: "#ffffff",
+        backgroundColor: theme.palette.type === "light" ? "#fff" : undefined,
         borderBottom: `1px solid ${theme.palette.divider}`
     },
     sectionDesktop: {
@@ -88,6 +89,7 @@ const Header: React.FC<Props> = ({ title }: Props) => {
                             </Button>
                         </Link>
                     </nav>
+                    <ToggleDarkMode />
                     {auth?.user && <ProfileDropdown />}
                 </Toolbar>
             </AppBar>

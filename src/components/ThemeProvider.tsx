@@ -1,9 +1,10 @@
-import { useMediaQuery } from "@material-ui/core";
+import { CssBaseline, useMediaQuery } from "@material-ui/core";
 import {
     createMuiTheme,
     ThemeOptions,
     ThemeProvider as MuiThemeProvider
 } from "@material-ui/core/styles";
+import merge from "deepmerge";
 import React, { createContext, Reducer, useCallback, useContext, useEffect } from "react";
 import { getCookie, setCookie } from "../utils/cookie";
 
@@ -82,7 +83,7 @@ const defaultTheme: ThemeOptions = {
     // shape: {
     // },
     // overrides: {
-    // },
+    // }
     // props: {
     // }
 };
@@ -97,15 +98,9 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }: ThemeProvider
                         spacing: action.payload
                     };
                 case "RESET_COLORS":
-                    return {
-                        ...prevState,
-                        palette: defaultTheme.palette
-                    };
+                    return merge(prevState, { palette: defaultTheme.palette });
                 case "CHANGE":
-                    return {
-                        ...prevState,
-                        ...action.payload
-                    };
+                    return merge(prevState, action.payload);
                 default:
                     throw new Error(`Unrecognized type ${(action as Action).type}`);
             }
@@ -143,6 +138,7 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }: ThemeProvider
 
     return (
         <MuiThemeProvider theme={theme}>
+            <CssBaseline />
             <ThemeContext.Provider value={dispatch}>{children}</ThemeContext.Provider>
         </MuiThemeProvider>
     );
