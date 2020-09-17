@@ -17,11 +17,11 @@ import { TextField } from "formik-material-ui";
 import { Autocomplete, AutocompleteRenderInputParams } from "formik-material-ui-lab";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { Company, Member } from "../interfaces";
-import { addCompanySchema } from "../lib/validators";
-import ArrayField, { ArrayComponentProps } from "./ArrayField";
-import DynamicForm from "./DynamicForm";
-import TransitionSlide from "./TransitionSlide";
+import { Company, Member } from "../../interfaces";
+import { addCompanySchema } from "../../lib/validators";
+import ArrayField, { ArrayComponentProps } from "../ArrayField";
+import DynamicForm from "../DynamicForm";
+import TransitionSlide from "../TransitionSlide";
 import UploadImage from "./UploadImage";
 
 interface Props {

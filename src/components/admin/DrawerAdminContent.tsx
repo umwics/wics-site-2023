@@ -12,7 +12,7 @@ import { fade, makeStyles, Theme } from "@material-ui/core/styles";
 import { Cloud, CollectionsBookmark, ExpandLess, ExpandMore } from "@material-ui/icons";
 import Link from "next/link";
 import React from "react";
-import { useAuth } from "../lib/auth";
+import { useAuth } from "../../lib/auth";
 
 interface Props {
     onClick?: (event: React.MouseEvent) => any;

@@ -1,6 +1,6 @@
 import { Container, makeStyles, Theme, Typography } from "@material-ui/core";
 import React from "react";
-import { User } from "../interfaces";
+import { User } from "../../interfaces";
 
 interface Props {
     item: User;

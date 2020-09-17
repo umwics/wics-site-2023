@@ -2,11 +2,12 @@ import { Button, Container, makeStyles, Theme, Typography } from "@material-ui/c
 import { GetStaticProps, NextPage } from "next";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
+import { DropResult, ResponderProvided } from "react-beautiful-dnd";
 import useSWR from "swr";
-import AddMemberDialog from "../../../components/AddMemberDialog";
+import AddMemberDialog from "../../../components/admin/AddMemberDialog";
+import MemberList from "../../../components/admin/MemberList";
 import { useConfirm } from "../../../components/ConfirmProvider";
 import AdminLayout from "../../../components/layouts/AdminLayout";
-import MemberList from "../../../components/MemberList";
 import { hasPermission, Member, User } from "../../../interfaces";
 import { AuthContextInstance, withAuth } from "../../../lib/auth";
 import { getAllMembers } from "../../../lib/db";
@@ -101,6 +102,10 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
         }
     };
 
+    const onDragEnd = (_result: DropResult, _provided: ResponderProvided) => {
+        //
+    };
+
     const editVisibleMember = async (member: Member) => {
         setEditMember({ ...member });
         handleClickOpen();
@@ -156,6 +161,7 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
                     <MemberList
                         members={revalidatedMembers}
                         editMember={editVisibleMember}
+                        onDragEnd={onDragEnd}
                         deleteMember={deleteVisibleMember}
                     />
                     <AddMemberDialog

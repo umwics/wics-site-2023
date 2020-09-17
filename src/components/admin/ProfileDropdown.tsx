@@ -10,8 +10,8 @@ import {
 import { AccountCircle, ExitToApp, SupervisorAccount } from "@material-ui/icons";
 import { useRouter } from "next/router";
 import React from "react";
-import { useAuth } from "../lib/auth";
-import Link from "./Link";
+import { useAuth } from "../../lib/auth";
+import Link from "../Link";
 
 const ProfileDropdown: React.FC = () => {
     const router = useRouter();

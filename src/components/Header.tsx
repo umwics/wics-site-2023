@@ -4,9 +4,9 @@ import { NextSeo } from "next-seo";
 import Link from "next/link";
 import React from "react";
 import { useAuth } from "../lib/auth";
+import ProfileDropdown from "./admin/ProfileDropdown";
 import Drawer from "./Drawer";
 import DrawerContent from "./DrawerContent";
-import ProfileDropdown from "./ProfileDropdown";
 import ToggleDarkMode from "./ToggleDarkMode";
 
 interface Props {

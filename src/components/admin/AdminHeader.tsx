@@ -3,11 +3,11 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
 import React from "react";
-import { useAuth } from "../lib/auth";
-import Drawer from "./Drawer";
+import { useAuth } from "../../lib/auth";
+import Drawer from "../Drawer";
+import ToggleDarkMode from "../ToggleDarkMode";
 import DrawerAdminContent from "./DrawerAdminContent";
 import ProfileDropdown from "./ProfileDropdown";
-import ToggleDarkMode from "./ToggleDarkMode";
 
 interface Props {
     title?: string;

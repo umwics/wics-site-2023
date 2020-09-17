@@ -13,15 +13,19 @@ import {
 } from "@material-ui/core";
 import { blue, red } from "@material-ui/core/colors";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Delete, Edit, Event as EventIcon } from "@material-ui/icons";
+import { Delete, Edit } from "@material-ui/icons";
 import React from "react";
-import { Event, hasPermission } from "../interfaces";
-import { useAuth } from "../lib/auth";
+import { DropResult, ResponderProvided } from "react-beautiful-dnd";
+import { hasPermission, Member } from "../../interfaces";
+import { useAuth } from "../../lib/auth";
+import DraggableComponent from "../DraggableComponent";
+import DroppableComponent from "../DroppableComponent";
 
 interface Props {
-    events: Event[];
-    editEvent?: (event: Event) => any;
-    deleteEvent?: (event: Event) => any;
+    members: Member[];
+    editMember?: (member: Member) => any;
+    onDragEnd: (result: DropResult, provided: ResponderProvided) => void;
+    deleteMember?: (member: Member) => any;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -54,7 +58,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const EventList: React.FC<Props> = ({ events, editEvent, deleteEvent }: Props) => {
+const MemberList: React.FC<Props> = ({ members, editMember, onDragEnd, deleteMember }: Props) => {
     const classes = useStyles();
     const auth = useAuth();
 
@@ -64,26 +68,39 @@ const EventList: React.FC<Props> = ({ events, editEvent, deleteEvent }: Props) =
                 <TableHead>
                     <TableRow>
                         <TableCell>Name</TableCell>
+                        <TableCell align="right">Display Name</TableCell>
                         <TableCell align="right">Title</TableCell>
-                        <TableCell align="right">Term</TableCell>
-                        <TableCell align="right">Location</TableCell>
+                        <TableCell align="right">Email</TableCell>
                         <TableCell align="right"></TableCell>
                     </TableRow>
                 </TableHead>
-                <TableBody>
-                    {events.map(event => (
-                        <TableRow hover key={event.id}>
+                <TableBody
+                    component={DroppableComponent({
+                        component: "tbody",
+                        onDragEnd,
+                        direction: "vertical",
+                        isDropDisabled: !auth?.user || !hasPermission(auth?.user, "write")
+                    })}
+                >
+                    {members.map((member, idx) => (
+                        <TableRow
+                            key={member.id}
+                            component={DraggableComponent({
+                                component: "tr",
+                                draggableId: member.id,
+                                index: idx
+                            })}
+                            hover
+                        >
                             <TableCell component="th" scope="row" align="center">
                                 <div className={classes.identification}>
-                                    <Avatar className={classes.avatar} src={event.images[0]}>
-                                        <EventIcon />
-                                    </Avatar>
-                                    <Typography>{event.name}</Typography>
+                                    <Avatar className={classes.avatar} src={member.image} />
+                                    <Typography>{member.name}</Typography>
                                 </div>
                             </TableCell>
-                            <TableCell align="right">{event.title}</TableCell>
-                            <TableCell align="right">{event.term}</TableCell>
-                            <TableCell align="right">{event.location}</TableCell>
+                            <TableCell align="right">{member.displayName}</TableCell>
+                            <TableCell align="right">{member.title}</TableCell>
+                            <TableCell align="right">{member.email}</TableCell>
                             <TableCell align="right">
                                 {auth?.user && hasPermission(auth?.user, "write") && (
                                     <div className={classes.actions}>
@@ -92,7 +109,7 @@ const EventList: React.FC<Props> = ({ events, editEvent, deleteEvent }: Props) =
                                                 aria-label="edit"
                                                 size="small"
                                                 className={classes.edit}
-                                                onClick={() => editEvent && editEvent(event)}
+                                                onClick={() => editMember && editMember(member)}
                                             >
                                                 <Edit />
                                             </IconButton>
@@ -102,7 +119,7 @@ const EventList: React.FC<Props> = ({ events, editEvent, deleteEvent }: Props) =
                                                 aria-label="delete"
                                                 size="small"
                                                 className={classes.delete}
-                                                onClick={() => deleteEvent && deleteEvent(event)}
+                                                onClick={() => deleteMember && deleteMember(member)}
                                             >
                                                 <Delete />
                                             </IconButton>
@@ -118,4 +135,4 @@ const EventList: React.FC<Props> = ({ events, editEvent, deleteEvent }: Props) =
     );
 };
 
-export default EventList;
+export default MemberList;

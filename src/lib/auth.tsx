@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import AdminLoading from "../components/AdminLoading";
+import AdminLoading from "../components/admin/AdminLoading";
 import { CustomUser, User } from "../interfaces";
 import { LoginFields } from "../pages/login";
 import { RegisterFields } from "../pages/register";

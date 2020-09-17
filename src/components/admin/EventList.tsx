@@ -13,15 +13,15 @@ import {
 } from "@material-ui/core";
 import { blue, red } from "@material-ui/core/colors";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Delete, Edit } from "@material-ui/icons";
+import { Delete, Edit, Event as EventIcon } from "@material-ui/icons";
 import React from "react";
-import { hasPermission, Member } from "../interfaces";
-import { useAuth } from "../lib/auth";
+import { Event, hasPermission } from "../../interfaces";
+import { useAuth } from "../../lib/auth";
 
 interface Props {
-    members: Member[];
-    editMember?: (member: Member) => any;
-    deleteMember?: (member: Member) => any;
+    events: Event[];
+    editEvent?: (event: Event) => any;
+    deleteEvent?: (event: Event) => any;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const MemberList: React.FC<Props> = ({ members, editMember, deleteMember }: Props) => {
+const EventList: React.FC<Props> = ({ events, editEvent, deleteEvent }: Props) => {
     const classes = useStyles();
     const auth = useAuth();
 
@@ -64,24 +64,26 @@ const MemberList: React.FC<Props> = ({ members, editMember, deleteMember }: Prop
                 <TableHead>
                     <TableRow>
                         <TableCell>Name</TableCell>
-                        <TableCell align="right">Display Name</TableCell>
                         <TableCell align="right">Title</TableCell>
-                        <TableCell align="right">Email</TableCell>
+                        <TableCell align="right">Term</TableCell>
+                        <TableCell align="right">Location</TableCell>
                         <TableCell align="right"></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {members.map(member => (
-                        <TableRow hover key={member.id}>
+                    {events.map(event => (
+                        <TableRow hover key={event.id}>
                             <TableCell component="th" scope="row" align="center">
                                 <div className={classes.identification}>
-                                    <Avatar className={classes.avatar} src={member.image} />
-                                    <Typography>{member.name}</Typography>
+                                    <Avatar className={classes.avatar} src={event.images[0]}>
+                                        <EventIcon />
+                                    </Avatar>
+                                    <Typography>{event.name}</Typography>
                                 </div>
                             </TableCell>
-                            <TableCell align="right">{member.displayName}</TableCell>
-                            <TableCell align="right">{member.title}</TableCell>
-                            <TableCell align="right">{member.email}</TableCell>
+                            <TableCell align="right">{event.title}</TableCell>
+                            <TableCell align="right">{event.term}</TableCell>
+                            <TableCell align="right">{event.location}</TableCell>
                             <TableCell align="right">
                                 {auth?.user && hasPermission(auth?.user, "write") && (
                                     <div className={classes.actions}>
@@ -90,7 +92,7 @@ const MemberList: React.FC<Props> = ({ members, editMember, deleteMember }: Prop
                                                 aria-label="edit"
                                                 size="small"
                                                 className={classes.edit}
-                                                onClick={() => editMember && editMember(member)}
+                                                onClick={() => editEvent && editEvent(event)}
                                             >
                                                 <Edit />
                                             </IconButton>
@@ -100,7 +102,7 @@ const MemberList: React.FC<Props> = ({ members, editMember, deleteMember }: Prop
                                                 aria-label="delete"
                                                 size="small"
                                                 className={classes.delete}
-                                                onClick={() => deleteMember && deleteMember(member)}
+                                                onClick={() => deleteEvent && deleteEvent(event)}
                                             >
                                                 <Delete />
                                             </IconButton>
@@ -116,4 +118,4 @@ const MemberList: React.FC<Props> = ({ members, editMember, deleteMember }: Prop
     );
 };
 
-export default MemberList;
+export default EventList;
