@@ -55,6 +55,31 @@ export const addMemberSchema = Yup.object({
     image: Yup.string()
 });
 
+export const updateMembersSchema = Yup.array().of(
+    Yup.object({
+        id: Yup.string().required(),
+        name: Yup.string(),
+        displayName: Yup.string(),
+        title: Yup.string(),
+        email: Yup.string().email(),
+        description: Yup.string(),
+        facts: Yup.array().of(Yup.string()),
+        links: Yup.array().of(
+            Yup.object().shape({
+                title: Yup.string(),
+                link: Yup.string().url()
+            })
+        ),
+        positions: Yup.array().of(
+            Yup.string().test("position", "Must be a valid position", position =>
+                memberPositions.includes(position as MemberPosition)
+            )
+        ),
+        rank: Yup.number().default(0),
+        image: Yup.string()
+    })
+);
+
 export const addCompanySchema = Yup.object({
     name: Yup.string().required(),
     displayName: Yup.string(),

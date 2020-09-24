@@ -87,6 +87,28 @@ export const updateMember = async (
     return null;
 };
 
+export const updateMembers = async (
+    partialMembers: (Partial<Member> & { id: string })[]
+): Promise<Partial<Member>[] | null> => {
+    if (firestore) {
+        const batch = firestore.batch();
+
+        for (const partialMember of partialMembers) {
+            const { id, ...newValues } = partialMember;
+
+            const memberRef = firestore.collection("members").doc(id);
+            batch.update(memberRef, newValues);
+        }
+
+        return await batch
+            .commit()
+            .then(() => partialMembers)
+            .catch(() => null);
+    }
+
+    return null;
+};
+
 export const createCompany = async (company: Company): Promise<Company | null> => {
     if (firestore) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

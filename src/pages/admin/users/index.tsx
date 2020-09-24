@@ -1,12 +1,11 @@
 import { Container, makeStyles, Theme, Typography } from "@material-ui/core";
 import { GetStaticProps, NextPage } from "next";
 import { useSnackbar } from "notistack";
-import useSWR from "swr";
 import UserList from "../../../components/admin/UserList";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import { hasPermission, User } from "../../../interfaces";
 import { AuthContextInstance, withAuth } from "../../../lib/auth";
-import { getAllUsers } from "../../../lib/db";
+import { getAllUsers, useUsers } from "../../../lib/db";
 
 interface Props {
     users: User[];
@@ -26,12 +25,7 @@ const Users: NextPage<Props> = ({ users, auth }: Props) => {
     const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
 
-    const { data, mutate } = useSWR<{ users: User[] }>(`/api/${process.env.apiVersion}/users`, {
-        initialData: { users },
-        revalidateOnMount: true
-    });
-
-    const revalidatedUsers = (data && data.users) || [];
+    const [revalidatedUsers] = useUsers({ initialData: users });
 
     const updateVisibleUser = async (user: User) => {
         const response = await fetch(`/api/${process.env.apiVersion}/users/${user.id}`, {
@@ -43,9 +37,6 @@ const Users: NextPage<Props> = ({ users, auth }: Props) => {
         });
 
         if (response.ok) {
-            mutate({
-                users: [user, ...revalidatedUsers.filter(checkUser => checkUser.id !== user.id)]
-            });
             enqueueSnackbar("Successfully Updated User", { variant: "success" });
         } else enqueueSnackbar("Failed to Update User", { variant: "error" });
     };

@@ -21,6 +21,8 @@ interface ThemeProviderProps {
     children: React.ReactNode;
 }
 
+export const themeColor = "#3f51b5";
+
 const defaultTheme: ThemeOptions = {
     spacing: 8,
     direction: "ltr",

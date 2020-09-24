@@ -8,21 +8,25 @@ import {
     ResponderProvided
 } from "react-beautiful-dnd";
 
-interface Props {
-    component: React.ElementType;
+interface Props<P = any> {
+    children: React.ReactNode;
+    component: React.ElementType<P>;
+    componentProps?: P;
     onDragEnd: (result: DropResult, provided: ResponderProvided) => void;
     mode?: DroppableMode;
     direction?: Direction;
     isDropDisabled?: boolean;
 }
 
-const DroppableComponent = ({
+const DroppableComponent: React.FC<Props> = ({
+    children,
     component: Component,
+    componentProps,
     onDragEnd,
     mode,
     direction,
     isDropDisabled
-}: Props) => <P extends unknown>(props: React.PropsWithChildren<P>): React.ReactElement => {
+}: Props) => {
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <Droppable
@@ -33,8 +37,12 @@ const DroppableComponent = ({
             >
                 {provided => {
                     return (
-                        <Component ref={provided.innerRef} {...provided.droppableProps} {...props}>
-                            {props.children}
+                        <Component
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            {...componentProps}
+                        >
+                            {children}
                             {provided.placeholder}
                         </Component>
                     );

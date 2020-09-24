@@ -122,7 +122,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
         const unsubscribe = auth?.onAuthStateChanged(handleUser);
 
         return () => (unsubscribe ? unsubscribe() : undefined);
-    }, []);
+    }, [auth]);
 
     return (
         <AuthContext.Provider

@@ -2,14 +2,13 @@ import { Button, Container, makeStyles, Theme, Typography } from "@material-ui/c
 import { GetStaticProps, NextPage } from "next";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import useSWR from "swr";
 import AddEventDialog from "../../../components/admin/AddEventDialog";
 import EventList from "../../../components/admin/EventList";
 import { useConfirm } from "../../../components/ConfirmProvider";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import { Event, hasPermission, User } from "../../../interfaces";
 import { AuthContextInstance, withAuth } from "../../../lib/auth";
-import { getAllEvents } from "../../../lib/db";
+import { getAllEvents, useEvents } from "../../../lib/db";
 import { storeImages } from "../../../lib/storage";
 
 interface Props {
@@ -39,12 +38,7 @@ const Events: NextPage<Props> = ({ events, auth }: Props) => {
 
     const [editEvent, setEditEvent] = useState<Event | undefined>(undefined);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
-    const { data, mutate } = useSWR<{ events: Event[] }>(`/api/${process.env.apiVersion}/events`, {
-        initialData: { events },
-        revalidateOnMount: true
-    });
-
-    const revalidatedEvents = (data && data.events) || [];
+    const [revalidatedEvents] = useEvents({ initialData: events });
 
     const addEvent = async (
         event: Event,
@@ -68,17 +62,6 @@ const Events: NextPage<Props> = ({ events, auth }: Props) => {
                 body: JSON.stringify({ ...data, images: imageUrls })
             });
             if (response.ok) {
-                const editedEvent = await response.json();
-                const newEvent = {
-                    ...event,
-                    ...editedEvent
-                };
-                mutate({
-                    events: [
-                        newEvent,
-                        ...revalidatedEvents.filter(checkEvent => checkEvent.id !== event.id)
-                    ]
-                });
                 enqueueSnackbar("Successfully Updated Event", { variant: "success" });
             } else enqueueSnackbar("Failed to Update Event", { variant: "error" });
         } else {
@@ -90,8 +73,6 @@ const Events: NextPage<Props> = ({ events, auth }: Props) => {
                 body: JSON.stringify({ ...data, images: imageUrls })
             });
             if (response.ok) {
-                const newEvent = await response.json();
-                if (newEvent) mutate({ events: [newEvent, ...revalidatedEvents] });
                 enqueueSnackbar("Successfully Created Event", { variant: "success" });
             } else enqueueSnackbar("Failed to Create Event", { variant: "error" });
         }
@@ -120,11 +101,6 @@ const Events: NextPage<Props> = ({ events, auth }: Props) => {
                     );
 
                     if (response.ok) {
-                        mutate({
-                            events: revalidatedEvents.filter(
-                                checkEvent => checkEvent.id !== event.id
-                            )
-                        });
                         enqueueSnackbar("Successfully Deleted Event", { variant: "success" });
                     } else enqueueSnackbar("Failed to Delete Event", { variant: "error" });
                 })

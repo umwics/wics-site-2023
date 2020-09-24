@@ -1,19 +1,23 @@
 import React from "react";
 import { Draggable, DraggableId } from "react-beautiful-dnd";
 
-interface Props {
-    component: React.ElementType;
+interface Props<P = any> {
+    children: React.ReactNode;
+    component: React.ElementType<P>;
+    componentProps?: P;
     draggableId: DraggableId;
     index: number;
     isDragDisabled?: boolean;
 }
 
-const DraggableComponent = ({
+const DraggableComponent: React.FC<Props> = ({
+    children,
     component: Component,
+    componentProps,
     draggableId,
     index,
     isDragDisabled
-}: Props) => <P extends unknown>(props: React.PropsWithChildren<P>): React.ReactElement => {
+}: Props) => {
     return (
         <Draggable draggableId={draggableId} index={index} isDragDisabled={isDragDisabled}>
             {(provided, _snapshot) => {
@@ -22,9 +26,9 @@ const DraggableComponent = ({
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        {...props}
+                        {...componentProps}
                     >
-                        {props.children}
+                        {children}
                     </Component>
                 );
             }}

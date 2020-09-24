@@ -62,6 +62,8 @@ const MemberList: React.FC<Props> = ({ members, editMember, onDragEnd, deleteMem
     const classes = useStyles();
     const auth = useAuth();
 
+    const dragDisabled = !auth?.user || !hasPermission(auth?.user, "write");
+
     return (
         <TableContainer component={Paper} className={classes.tableContainer}>
             <Table className={classes.table} aria-label="simple table">
@@ -74,23 +76,20 @@ const MemberList: React.FC<Props> = ({ members, editMember, onDragEnd, deleteMem
                         <TableCell align="right"></TableCell>
                     </TableRow>
                 </TableHead>
-                <TableBody
-                    component={DroppableComponent({
-                        component: "tbody",
-                        onDragEnd,
-                        direction: "vertical",
-                        isDropDisabled: !auth?.user || !hasPermission(auth?.user, "write")
-                    })}
+                <DroppableComponent
+                    component={TableBody}
+                    onDragEnd={onDragEnd}
+                    direction="vertical"
+                    isDropDisabled={dragDisabled}
                 >
                     {members.map((member, idx) => (
-                        <TableRow
+                        <DraggableComponent
                             key={member.id}
-                            component={DraggableComponent({
-                                component: "tr",
-                                draggableId: member.id,
-                                index: idx
-                            })}
-                            hover
+                            draggableId={member.id}
+                            index={idx}
+                            component={TableRow}
+                            componentProps={{ hover: true }}
+                            isDragDisabled={dragDisabled}
                         >
                             <TableCell component="th" scope="row" align="center">
                                 <div className={classes.identification}>
@@ -127,9 +126,9 @@ const MemberList: React.FC<Props> = ({ members, editMember, onDragEnd, deleteMem
                                     </div>
                                 )}
                             </TableCell>
-                        </TableRow>
+                        </DraggableComponent>
                     ))}
-                </TableBody>
+                </DroppableComponent>
             </Table>
         </TableContainer>
     );

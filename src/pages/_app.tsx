@@ -45,12 +45,19 @@ const AppWrapper: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
     return (
         <React.Fragment>
             <DefaultSeo
+                titleTemplate={`%s | ${process.env.siteDisplayName}`}
                 title={process.env.siteDisplayName}
                 description={process.env.description}
                 openGraph={{
+                    title: process.env.siteDisplayName,
                     type: "website",
                     locale: process.env.locale,
-                    site_name: process.env.siteName
+                    site_name: process.env.siteName,
+                    images: [
+                        {
+                            url: process.env.url + "/umwics-logo.png"
+                        }
+                    ]
                 }}
             />
             <SWRConfig
