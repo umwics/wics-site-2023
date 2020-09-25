@@ -4,6 +4,8 @@ import {
     eventTypes,
     MemberPosition,
     memberPositions,
+    ResourceType,
+    resourceTypes,
     UserRole,
     userRoles
 } from "../interfaces";
@@ -113,6 +115,19 @@ export const addEventSchema = Yup.object({
     date: Yup.string(),
     photoCredits: Yup.array().of(Yup.string()),
     images: Yup.array().of(Yup.string())
+});
+
+export const addResourceSchema = Yup.object({
+    name: Yup.string().required(),
+    title: Yup.string(),
+    description: Yup.string(),
+    types: Yup.array().of(
+        Yup.string().test("type", "Must be a valid type", type =>
+            resourceTypes.includes(type as ResourceType)
+        )
+    ),
+    link: Yup.string().url(),
+    image: Yup.string()
 });
 
 // written to satisfy weird Yup behavior https://github.com/jquense/yup/issues/670

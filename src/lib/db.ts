@@ -1,20 +1,33 @@
+import { useEffect, useState } from "react";
 import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
-import { Company, Event, Member, User } from "../interfaces";
+import { Company, Event, Member, Resource, User } from "../interfaces";
 import firebase, { firestore } from "./firebase";
 
 export interface GetAllQueryParams {
-    limit?: number | null;
-    orderBy?: string | null;
-    where?: { fieldPath?: string; opStr: firebase.firestore.WhereFilterOp; value: any } | null;
+    limit?: number;
+    orderBy?: string;
+    where?: { fieldPath?: string; opStr: firebase.firestore.WhereFilterOp; value: any };
+    startAt?: number;
+    endAt?: number;
+    startAfter?: number;
+    endBefore?: number;
 }
 
 export interface CollectionHookOptions<T = any> {
     initialData?: T;
+    listen?: boolean;
+}
+
+export interface CollectionHookInterface<T = any> {
+    data: T[];
+    mutate: (data?: any) => void;
+    loading: boolean;
+    errors: Error | undefined;
 }
 
 export const buildQuery = (
     collection: string,
-    { limit = null, orderBy = null, where = null }: GetAllQueryParams = {}
+    { limit, orderBy, where, startAt, endAt, startAfter, endBefore }: GetAllQueryParams = {}
 ): firebase.firestore.Query<firebase.firestore.DocumentData> | undefined => {
     if (firestore) {
         let query: firebase.firestore.Query<firebase.firestore.DocumentData> = firestore.collection(
@@ -28,6 +41,10 @@ export const buildQuery = (
             );
         if (limit) query = query.limit(limit);
         if (orderBy) query = query.orderBy(orderBy);
+        if (startAt) query = query.startAt(startAt);
+        if (endAt) query = query.endAt(endAt);
+        if (startAfter) query = query.startAfter(startAfter);
+        if (endBefore) query = query.endBefore(endBefore);
 
         return query;
     }
@@ -74,12 +91,35 @@ export const useDocument = <T>(
 
 export const useCollection = <T>(
     collection: string,
-    options: GetAllQueryParams & CollectionHookOptions = {}
-): [T[], boolean, Error | undefined] => {
-    const query = buildQuery(collection, options);
-    const [data, loading, errors] = useCollectionData<T>(query, { idField: "id" });
+    {
+        initialData,
+        limit,
+        orderBy,
+        where,
+        startAt,
+        endAt,
+        startAfter,
+        endBefore
+    }: GetAllQueryParams & CollectionHookOptions = {}
+): CollectionHookInterface<T> => {
+    const query = buildQuery(collection, {
+        limit,
+        orderBy,
+        where,
+        startAt,
+        endAt,
+        startAfter,
+        endBefore
+    });
+    const [firebaseData, loading, errors] = useCollectionData<T>(query, { idField: "id" });
 
-    return [data || options.initialData || [], loading, errors];
+    const [data, setData] = useState<T[]>([...initialData]);
+
+    useEffect(() => {
+        if (!loading && firebaseData) setData(firebaseData);
+    }, [firebaseData]);
+
+    return { data: data || [], mutate: (data: T[]) => setData(data), loading, errors };
 };
 
 export const getUser = async (id: string): Promise<User | null> => {
@@ -92,7 +132,7 @@ export const getAllUsers = async (queryProps: GetAllQueryParams = {}): Promise<U
 
 export const useUsers = (
     options: GetAllQueryParams & CollectionHookOptions = {}
-): [User[], boolean, Error | undefined] => {
+): CollectionHookInterface<User> => {
     return useCollection("users", options);
 };
 
@@ -101,12 +141,12 @@ export const getMember = async (id: string): Promise<Member | null> => {
 };
 
 export const getAllMembers = async (queryProps: GetAllQueryParams = {}): Promise<Member[]> => {
-    return await getAllDocuments("members", queryProps);
+    return await getAllDocuments("members", { orderBy: "rank", ...queryProps });
 };
 
 export const useMembers = (
     options: GetAllQueryParams & CollectionHookOptions = {}
-): [Member[], boolean, Error | undefined] => {
+): CollectionHookInterface<Member> => {
     return useCollection("members", { orderBy: "rank", ...options });
 };
 
@@ -120,7 +160,7 @@ export const getAllCompanies = async (queryProps: GetAllQueryParams = {}): Promi
 
 export const useCompanies = (
     options: GetAllQueryParams & CollectionHookOptions = {}
-): [Company[], boolean, Error | undefined] => {
+): CollectionHookInterface<Company> => {
     return useCollection("companies", options);
 };
 
@@ -134,6 +174,20 @@ export const getAllEvents = async (queryProps: GetAllQueryParams = {}): Promise<
 
 export const useEvents = (
     options: GetAllQueryParams & CollectionHookOptions = {}
-): [Event[], boolean, Error | undefined] => {
+): CollectionHookInterface<Event> => {
     return useCollection("events", options);
+};
+
+export const getResource = async (id: string): Promise<Resource | null> => {
+    return await getDocument("resources", id);
+};
+
+export const getAllResources = async (queryProps: GetAllQueryParams = {}): Promise<Resource[]> => {
+    return await getAllDocuments<Resource>("resources", queryProps);
+};
+
+export const useResources = (
+    options: GetAllQueryParams & CollectionHookOptions = {}
+): CollectionHookInterface<Resource> => {
+    return useCollection("resources", options);
 };

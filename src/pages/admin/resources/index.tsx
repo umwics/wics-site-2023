@@ -2,18 +2,17 @@ import { Button, Container, makeStyles, Theme, Typography } from "@material-ui/c
 import { GetStaticProps, NextPage } from "next";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import AddCompanyDialog from "../../../components/admin/AddCompanyDialog";
-import CompanyList from "../../../components/admin/CompanyList";
+import AddResourceDialog from "../../../components/admin/AddResourceDialog";
+import ResourceList from "../../../components/admin/ResourceList";
 import { useConfirm } from "../../../components/ConfirmProvider";
 import AdminLayout from "../../../components/layouts/AdminLayout";
-import { Company, hasPermission, Member, User } from "../../../interfaces";
+import { hasPermission, Resource, User } from "../../../interfaces";
 import { AuthContextInstance, withAuth } from "../../../lib/auth";
-import { getAllCompanies, getAllMembers, useCompanies, useMembers } from "../../../lib/db";
+import { getAllResources, useResources } from "../../../lib/db";
 import { storeImage } from "../../../lib/storage";
 
 interface Props {
-    companies: Company[];
-    members: Member[];
+    resources: Resource[];
     auth: AuthContextInstance;
 }
 
@@ -24,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         flexDirection: "column",
         alignItems: "center"
     },
-    addCompany: {
+    addResource: {
         width: "100%",
         display: "flex",
         justifyContent: "flex-end",
@@ -32,30 +31,29 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
+const Resources: NextPage<Props> = ({ resources, auth }: Props) => {
     const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
     const confirm = useConfirm();
 
-    const [editCompany, setEditCompany] = useState<Company | undefined>(undefined);
+    const [editResource, setEditResource] = useState<Resource | undefined>(undefined);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
-    const { data: revalidatedCompanies } = useCompanies({ initialData: companies });
-    const { data: revalidatedMembers } = useMembers({ initialData: members });
+    const { data: revalidatedResources } = useResources({ initialData: resources });
 
-    const addCompany = async (
-        company: Company,
+    const addResource = async (
+        resource: Resource,
         image?: File,
         progressCallback?: (progress: number) => any
     ) => {
-        const { id, ...data } = company;
+        const { id, ...data } = resource;
         const editing = !!id;
 
         const imageUrl = image
-            ? await storeImage(image, "companies", progressCallback)
-            : company.image;
+            ? await storeImage(image, "resources", progressCallback)
+            : resource.image;
 
         if (editing) {
-            const response = await fetch(`/api/${process.env.apiVersion}/companies/${id}`, {
+            const response = await fetch(`/api/${process.env.apiVersion}/resources/${id}`, {
                 method: "PATCH",
                 headers: {
                     token: (await auth?.getUserToken()) as string
@@ -63,10 +61,10 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
             if (response.ok) {
-                enqueueSnackbar("Successfully Updated Company", { variant: "success" });
-            } else enqueueSnackbar("Failed to Update Company", { variant: "error" });
+                enqueueSnackbar("Successfully Updated Resource", { variant: "success" });
+            } else enqueueSnackbar("Failed to Update Resource", { variant: "error" });
         } else {
-            const response = await fetch(`/api/${process.env.apiVersion}/companies`, {
+            const response = await fetch(`/api/${process.env.apiVersion}/resources`, {
                 method: "POST",
                 headers: {
                     token: (await auth?.getUserToken()) as string
@@ -74,25 +72,25 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
             if (response.ok) {
-                enqueueSnackbar("Successfully Created Company", { variant: "success" });
-            } else enqueueSnackbar("Failed to Create Company", { variant: "error" });
+                enqueueSnackbar("Successfully Created Resource", { variant: "success" });
+            } else enqueueSnackbar("Failed to Create Resource", { variant: "error" });
         }
     };
 
-    const editVisibleCompany = async (company: Company) => {
-        setEditCompany({ ...company });
+    const editVisibleResource = async (resource: Resource) => {
+        setEditResource({ ...resource });
         handleClickOpen();
     };
 
-    const deleteVisibleCompany = async (company: Company) => {
+    const deleteVisibleResource = async (resource: Resource) => {
         confirm &&
             confirm({
-                description: "This company will permanently be deleted.",
+                description: "This resource will permanently be deleted.",
                 confirmText: "Delete"
             })
                 .then(async () => {
                     const response = await fetch(
-                        `/api/${process.env.apiVersion}/companies/${company.id}`,
+                        `/api/${process.env.apiVersion}/resources/${resource.id}`,
                         {
                             method: "DELETE",
                             headers: {
@@ -102,8 +100,8 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
                     );
 
                     if (response.ok) {
-                        enqueueSnackbar("Successfully Deleted Company", { variant: "success" });
-                    } else enqueueSnackbar("Failed to Delete Company", { variant: "error" });
+                        enqueueSnackbar("Successfully Deleted Resource", { variant: "success" });
+                    } else enqueueSnackbar("Failed to Delete Resource", { variant: "error" });
                 })
                 .catch(() => {
                     // pass
@@ -116,33 +114,31 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
 
     const handleClose = () => {
         setAddDialogOpen(false);
-        setEditCompany(undefined);
+        setEditResource(undefined);
     };
 
     return (
-        <AdminLayout title="Companies">
+        <AdminLayout title="Resources">
             <Container component="main" maxWidth="md">
                 <div className={classes.paper}>
                     <Typography component="h1" variant="h3">
-                        Companies List
+                        Resources List
                     </Typography>
-                    <CompanyList
-                        companies={revalidatedCompanies}
-                        members={revalidatedMembers}
-                        editCompany={editVisibleCompany}
-                        deleteCompany={deleteVisibleCompany}
+                    <ResourceList
+                        resources={revalidatedResources}
+                        editResource={editVisibleResource}
+                        deleteResource={deleteVisibleResource}
                     />
-                    <AddCompanyDialog
+                    <AddResourceDialog
                         open={addDialogOpen}
-                        members={revalidatedMembers}
-                        initialValues={editCompany}
-                        addCompany={addCompany}
+                        initialValues={editResource}
+                        addResource={addResource}
                         handleClose={handleClose}
                     />
                     {auth?.user && hasPermission(auth?.user, "write") && (
-                        <div className={classes.addCompany}>
+                        <div className={classes.addResource}>
                             <Button variant="contained" color="primary" onClick={handleClickOpen}>
-                                Add Company
+                                Add Resource
                             </Button>
                         </div>
                     )}
@@ -153,18 +149,10 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-    const companies: Company[] = await getAllCompanies();
-    const members: Member[] = await getAllMembers();
-
-    return {
-        props: {
-            companies,
-            members
-        },
-        revalidate: 60
-    };
+    const resources: Resource[] = await getAllResources();
+    return { props: { resources }, revalidate: 60 };
 };
 
-export default withAuth(Companies, {
+export default withAuth(Resources, {
     allowedAccess: (user: User | null) => !!user && hasPermission(user, "read")
 });

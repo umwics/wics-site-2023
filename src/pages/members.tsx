@@ -97,9 +97,9 @@ const Section: React.FC<SectionProps> = ({ className, type, members }: SectionPr
                                 />
 
                                 <CardContent className={classes.cardContent}>
-                                <Typography gutterBottom variant="h5" component="h2">
-                                {item.displayName}
-          </Typography>
+                                    <Typography gutterBottom variant="h5" component="h2">
+                                        {item.displayName}
+                                    </Typography>
                                     <Typography>{item.title}</Typography>
 
                                     <Typography gutterBottom variant="subtitle1">
@@ -153,7 +153,6 @@ const Members: NextPage<Props> = ({ members }: Props) => {
     });
 
     const revalidatedMembers = (data && data.members) || [];
-    revalidatedMembers.sort((a, b) => a.rank - b.rank);
 
     const memberBuckets: { [key: string]: Member[] } = memberPositions.reduce(
         (acc, type) => ({ ...acc, [type]: [] }),

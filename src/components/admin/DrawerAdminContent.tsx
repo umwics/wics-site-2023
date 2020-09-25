@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
+const collections = ["users", "members", "companies", "events", "resources"];
+const apiDocs = ["users", "members", "companies", "events", "resources"];
+
 const DrawerAdminContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
     const classes = useStyles();
     const auth = useAuth();
@@ -83,7 +86,7 @@ const DrawerAdminContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                                 dense
                                 disablePadding
                             >
-                                {["users", "members", "companies", "events"].map(text => (
+                                {collections.map(text => (
                                     <Link key={text} href={`/admin/${text}`} passHref>
                                         <ListItem button component="a">
                                             <ListItemText primary={text} />
@@ -114,7 +117,7 @@ const DrawerAdminContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                                 <ListItemText primary="Overview" />
                             </ListItem>
                         </Link>
-                        {["users", "members", "companies", "events"].map(text => (
+                        {apiDocs.map(text => (
                             <Link key={text} href="/docs/[[...slug]]" as={`/docs/${text}`} passHref>
                                 <ListItem button component="a">
                                     <ListItemText primary={text} />

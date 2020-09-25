@@ -1,7 +1,7 @@
 import { Button, Container, makeStyles, Theme, Typography } from "@material-ui/core";
 import { GetStaticProps, NextPage } from "next";
 import { useSnackbar } from "notistack";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DropResult, ResponderProvided } from "react-beautiful-dnd";
 import AddMemberDialog from "../../../components/admin/AddMemberDialog";
 import MemberList from "../../../components/admin/MemberList";
@@ -39,13 +39,7 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
 
     const [editMember, setEditMember] = useState<Member | undefined>(undefined);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
-    const [listenMembers, loading] = useMembers({ initialData: members });
-
-    const [revalidatedMembers, setRevalidatedMembers] = useState<Member[]>([...listenMembers]);
-
-    useEffect(() => {
-        if (!loading) setRevalidatedMembers([...listenMembers]);
-    }, [listenMembers]);
+    const { data: revalidatedMembers, mutate } = useMembers({ initialData: members });
 
     const addMember = async (
         member: Member,
@@ -55,10 +49,11 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
         const { id, ...data } = member;
         const editing = !!id;
 
+        const imageUrl = image
+            ? await storeImage(image, "members", progressCallback)
+            : member.image;
+
         if (editing) {
-            const imageUrl = image
-                ? await storeImage(image, "members", progressCallback)
-                : member.image;
             const response = await fetch(`/api/${process.env.apiVersion}/members/${id}`, {
                 method: "PATCH",
                 headers: {
@@ -70,9 +65,6 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
                 enqueueSnackbar("Successfully Updated Member", { variant: "success" });
             } else enqueueSnackbar("Failed to Update Member", { variant: "error" });
         } else {
-            const imageUrl = image
-                ? await storeImage(image, "members", progressCallback)
-                : member.image;
             const response = await fetch(`/api/${process.env.apiVersion}/members`, {
                 method: "POST",
                 headers: {
@@ -90,14 +82,19 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
         const { source, destination } = result;
 
         // dropped outside the list or dropped in different lists
-        if (!destination || source.droppableId !== destination.droppableId) return;
+        if (
+            !destination ||
+            source.droppableId !== destination.droppableId ||
+            source.index === destination.index
+        )
+            return;
 
         const reordered = [...revalidatedMembers];
         const [removed] = reordered.splice(source.index, 1);
         reordered.splice(destination.index, 0, removed);
         const ranked = reordered.map((member, idx) => ({ id: member.id, rank: idx }));
 
-        setRevalidatedMembers(reordered);
+        mutate(reordered);
         const response = await fetch(`/api/${process.env.apiVersion}/members`, {
             method: "PATCH",
             headers: {

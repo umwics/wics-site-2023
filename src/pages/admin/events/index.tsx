@@ -38,7 +38,7 @@ const Events: NextPage<Props> = ({ events, auth }: Props) => {
 
     const [editEvent, setEditEvent] = useState<Event | undefined>(undefined);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
-    const [revalidatedEvents] = useEvents({ initialData: events });
+    const { data: revalidatedEvents } = useEvents({ initialData: events });
 
     const addEvent = async (
         event: Event,

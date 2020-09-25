@@ -1,4 +1,4 @@
-import { Company, Event, Member, User } from "../interfaces";
+import { Company, Event, Member, Resource, User } from "../interfaces";
 import { firestore } from "./firebaseAdmin";
 
 export const deleteDocument = async (collection: string, id: string): Promise<boolean> => {
@@ -174,6 +174,43 @@ export const updateEvent = async (
 
         return await firestore
             .collection("events")
+            .doc(uid)
+            .update(newValues)
+            .then(() => newValues)
+            .catch(() => null);
+    }
+
+    return null;
+};
+
+export const createResource = async (resource: Resource): Promise<Resource | null> => {
+    if (firestore) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...data } = resource;
+        const doc = await firestore.collection("resources").add({ ...data });
+
+        const newResource = <Resource>{ id: doc.id, ...data };
+
+        return newResource;
+    }
+
+    return null;
+};
+
+export const deleteResource = async (id: string): Promise<boolean> => {
+    return await deleteDocument("resources", id);
+};
+
+export const updateResource = async (
+    uid: string,
+    partialResource: Partial<Resource>
+): Promise<Partial<Resource> | null> => {
+    if (firestore) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...newValues } = partialResource;
+
+        return await firestore
+            .collection("resources")
             .doc(uid)
             .update(newValues)
             .then(() => newValues)

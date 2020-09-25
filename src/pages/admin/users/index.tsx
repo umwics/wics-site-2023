@@ -25,7 +25,7 @@ const Users: NextPage<Props> = ({ users, auth }: Props) => {
     const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
 
-    const [revalidatedUsers] = useUsers({ initialData: users });
+    const { data: revalidatedUsers } = useUsers({ initialData: users });
 
     const updateVisibleUser = async (user: User) => {
         const response = await fetch(`/api/${process.env.apiVersion}/users/${user.id}`, {
