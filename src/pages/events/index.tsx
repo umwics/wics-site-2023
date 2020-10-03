@@ -283,8 +283,8 @@ const Events: NextPage<Props> = ({ events }: Props) => {
 
                 <Calendar
                     className={classes.heroContent}
-                    largeSrc="https://calendar.google.com/calendar/b/1/embed?showTitle=0&amp;showCalendars=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=uofmwics%40gmail.com&amp;color=%231B887A&amp;ctz=America%2FWinnipeg"
-                    smallSrc="https://calendar.google.com/calendar/b/1/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=uofmwics%40gmail.com&amp;color=%231B887A&amp;ctz=America%2FWinnipeg"
+                    largeSrc="https://calendar.google.com/calendar/embed?src=jgn1g4ku9fs1pv3pr08t405amo%40group.calendar.google.com&amp;ctz=America%2FWinnipeg"
+                    smallSrc="https://calendar.google.com/calendar/embed?src=jgn1g4ku9fs1pv3pr08t405amo%40group.calendar.google.com&amp;ctz=America%2FWinnipeg"
                 />
             </Container>
             <BackToTop />

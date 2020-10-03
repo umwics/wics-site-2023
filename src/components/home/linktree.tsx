@@ -6,7 +6,6 @@ import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React from "react";
-import Calendar from "../events/calendar";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -23,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
             color: theme.palette.text.secondary
         },
         thirdHeading: {
-            align: "center"
+            alignItems: "center"
         }
     })
 );
@@ -154,7 +153,7 @@ export default function ControlledAccordions() {
                 <AccordionDetails>
                     <Typography className={classes.thirdHeading}>
                         Checkout our upcoming events!&nbsp;&nbsp;
-                        <Calendar />
+                        <Link href="/events#calendar">Calendar</Link>
                     </Typography>
                 </AccordionDetails>
             </Accordion>
