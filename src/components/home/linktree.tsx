@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { Link } from "@material-ui/core";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -27,12 +28,16 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function ControlledAccordions() {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState<string | false>(false);
 
     // eslint-disable-next-line @typescript-eslint/ban-types
-    const handleChange = (panel: string) => (event: React.ChangeEvent<{}>, isExpanded: boolean) => {
+    const handleChange = (panel: string) => (
+        _event: React.ChangeEvent<{}>,
+        isExpanded: boolean
+    ) => {
         setExpanded(isExpanded ? panel : false);
     };
 
