@@ -83,9 +83,9 @@ const DrawerContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                             "members",
                             "events",
                             "outreach",
-                            "mentors",
                             "coop",
-                            "resources"
+                            "resources",
+                            "contact"
                         ].map(page => (
                             <Link key={page} href={`/${page}`} passHref>
                                 <ListItem button component="a">
