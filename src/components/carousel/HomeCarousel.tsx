@@ -80,7 +80,7 @@ const items = [
     },
     {
         name: "1",
-        h1: "Virtual WICS Mingle",
+        h1: "WICS Virtual Mingle",
         h2: "Events",
         p: "2020 Summer",
         src: "img/main/wics-mingle.png",
