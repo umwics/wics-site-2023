@@ -6,6 +6,7 @@ import { NextPage } from "next";
 import Fade from "react-reveal/Fade";
 import BackToTop from "../components/BackToTop";
 import HomeCarousel from "../components/carousel/HomeCarousel";
+import Linktree from "../components/home/linktree";
 import ContentsLayout from "../components/layouts/ContentsLayout";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -19,13 +20,14 @@ const useStyles = makeStyles((theme: Theme) => ({
         textAlign: "center",
         marginBottom: 70,
         fontFamily: "Lato",
-        "& h2": {
-            color: "#ff6f6f",
-            marginBottom: 30,
-            fontWeight: 700,
+        "& h3": {
+            color: "#202124",
+            marginBottom: 25,
+            fontWeight: 1000,
             textTransform: "uppercase",
             position: "relative",
-            fontFamily: "Lato"
+            fontFamily: "Lato",
+            letterSpacing: 1
         },
         "& h5": {
             color: "#363b3f",
@@ -46,6 +48,19 @@ const useStyles = makeStyles((theme: Theme) => ({
         "& p": {
             fontSize: 20
         }
+    },
+    outline: {
+        textAlign: "center",
+        backgroundColor: "#00bfa5",
+        borderRadius: 2,
+        height: 4,
+        width: 40,
+        marginBottom: 25
+    },
+    centered: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
     }
 }));
 
@@ -60,7 +75,10 @@ const Home: NextPage = () => {
                 <div className={classes.paper}>
                     <div className={classes.sectionTitle}>
                         <Fade bottom duration={1000} delay={100} distance="30px">
-                            <Typography variant="h2">Welcome to UM WICS!</Typography>
+                            <Typography variant="h3">Welcome to UM WICS!</Typography>
+                            <div className={classes.centered}>
+                                <div className={classes.outline}></div>
+                            </div>
                         </Fade>
                         <Fade bottom duration={1000} delay={200} distance="30px">
                             <Typography variant="h5">Meet our team 2020-2021</Typography>
@@ -80,25 +98,22 @@ const Home: NextPage = () => {
                 </div>
 
                 <div className={classes.paper}>
-                        <div className={classes.sectionTitle}>
-                            <Fade bottom duration={1000} delay={100} distance="30px">
-                                <Typography variant="h2">Stay Connected #umwics</Typography>
-                            </Fade>
-                            <Fade bottom duration={1000} delay={200} distance="30px">
-                                <Typography variant="h5">
-                                    Follow us on social media and checkout our upcoming events!
-                                </Typography>
-                            </Fade>
-                        </div>
+                    <div className={classes.sectionTitle}>
+                        <Fade bottom duration={1000} delay={100} distance="30px">
+                            <Typography variant="h3">Stay Connected #umwics</Typography>
+                            <div className={classes.centered}>
+                                <div className={classes.outline}></div>
+                            </div>
+                        </Fade>
+                        <Fade bottom duration={1000} delay={200} distance="30px">
+                            <Typography variant="h5">
+                                Follow us on social media and checkout our upcoming events!
+                            </Typography>
+                        </Fade>
+                    </div>
                     <div className={classes.sectionEmbed}>
                         <Fade bottom duration={1000} delay={300} distance="30px">
-                            <iframe
-                                id="linktree-frame"
-                                src="https://linktr.ee/umwics"
-                                frameBorder="0"
-                                width="100%"
-                                height="1200"
-                            ></iframe>
+                            <Linktree />
                         </Fade>
                     </div>
                 </div>
