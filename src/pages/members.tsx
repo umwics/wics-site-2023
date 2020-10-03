@@ -104,7 +104,8 @@ const useCarouselStyles = makeStyles((theme: Theme) => ({
     paperCarousel: {
         marginTop: theme.spacing(8),
         marginBottom: theme.spacing(12),
-        textAlign: "center"
+        textAlign: "center",
+        overflow: "hidden"
     },
     titleCarousel: {
         top: "40%",
@@ -116,7 +117,7 @@ const useCarouselStyles = makeStyles((theme: Theme) => ({
         justifyContent: "center",
         textTransform: "uppercase",
         fontWeight: 700,
-        width: "100%",
+        width: "96%",
         "& h1": {
             marginTop: 0,
             marginBottom: 6,
@@ -216,18 +217,18 @@ const Members: NextPage<Props> = ({ members }: Props) => {
             memberBuckets[position].push(member);
         });
     });
-    const classesCalendar = useCarouselStyles();
+    const classesCarousel = useCarouselStyles();
 
     return (
         <ContentsLayout title="Members">
             <MenmbersCarousel />
-            <div className={classesCalendar.titleCarousel}>
+            <div className={classesCarousel.titleCarousel}>
                 <Typography variant="h1">WICS Members</Typography>
 
                 <p>Meet our members and join the movement today!</p>
 
                 <div className={classes.heroButtons}>
-                    <Grid container spacing={2} justify="center">
+                    <Grid container spacing={1} justify="center">
                         {memberPositions.map(type => (
                             <Grid key={type} item>
                                 <Button variant="contained" color="primary" href={`#${type}`}>
