@@ -71,6 +71,24 @@ const useStyles = makeStyles((_theme: Theme) =>
 const items = [
     {
         name: "1",
+        h1: "Exec",
+        h2: "2020-2021",
+        p: "We are a group of University of Manitoba students who support women in technology.",
+        src: "img/main/exec-photos-8.png",
+        linkname: "Meet our Exec!",
+        link: "/members#exec"
+    },
+    {
+        name: "1",
+        h1: "Virtual WICS Mingle",
+        h2: "Events",
+        p: "2020 Summer",
+        src: "img/main/wics-mingle.png",
+        linkname: "See more",
+        link: "/events#otherEvent"
+    },
+    {
+        name: "1",
         h1: "Women in Computer Science",
         h2: "University of Manitoba",
         p: "We are a group of University of Manitoba students who support women in technology.",
