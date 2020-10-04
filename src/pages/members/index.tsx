@@ -3,27 +3,32 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     Button,
     Card,
+    CardActions,
     CardContent,
     CardMedia,
+    Collapse,
     Container,
     Grid,
+    IconButton,
     List,
     ListItem,
-    ListItemIcon,
     ListItemText,
     Typography
 } from "@material-ui/core";
+import { red } from "@material-ui/core/colors";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import DoneOutlineSharpIcon from "@material-ui/icons/DoneOutlineSharp";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import clsx from "clsx";
 import { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
 import React from "react";
+import Modal from "react-modal";
 import useSWR from "swr";
-import BackToTop from "../components/BackToTop";
-import MenmbersCarousel from "../components/carousel/MembersCarousel";
-import ContentsLayout from "../components/layouts/ContentsLayout";
-import { Member, MemberPosition, memberPositionLabels, memberPositions } from "../interfaces";
-import { getAllMembers } from "../lib/db";
+import BackToTop from "../../components/BackToTop";
+import MenmbersCarousel from "../../components/carousel/MembersCarousel";
+import ContentsLayout from "../../components/layouts/ContentsLayout";
+import { Member, MemberPosition, memberPositionLabels, memberPositions } from "../../interfaces";
+import { getAllMembers } from "../../lib/db";
 
 interface SectionProps {
     className?: string;
@@ -34,6 +39,8 @@ interface SectionProps {
 interface Props {
     members: Member[];
 }
+
+Modal.setAppElement("#__next");
 
 const useStyles = makeStyles((theme: Theme) => ({
     paper: {
@@ -97,6 +104,23 @@ const useStyles = makeStyles((theme: Theme) => ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center"
+    },
+    media: {
+        height: 0,
+        paddingTop: "56.25%" // 16:9
+    },
+    expand: {
+        transform: "rotate(0deg)",
+        marginLeft: "auto",
+        transition: theme.transitions.create("transform", {
+            duration: theme.transitions.duration.shortest
+        })
+    },
+    expandOpen: {
+        transform: "rotate(180deg)"
+    },
+    avatar: {
+        backgroundColor: red[500]
     }
 }));
 
@@ -129,6 +153,11 @@ const useCarouselStyles = makeStyles((theme: Theme) => ({
 
 const Section: React.FC<SectionProps> = ({ className, type, members }: SectionProps) => {
     const classes = useStyles();
+    const [expanded, setExpanded] = React.useState(false);
+
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
 
     return (
         <div className={className} id={type}>
@@ -138,58 +167,89 @@ const Section: React.FC<SectionProps> = ({ className, type, members }: SectionPr
             <div className={classes.centered}>
                 <div className={classes.outline}></div>
             </div>
-            <Container className={classes.cardGrid} maxWidth="md">
+            <Container className={classes.cardGrid} maxWidth="lg">
                 <Grid container spacing={4}>
                     {members.map(item => (
-                        <Grid item key={item.name} xs={12} sm={6} md={4}>
-                            <Card className={classes.card}>
-                                <CardMedia
-                                    className={classes.cardMedia}
-                                    image={item.image}
-                                    title={item.displayName}
-                                />
+                        <Grid item key={item.name} xs={12} sm={6} md={3}>
+                            {item.image && (
+                                <Card className={classes.card}>
+                                    {/* <Link href={`/members/[id]`} as={`/members/${item.id}`} passHref>
+                                    <CardActionArea component="a"> */}
+                                    <CardMedia
+                                        className={classes.cardMedia}
+                                        image={item.image}
+                                        title={item.displayName}
+                                    />
 
+                                    <CardContent className={classes.cardContent}>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            {item.displayName}
+                                        </Typography>
+                                        <Typography>{item.title}</Typography>
+                                    </CardContent>
+
+                                    <CardActions disableSpacing>
+                                        {item.email && (
+                                            <IconButton aria-label="email">
+                                                <Link href={"mailto:" + item.email}>
+                                                    <FontAwesomeIcon icon={faEnvelope} />
+                                                </Link>
+                                            </IconButton>
+                                        )}
+
+                                        <IconButton
+                                            className={clsx(classes.expand, {
+                                                [classes.expandOpen]: expanded
+                                            })}
+                                            onClick={handleExpandClick}
+                                            aria-expanded={expanded}
+                                            aria-label="show more"
+                                        >
+                                            <ExpandMoreIcon />
+                                        </IconButton>
+                                    </CardActions>
+
+                                    <Collapse in={expanded} timeout="auto" unmountOnExit>
+                                        <CardContent>
+                                            {item.links.map(itemlink => (
+                                                <Link key={itemlink.title} href={itemlink.link}>
+                                                    <Button size="small" color="primary">
+                                                        {itemlink.title}
+                                                    </Button>
+                                                </Link>
+                                            ))}
+                                            <Typography paragraph variant="body2">
+                                                {item.description}
+                                            </Typography>
+
+                                            <List component="nav" aria-label="contacts">
+                                                {item.facts.map((itemfacts, idx) => (
+                                                    <Typography
+                                                        key={idx}
+                                                        gutterBottom
+                                                        color="textSecondary"
+                                                        variant="subtitle2"
+                                                    >
+                                                        <ListItem button>
+                                                            <ListItemText secondary={itemfacts} />
+                                                        </ListItem>
+                                                    </Typography>
+                                                ))}
+                                            </List>
+                                        </CardContent>
+                                    </Collapse>
+                                    {/* </CardActionArea>
+                                </Link> */}
+                                </Card>
+                            )}
+                            {!item.image && (
                                 <CardContent className={classes.cardContent}>
                                     <Typography gutterBottom variant="h5" component="h2">
                                         {item.displayName}
                                     </Typography>
                                     <Typography>{item.title}</Typography>
-
-                                    <Typography gutterBottom variant="subtitle1">
-                                        <Link href={"mailto:" + item.email}>
-                                            <FontAwesomeIcon icon={faEnvelope} />
-                                        </Link>
-                                        {item.links.map(itemlink => (
-                                            <Link key={itemlink.title} href={itemlink.link}>
-                                                <Button size="small" color="primary">
-                                                    {itemlink.title}
-                                                </Button>
-                                            </Link>
-                                        ))}
-                                    </Typography>
-                                    <Typography paragraph variant="body2">
-                                        {item.description}
-                                    </Typography>
-
-                                    <List component="nav" aria-label="contacts">
-                                        {item.facts.map((itemfacts, idx) => (
-                                            <Typography
-                                                key={idx}
-                                                gutterBottom
-                                                color="textSecondary"
-                                                variant="subtitle2"
-                                            >
-                                                <ListItem button>
-                                                    <ListItemIcon>
-                                                        <DoneOutlineSharpIcon fontSize="small" />
-                                                    </ListItemIcon>
-                                                    <ListItemText secondary={itemfacts} />
-                                                </ListItem>
-                                            </Typography>
-                                        ))}
-                                    </List>
                                 </CardContent>
-                            </Card>
+                            )}
                         </Grid>
                     ))}
                 </Grid>
