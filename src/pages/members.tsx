@@ -20,6 +20,7 @@ import Link from "next/link";
 import React from "react";
 import useSWR from "swr";
 import BackToTop from "../components/BackToTop";
+import MenmbersCarousel from "../components/carousel/MembersCarousel";
 import ContentsLayout from "../components/layouts/ContentsLayout";
 import { Member, MemberPosition, memberPositionLabels, memberPositions } from "../interfaces";
 import { getAllMembers } from "../lib/db";
@@ -55,6 +56,15 @@ const useStyles = makeStyles((theme: Theme) => ({
         "& h4": {
             color: "#ff6f6f",
             fontFamily: "Lato"
+        },
+        "& h3": {
+            color: "#202124",
+            marginBottom: 25,
+            fontWeight: 1000,
+            textTransform: "uppercase",
+            position: "relative",
+            fontFamily: "Lato",
+            letterSpacing: 1
         }
     },
     heroButtons: {
@@ -74,6 +84,46 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     cardContent: {
         flexGrow: 1
+    },
+    outline: {
+        textAlign: "center",
+        backgroundColor: "#00bfa5",
+        borderRadius: 2,
+        height: 4,
+        width: 40,
+        marginBottom: 25
+    },
+    centered: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+    }
+}));
+
+const useCarouselStyles = makeStyles((theme: Theme) => ({
+    paperCarousel: {
+        marginTop: theme.spacing(8),
+        marginBottom: theme.spacing(12),
+        textAlign: "center",
+        overflow: "hidden"
+    },
+    titleCarousel: {
+        top: "40%",
+        marginBottom: 50,
+        fontFamily: "Lato",
+        position: "absolute",
+        textAlign: "center",
+        color: "white",
+        justifyContent: "center",
+        textTransform: "uppercase",
+        fontWeight: 700,
+        width: "96%",
+        "& h1": {
+            marginTop: 0,
+            marginBottom: 6,
+            fontWeight: 700,
+            fontFamily: "Lato"
+        }
     }
 }));
 
@@ -82,9 +132,12 @@ const Section: React.FC<SectionProps> = ({ className, type, members }: SectionPr
 
     return (
         <div className={className} id={type}>
-            <Typography component="h4" variant="h4" align="center" color="textPrimary" gutterBottom>
+            <Typography component="h3" variant="h3" align="center" color="textPrimary" gutterBottom>
                 {memberPositionLabels[type]}
             </Typography>
+            <div className={classes.centered}>
+                <div className={classes.outline}></div>
+            </div>
             <Container className={classes.cardGrid} maxWidth="md">
                 <Grid container spacing={4}>
                     {members.map(item => (
@@ -163,48 +216,30 @@ const Members: NextPage<Props> = ({ members }: Props) => {
             memberBuckets[position].push(member);
         });
     });
+    const classesCarousel = useCarouselStyles();
 
     return (
         <ContentsLayout title="Members">
-            <Container component="main">
-                <div className={classes.heroContent}>
-                    <Container maxWidth="md">
-                        <Typography
-                            component="h2"
-                            variant="h2"
-                            align="center"
-                            color="textPrimary"
-                            gutterBottom
-                        >
-                            WICS Members
-                        </Typography>
-                        <Typography
-                            component="h5"
-                            variant="h5"
-                            align="center"
-                            color="textSecondary"
-                            paragraph
-                        >
-                            Meet our members and join the movement today!
-                        </Typography>
-                        <div className={classes.heroButtons}>
-                            <Grid container spacing={2} justify="center">
-                                {memberPositions.map(type => (
-                                    <Grid key={type} item>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            href={`#${type}`}
-                                        >
-                                            {memberPositionLabels[type]}
-                                        </Button>
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        </div>
-                    </Container>
-                </div>
+            <MenmbersCarousel />
+            <div className={classesCarousel.titleCarousel}>
+                <Typography variant="h1">WICS Members</Typography>
 
+                <p>Meet our members and join the movement today!</p>
+
+                <div className={classes.heroButtons}>
+                    <Grid container spacing={1} justify="center">
+                        {memberPositions.map(type => (
+                            <Grid key={type} item>
+                                <Button variant="contained" color="primary" href={`#${type}`}>
+                                    {memberPositionLabels[type]}
+                                </Button>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </div>
+            </div>
+
+            <Container component="main">
                 {Object.entries(memberBuckets).map(([sectionType, sectionMembers]) => (
                     <Section
                         key={sectionType}

@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const pages = ["about", "members", "events", "outreach", "mentors", "coop", "resources"];
+const pages = ["about", "members", "events", "outreach", "mentors", "coop", "resources", "contact"];
 
 const DrawerContent: React.FC = () => {
     const { closeDrawer } = useDrawer();

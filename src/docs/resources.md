@@ -23,7 +23,7 @@ curl -X GET "https://umwics.vercel.app/api/v1/resources"
 
 ```json
 {
-    "resource": [
+    "resources": [
         {
             "id": "UAcL8OxVSdyx5jD4Owem",
             "name": "name",

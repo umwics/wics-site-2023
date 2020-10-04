@@ -75,11 +75,11 @@ const Header: React.FC<Props> = ({ title }: Props) => {
                                 Outreach
                             </Button>
                         </Link>
-                        <Link href="/mentors" passHref>
+                        {/* <Link href="/mentors" passHref>
                             <Button component="a" color="inherit" className={classes.appbarmenu}>
                                 Mentors
                             </Button>
-                        </Link>
+                        </Link> */}
                         <Link href="/coop" passHref>
                             <Button component="a" color="inherit" className={classes.appbarmenu}>
                                 Co-op
@@ -88,6 +88,11 @@ const Header: React.FC<Props> = ({ title }: Props) => {
                         <Link href="/resources" passHref>
                             <Button component="a" color="inherit" className={classes.appbarmenu}>
                                 Resources
+                            </Button>
+                        </Link>
+                        <Link href="/contact" passHref>
+                            <Button component="a" color="inherit" className={classes.appbarmenu}>
+                                Contact
                             </Button>
                         </Link>
                     </nav>

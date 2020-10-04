@@ -58,6 +58,15 @@ const useStyles = makeStyles((theme: Theme) => ({
         "& h4": {
             color: "#ff6f6f",
             fontFamily: "Lato"
+        },
+        "& h3": {
+            color: "#202124",
+            marginBottom: 25,
+            fontWeight: 1000,
+            textTransform: "uppercase",
+            position: "relative",
+            fontFamily: "Lato",
+            letterSpacing: 1
         }
     },
     heroButtons: {
@@ -77,6 +86,19 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     cardContent: {
         flexGrow: 1
+    },
+    outline: {
+        textAlign: "center",
+        backgroundColor: "#00bfa5",
+        borderRadius: 2,
+        height: 4,
+        width: 40,
+        marginBottom: 25
+    },
+    centered: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
     }
 }));
 
@@ -114,6 +136,19 @@ const useCalendarStyles = makeStyles((_theme: Theme) => ({
         "@media (max-width:800px)": {
             display: "none"
         }
+    },
+    outline: {
+        textAlign: "center",
+        backgroundColor: "#00bfa5",
+        borderRadius: 2,
+        height: 4,
+        width: 40,
+        marginBottom: 25
+    },
+    centered: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
     }
 }));
 
@@ -122,9 +157,12 @@ const Calendar: React.FC<CalendarProps> = ({ className, largeSrc, smallSrc }: Ca
 
     return (
         <div className={className} id="calendar">
-            <Typography component="h4" variant="h4" align="center" color="textPrimary" gutterBottom>
+            <Typography component="h3" variant="h3" align="center" color="textPrimary" gutterBottom>
                 Calendar
             </Typography>
+            <div className={classes.centered}>
+                <div className={classes.outline}></div>
+            </div>
             <div className={classes.calendarLarge}>
                 <iframe
                     src={largeSrc}
@@ -153,9 +191,12 @@ const Section: React.FC<SectionProps> = ({ className, type, events }: SectionPro
 
     return (
         <div className={className} id={type}>
-            <Typography component="h4" variant="h4" align="center" color="textPrimary" gutterBottom>
+            <Typography component="h3" variant="h3" align="center" color="textPrimary" gutterBottom>
                 {eventTypeLabels[type]}
             </Typography>
+            <div className={classes.centered}>
+                <div className={classes.outline}></div>
+            </div>
             <Container className={classes.cardGrid} maxWidth="md">
                 <Grid container spacing={4}>
                     {events.map(item => (
@@ -283,8 +324,8 @@ const Events: NextPage<Props> = ({ events }: Props) => {
 
                 <Calendar
                     className={classes.heroContent}
-                    largeSrc="https://calendar.google.com/calendar/b/1/embed?showTitle=0&amp;showCalendars=0&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=uofmwics%40gmail.com&amp;color=%231B887A&amp;ctz=America%2FWinnipeg"
-                    smallSrc="https://calendar.google.com/calendar/b/1/embed?showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=uofmwics%40gmail.com&amp;color=%231B887A&amp;ctz=America%2FWinnipeg"
+                    largeSrc="https://calendar.google.com/calendar/embed?src=jgn1g4ku9fs1pv3pr08t405amo%40group.calendar.google.com&amp;ctz=America%2FWinnipeg"
+                    smallSrc="https://calendar.google.com/calendar/embed?src=jgn1g4ku9fs1pv3pr08t405amo%40group.calendar.google.com&amp;ctz=America%2FWinnipeg"
                 />
             </Container>
             <BackToTop />
