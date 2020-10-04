@@ -37,7 +37,7 @@ const LoginButtons: React.FC<Props> = ({ handleLogin }: Props) => {
             <Grid item xs={12} sm={6}>
                 <Button
                     onClick={async () => {
-                        await auth?.signinWithGoogle();
+                        await auth.signinWithGoogle();
                         handleLogin && handleLogin();
                     }}
                     variant="contained"
@@ -51,7 +51,7 @@ const LoginButtons: React.FC<Props> = ({ handleLogin }: Props) => {
             <Grid item xs={12} sm={6}>
                 <Button
                     onClick={async () => {
-                        await auth?.signinWithGitHub();
+                        await auth.signinWithGitHub();
                         handleLogin && handleLogin();
                     }}
                     variant="contained"

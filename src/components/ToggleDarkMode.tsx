@@ -11,16 +11,16 @@ const ToggleDarkMode: React.FC = () => {
     const handleTogglePaletteType = () => {
         const paletteType = theme.palette.type === "light" ? "dark" : "light";
 
-        changeTheme({ palette: { ...theme.palette, type: paletteType } });
+        changeTheme({ palette: { type: paletteType } });
     };
 
     return (
-        <Tooltip title={theme.palette.type === "light" ? "toggle dark mode" : "toggle light mode"}>
+        <Tooltip title={theme.palette.type === "light" ? "Toggle dark mode" : "Toggle light mode"}>
             <IconButton
                 color="inherit"
                 onClick={handleTogglePaletteType}
                 aria-label={
-                    theme.palette.type === "light" ? "toggle dark mode" : "toggle light mode"
+                    theme.palette.type === "light" ? "Toggle dark mode" : "Toggle light mode"
                 }
                 data-ga-event-category="header"
                 data-ga-event-action="dark"

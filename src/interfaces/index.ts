@@ -1,3 +1,5 @@
+export * from "./AuditLog";
+export * from "./Carousel";
 export * from "./Company";
 export * from "./Doc";
 export * from "./Event";

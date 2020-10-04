@@ -11,12 +11,8 @@ import {
 import { fade, makeStyles, Theme } from "@material-ui/core/styles";
 import { Cloud, ExpandLess, ExpandMore, Pages } from "@material-ui/icons";
 import Link from "next/link";
-import React from "react";
-
-interface Props {
-    onClick?: (event: React.MouseEvent) => any;
-    onKeyDown?: (event: React.KeyboardEvent) => any;
-}
+import React, { useState } from "react";
+import { useDrawer } from "./Drawer";
 
 const useStyles = makeStyles((theme: Theme) => ({
     toolbar: {
@@ -24,6 +20,13 @@ const useStyles = makeStyles((theme: Theme) => ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center"
+    },
+    title: {
+        color: theme.palette.text.secondary,
+        marginBottom: theme.spacing(0.5),
+        "&:hover": {
+            color: theme.palette.primary.main
+        }
     },
     list: {
         width: 250
@@ -34,10 +37,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const DrawerContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
+const pages = ["about", "members", "events", "outreach", "mentors", "coop", "resources", "contact"];
+
+const DrawerContent: React.FC = () => {
+    const { closeDrawer } = useDrawer();
     const classes = useStyles();
 
-    const [pagesOpen, setPagesOpen] = React.useState(true);
+    const [pagesOpen, setPagesOpen] = useState(true);
 
     return (
         <div className={classes.list} role="presentation">
@@ -45,12 +51,19 @@ const DrawerContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                 component="nav"
                 subheader={
                     <ListSubheader
+                        id="nested-list-subheader"
                         className={classes.toolbar}
                         component="div"
-                        id="nested-list-subheader"
+                        disableSticky
                     >
                         <Link href="/" passHref>
-                            <MuiLink component="a" color="inherit" variant="h6">
+                            <MuiLink
+                                component="a"
+                                className={classes.title}
+                                onClick={closeDrawer}
+                                color="inherit"
+                                variant="subtitle1"
+                            >
                                 UMWics
                             </MuiLink>
                         </Link>
@@ -65,11 +78,11 @@ const DrawerContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                     <ListItemText primary="Pages" />
                     {pagesOpen ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
-                <Collapse in={pagesOpen} className={classes.group} timeout="auto" unmountOnExit>
+                <Collapse in={pagesOpen} className={classes.group} timeout="auto">
                     <List
                         component="div"
-                        onClick={onClick}
-                        onKeyDown={onKeyDown}
+                        onClick={closeDrawer}
+                        onKeyDown={closeDrawer}
                         dense
                         disablePadding
                     >
@@ -78,15 +91,7 @@ const DrawerContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                                 <ListItemText primary="Home" />
                             </ListItem>
                         </Link>
-                        {[
-                            "about",
-                            "members",
-                            "events",
-                            "outreach",
-                            "coop",
-                            "resources",
-                            "contact"
-                        ].map(page => (
+                        {pages.map(page => (
                             <Link key={page} href={`/${page}`} passHref>
                                 <ListItem button component="a">
                                     <ListItemText primary={page} />

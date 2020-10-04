@@ -10,6 +10,7 @@ import Document, {
 } from "next/document";
 import React from "react";
 import GoogleAnalytics from "../components/GoogleAnalytics";
+import { themeColor } from "../components/ThemeProvider";
 
 class DocumentWrapper extends Document {
     // `getInitialProps` belongs to `_document` (instead of `_app`),
@@ -59,8 +60,9 @@ class DocumentWrapper extends Document {
             <Html>
                 <Head>
                     {/* PWA primary color */}
-                    <meta name="theme-color" content="#3f51b5" />
+                    <meta name="theme-color" content={themeColor} />
 
+                    {/* Analytics */}
                     <GoogleAnalytics trackingId={process.env.googleAnalyticsTrackingId || ""} />
 
                     {/* favicon */}

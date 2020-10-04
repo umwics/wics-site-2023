@@ -4,9 +4,11 @@ import { NextSeo } from "next-seo";
 import Link from "next/link";
 import React from "react";
 import { useAuth } from "../lib/auth";
+import ProfileDropdown from "./admin/ProfileDropdown";
 import Drawer from "./Drawer";
 import DrawerContent from "./DrawerContent";
-import ProfileDropdown from "./ProfileDropdown";
+import HideOnScroll from "./HideOnScroll";
+import ToggleDarkMode from "./ToggleDarkMode";
 
 interface Props {
     title?: string;
@@ -18,7 +20,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         fontFamily: "Roboto"
     },
     appbar: {
-        backgroundColor: "#ffffff",
+        backgroundColor: theme.palette.type === "light" ? "#fff" : undefined,
         borderBottom: `1px solid ${theme.palette.divider}`
     },
     sectionDesktop: {
@@ -39,63 +41,100 @@ const Header: React.FC<Props> = ({ title }: Props) => {
 
     return (
         <React.Fragment>
-            <NextSeo title={title ? title + " | " + process.env.siteDisplayName : undefined} />
-            <AppBar position="sticky" color="default" elevation={0} className={classes.appbar}>
-                <Toolbar>
-                    <Drawer content={DrawerContent} />
-                    <Typography component="h1" variant="h6" className={classes.title}>
-                        {title}
-                    </Typography>
-                    <nav className={classes.sectionDesktop}>
-                        <Link href="/" passHref>
-                            <Button component="a" color="inherit" className={classes.appbarmenu}>
-                                Home
-                            </Button>
-                        </Link>
-                        <Link href="/about" passHref>
-                            <Button component="a" color="inherit" className={classes.appbarmenu}>
-                                About
-                            </Button>
-                        </Link>
-                        <Link href="/members" passHref>
-                            <Button component="a" color="inherit" className={classes.appbarmenu}>
-                                Members
-                            </Button>
-                        </Link>
-                        <Link href="/events" passHref>
-                            <Button component="a" color="inherit" className={classes.appbarmenu}>
-                                Events
-                            </Button>
-                        </Link>
-                        <Link href="/outreach" passHref>
-                            <Button component="a" color="inherit" className={classes.appbarmenu}>
-                                Outreach
-                            </Button>
-                        </Link>
-                        {/* <Link href="/mentors" passHref>
+            <NextSeo title={title} />
+            <HideOnScroll>
+                <AppBar position="sticky" color="default" elevation={0} className={classes.appbar}>
+                    <Toolbar>
+                        <Drawer>
+                            <DrawerContent />
+                        </Drawer>
+                        <Typography component="h1" variant="h6" className={classes.title}>
+                            {title}
+                        </Typography>
+                        <nav className={classes.sectionDesktop}>
+                            <Link href="/" passHref>
+                                <Button
+                                    component="a"
+                                    color="inherit"
+                                    className={classes.appbarmenu}
+                                >
+                                    Home
+                                </Button>
+                            </Link>
+                            <Link href="/about" passHref>
+                                <Button
+                                    component="a"
+                                    color="inherit"
+                                    className={classes.appbarmenu}
+                                >
+                                    About
+                                </Button>
+                            </Link>
+                            <Link href="/members" passHref>
+                                <Button
+                                    component="a"
+                                    color="inherit"
+                                    className={classes.appbarmenu}
+                                >
+                                    Members
+                                </Button>
+                            </Link>
+                            <Link href="/events" passHref>
+                                <Button
+                                    component="a"
+                                    color="inherit"
+                                    className={classes.appbarmenu}
+                                >
+                                    Events
+                                </Button>
+                            </Link>
+                            <Link href="/outreach" passHref>
+                                <Button
+                                    component="a"
+                                    color="inherit"
+                                    className={classes.appbarmenu}
+                                >
+                                    Outreach
+                                </Button>
+                            </Link>
+                            {/* <Link href="/mentors" passHref>
                             <Button component="a" color="inherit" className={classes.appbarmenu}>
                                 Mentors
                             </Button>
                         </Link> */}
-                        <Link href="/coop" passHref>
-                            <Button component="a" color="inherit" className={classes.appbarmenu}>
-                                Co-op
-                            </Button>
-                        </Link>
-                        <Link href="/resources" passHref>
-                            <Button component="a" color="inherit" className={classes.appbarmenu}>
-                                Resources
-                            </Button>
-                        </Link>
-                        <Link href="/contact" passHref>
-                            <Button component="a" color="inherit" className={classes.appbarmenu}>
-                                Contact
-                            </Button>
-                        </Link>
-                    </nav>
-                    {auth?.user && <ProfileDropdown />}
-                </Toolbar>
-            </AppBar>
+                            <Link href="/coop" passHref>
+                                <Button
+                                    component="a"
+                                    color="inherit"
+                                    className={classes.appbarmenu}
+                                >
+                                    Co-op
+                                </Button>
+                            </Link>
+                            <Link href="/resources" passHref>
+                                <Button
+                                    component="a"
+                                    color="inherit"
+                                    className={classes.appbarmenu}
+                                >
+                                    Resources
+                                </Button>
+                            </Link>
+                            <Link href="/contact" passHref>
+                                <Button
+                                    component="a"
+                                    color="inherit"
+                                    className={classes.appbarmenu}
+                                >
+                                    Contact
+                                </Button>
+                            </Link>
+                        </nav>
+                        <ToggleDarkMode />
+                        {auth.user && <ProfileDropdown />}
+                    </Toolbar>
+                </AppBar>
+            </HideOnScroll>
         </React.Fragment>
     );
 };

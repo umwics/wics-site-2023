@@ -1,12 +1,11 @@
 import { Container, makeStyles, Theme, Typography } from "@material-ui/core";
 import { GetStaticProps, NextPage } from "next";
 import { useSnackbar } from "notistack";
-import useSWR from "swr";
+import UserList from "../../../components/admin/UserList";
 import AdminLayout from "../../../components/layouts/AdminLayout";
-import UserList from "../../../components/UserList";
 import { hasPermission, User } from "../../../interfaces";
 import { AuthContextInstance, withAuth } from "../../../lib/auth";
-import { getAllUsers } from "../../../lib/db";
+import { getAllUsers, useUsers } from "../../../lib/db";
 
 interface Props {
     users: User[];
@@ -26,26 +25,18 @@ const Users: NextPage<Props> = ({ users, auth }: Props) => {
     const { enqueueSnackbar } = useSnackbar();
     const classes = useStyles();
 
-    const { data, mutate } = useSWR<{ users: User[] }>(`/api/${process.env.apiVersion}/users`, {
-        initialData: { users },
-        revalidateOnMount: true
-    });
+    const { data: revalidatedUsers } = useUsers({ initialData: users });
 
-    const revalidatedUsers = (data && data.users) || [];
-
-    const updateVisibleUser = async (user: User) => {
+    const updateUser = async (user: User) => {
         const response = await fetch(`/api/${process.env.apiVersion}/users/${user.id}`, {
             method: "PATCH",
             headers: {
-                token: (await auth?.getUserToken()) as string
+                token: (await auth.getUserToken()) as string
             },
             body: JSON.stringify({ ...user })
         });
 
         if (response.ok) {
-            mutate({
-                users: [user, ...revalidatedUsers.filter(checkUser => checkUser.id !== user.id)]
-            });
             enqueueSnackbar("Successfully Updated User", { variant: "success" });
         } else enqueueSnackbar("Failed to Update User", { variant: "error" });
     };
@@ -57,7 +48,7 @@ const Users: NextPage<Props> = ({ users, auth }: Props) => {
                     <Typography component="h1" variant="h3">
                         Users List
                     </Typography>
-                    <UserList users={revalidatedUsers} updateUser={updateVisibleUser} />
+                    <UserList users={revalidatedUsers} updateUser={updateUser} />
                 </div>
             </Container>
         </AdminLayout>

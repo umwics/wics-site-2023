@@ -2,10 +2,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { hasPermission, Member } from "../../../../interfaces";
 import getHandler from "../../../../lib/apiHandler";
 import { getAllMembers, getUser } from "../../../../lib/db";
-import { createMember } from "../../../../lib/dbAdmin";
+import { createMember, updateMembers } from "../../../../lib/dbAdmin";
 import { UnauthorizedError } from "../../../../lib/errors";
 import { auth } from "../../../../lib/firebaseAdmin";
-import { addMemberSchema, validateStrictStrip } from "../../../../lib/validators";
+import {
+    addMemberSchema,
+    updateMembersSchema,
+    validateStrictStrip
+} from "../../../../lib/validators";
 import { getAsString } from "../../../../utils/queryParams";
 
 const handler = getHandler()
@@ -24,7 +28,7 @@ const handler = getHandler()
             const decoded = await auth?.verifyIdToken(token);
 
             const executingUser = decoded?.uid ? await getUser(decoded.uid) : null;
-            if (!executingUser || (executingUser && !hasPermission(executingUser, "write")))
+            if (!executingUser || !hasPermission(executingUser, "write"))
                 throw new UnauthorizedError("Invalid permissions");
 
             const newMember = await createMember({
@@ -32,6 +36,28 @@ const handler = getHandler()
             });
 
             res.status(200).json(newMember);
+        } catch (e) {
+            throw new UnauthorizedError("Token invalid");
+        }
+    })
+    .patch(async (req: NextApiRequest, res: NextApiResponse) => {
+        try {
+            const token = getAsString(req.headers.token || "");
+
+            const rawValues = <{ members: Member[] }>JSON.parse(req.body);
+            const newValues = await validateStrictStrip(updateMembersSchema, rawValues.members);
+
+            const decoded = await auth?.verifyIdToken(token);
+
+            const executingUser = decoded?.uid ? await getUser(decoded.uid) : null;
+            if (!executingUser || !hasPermission(executingUser, "manage"))
+                throw new UnauthorizedError("Invalid permissions");
+
+            const newMemberValues = await updateMembers(
+                newValues as (Partial<Member> & { id: string })[]
+            );
+
+            res.status(200).json(newMemberValues);
         } catch (e) {
             throw new UnauthorizedError("Token invalid");
         }

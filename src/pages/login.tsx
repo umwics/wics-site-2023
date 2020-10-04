@@ -84,7 +84,7 @@ const Login: NextPage = () => {
                             setSubmitting(true);
                             // handle submit
 
-                            await auth?.signinWithEmailPassword(data);
+                            await auth.signinWithEmailPassword(data);
                             handleLogin();
 
                             setSubmitting(false);

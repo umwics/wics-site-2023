@@ -11,8 +11,8 @@ import {
 import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useRouter } from "next/router";
-import AdminLoading from "../../components/AdminLoading";
 import BackToTop from "../../components/BackToTop";
+import ContentsLoading from "../../components/ContentsLoading";
 import ContentsLayout from "../../components/layouts/ContentsLayout";
 import { Event } from "../../interfaces";
 import { getEvent } from "../../lib/db";
@@ -46,7 +46,7 @@ const EventDetail: NextPage<Props> = ({ event, errors }: Props) => {
     // If the page is not yet generated, this will be displayed
     // initially until getStaticProps() finishes running
     if (router.isFallback) {
-        return <AdminLoading />;
+        return <ContentsLoading />;
     }
 
     if (errors) {

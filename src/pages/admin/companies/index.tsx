@@ -2,14 +2,13 @@ import { Button, Container, makeStyles, Theme, Typography } from "@material-ui/c
 import { GetStaticProps, NextPage } from "next";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import useSWR from "swr";
-import AddCompanyDialog from "../../../components/AddCompanyDialog";
-import CompanyList from "../../../components/CompanyList";
+import AddCompanyDialog from "../../../components/admin/AddCompanyDialog";
+import CompanyList from "../../../components/admin/CompanyList";
 import { useConfirm } from "../../../components/ConfirmProvider";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import { Company, hasPermission, Member, User } from "../../../interfaces";
 import { AuthContextInstance, withAuth } from "../../../lib/auth";
-import { getAllCompanies, getAllMembers } from "../../../lib/db";
+import { getAllCompanies, getAllMembers, useCompanies, useMembers } from "../../../lib/db";
 import { storeImage } from "../../../lib/storage";
 
 interface Props {
@@ -40,73 +39,38 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
 
     const [editCompany, setEditCompany] = useState<Company | undefined>(undefined);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
-    const { data: companyData, mutate } = useSWR<{ companies: Company[] }>(
-        `/api/${process.env.apiVersion}/companies`,
-        {
-            initialData: { companies },
-            revalidateOnMount: true
-        }
-    );
-    const { data: memberData } = useSWR<{ members: Member[] }>(
-        `/api/${process.env.apiVersion}/members`,
-        {
-            initialData: { members },
-            revalidateOnMount: true
-        }
-    );
+    const { data: revalidatedCompanies } = useCompanies({ initialData: companies });
+    const { data: revalidatedMembers } = useMembers({ initialData: members });
 
-    const revalidatedCompanies = (companyData && companyData.companies) || [];
-    const revalidatedMembers = (memberData && memberData.members) || [];
-
-    const addCompany = async (
-        company: Company,
-        image?: File,
-        progressCallback?: (progress: number) => any
-    ) => {
+    const addCompany = async (company: Company, progressCallback?: (progress: number) => any) => {
         const { id, ...data } = company;
         const editing = !!id;
 
-        if (editing) {
-            const imageUrl = image
-                ? await storeImage(image, "companies", progressCallback)
+        const imageUrl =
+            company.image !== "string"
+                ? await storeImage((company.image as any)?.file, "companies", progressCallback)
                 : company.image;
+
+        if (editing) {
             const response = await fetch(`/api/${process.env.apiVersion}/companies/${id}`, {
                 method: "PATCH",
                 headers: {
-                    token: (await auth?.getUserToken()) as string
+                    token: (await auth.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
             if (response.ok) {
-                const editedCompany = await response.json();
-                const newCompany = {
-                    ...company,
-                    ...editedCompany
-                };
-                mutate({
-                    companies: [
-                        newCompany,
-                        ...revalidatedCompanies.filter(
-                            checkCompany => checkCompany.id !== company.id
-                        )
-                    ]
-                });
                 enqueueSnackbar("Successfully Updated Company", { variant: "success" });
             } else enqueueSnackbar("Failed to Update Company", { variant: "error" });
         } else {
-            const imageUrl = image
-                ? await storeImage(image, "companies", progressCallback)
-                : company.image;
             const response = await fetch(`/api/${process.env.apiVersion}/companies`, {
                 method: "POST",
                 headers: {
-                    token: (await auth?.getUserToken()) as string
+                    token: (await auth.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
             if (response.ok) {
-                const newCompany = await response.json();
-                if (newCompany) mutate({ companies: [newCompany, ...revalidatedCompanies] });
                 enqueueSnackbar("Successfully Created Company", { variant: "success" });
             } else enqueueSnackbar("Failed to Create Company", { variant: "error" });
         }
@@ -118,34 +82,28 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
     };
 
     const deleteVisibleCompany = async (company: Company) => {
-        confirm &&
-            confirm({
-                description: "This company will permanently be deleted.",
-                confirmText: "Delete"
-            })
-                .then(async () => {
-                    const response = await fetch(
-                        `/api/${process.env.apiVersion}/companies/${company.id}`,
-                        {
-                            method: "DELETE",
-                            headers: {
-                                token: (await auth?.getUserToken()) as string
-                            }
+        confirm({
+            description: "This company will permanently be deleted.",
+            confirmText: "Delete"
+        })
+            .then(async () => {
+                const response = await fetch(
+                    `/api/${process.env.apiVersion}/companies/${company.id}`,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            token: (await auth.getUserToken()) as string
                         }
-                    );
+                    }
+                );
 
-                    if (response.ok) {
-                        mutate({
-                            companies: revalidatedCompanies.filter(
-                                checkCompany => checkCompany.id !== company.id
-                            )
-                        });
-                        enqueueSnackbar("Successfully Deleted Company", { variant: "success" });
-                    } else enqueueSnackbar("Failed to Delete Company", { variant: "error" });
-                })
-                .catch(() => {
-                    // pass
-                });
+                if (response.ok) {
+                    enqueueSnackbar("Successfully Deleted Company", { variant: "success" });
+                } else enqueueSnackbar("Failed to Delete Company", { variant: "error" });
+            })
+            .catch(() => {
+                // pass
+            });
     };
 
     const handleClickOpen = () => {
@@ -177,7 +135,7 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
                         addCompany={addCompany}
                         handleClose={handleClose}
                     />
-                    {auth?.user && hasPermission(auth?.user, "write") && (
+                    {auth.user && hasPermission(auth.user, "write") && (
                         <div className={classes.addCompany}>
                             <Button variant="contained" color="primary" onClick={handleClickOpen}>
                                 Add Company

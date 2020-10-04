@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 import { Link } from "@material-ui/core";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -28,140 +27,112 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default function ControlledAccordions() {
+interface LinkTree {
+    links: TreeLink[];
+}
+
+interface TreeLink {
+    id: string;
+    title: string;
+    subheader: string;
+    body: string;
+    linkName: string;
+    linkHref: string;
+}
+
+const linktree: LinkTree = {
+    links: [
+        {
+            id: "1",
+            title: "All links",
+            subheader: "Linktree",
+            body: "Discover our upcoming events, scholarship, etc!  ",
+            linkName: "https://linktr.ee/umwics",
+            linkHref: "https://linktr.ee/umwics"
+        },
+        {
+            id: "2",
+            title: "Communication",
+            subheader: "Slack",
+            body: "Join us on Slack!  ",
+            linkName: "https://umwics.slack.com",
+            linkHref: "https://umwics.slack.com"
+        },
+        {
+            id: "3",
+            title: "Social",
+            subheader: "Instagram",
+            body: "Follow us on Instagram!  ",
+            linkName: "https://instagram.com/umwics",
+            linkHref: "https://instagram.com/umwics"
+        },
+        {
+            id: "4",
+            title: "Social",
+            subheader: "Facebook",
+            body: "Follow us on Facebook!  ",
+            linkName: "https://www.facebook.com/umwics",
+            linkHref: "https://www.facebook.com/umwics"
+        },
+        {
+            id: "5",
+            title: "Social",
+            subheader: "UM Computer Science Discord",
+            body:
+                "UManitoba Computer Science Discord Signup Use this form to gain access to the University of Manitoba Computer Science Discord server!  ",
+            linkName: "UM CS Discord Signup",
+            linkHref:
+                "https://docs.google.com/forms/d/e/1FAIpQLScGRauKBaXhVEFI9d1nqAh4ezSWhBMbMnXqaX4gqr0XPTyr6Q/viewform"
+        },
+        {
+            id: "6",
+            title: "Calendar",
+            subheader: "Events Calendar",
+            body: "Checkout our upcoming events!  ",
+            linkName: "Calendar",
+            linkHref: "/events#calendar"
+        }
+    ]
+};
+
+const ControlledAccordions: React.FC = () => {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState<string | false>(false);
 
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    const handleChange = (panel: string) => (
-        _event: React.ChangeEvent<{}>,
-        isExpanded: boolean
-    ) => {
+    const handleChange = (panel: string, isExpanded: boolean) => {
         setExpanded(isExpanded ? panel : false);
     };
 
     return (
         <div className={classes.root}>
-            <Accordion expanded={expanded === "panel1"} onChange={handleChange("panel1")}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1bh-content"
-                    id="panel1bh-header"
+            {linktree.links.map(treeLink => (
+                <Accordion
+                    key={treeLink.id}
+                    expanded={expanded === treeLink.id}
+                    onChange={(_event, isExpanded) => handleChange(treeLink.id, isExpanded)}
                 >
-                    <Typography className={classes.heading}>All links</Typography>
-                    <Typography className={classes.secondaryHeading}>Linktree</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Typography className={classes.thirdHeading}>
-                        Discover our upcoming events, scholarship, etc! &nbsp;&nbsp;
-                        <Link href="https://linktr.ee/umwics" target="_blank" rel="noreferrer">
-                            https://linktr.ee/umwics
-                        </Link>
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
-            <Accordion expanded={expanded === "panel2"} onChange={handleChange("panel2")}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel2bh-content"
-                    id="panel2bh-header"
-                >
-                    <Typography className={classes.heading}>Communication</Typography>
-                    <Typography className={classes.secondaryHeading}>Slack</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Typography>
-                        Join us on Slack!&nbsp;&nbsp;
-                        <Link href="https://umwics.slack.com/" target="_blank" rel="noreferrer">
-                            https://umwics.slack.com/
-                        </Link>
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
-            <Accordion expanded={expanded === "panel3"} onChange={handleChange("panel3")}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel3bh-content"
-                    id="panel3bh-header"
-                >
-                    <Typography className={classes.heading}>Social</Typography>
-                    <Typography className={classes.secondaryHeading}>Instagram</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Typography className={classes.thirdHeading}>
-                        Follow us on Instagram!&nbsp;&nbsp;
-                        <Link href="https://instagram.com/umwics" target="_blank" rel="noreferrer">
-                            https://instagram.com/umwics
-                        </Link>
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
-            <Accordion expanded={expanded === "panel4"} onChange={handleChange("panel4")}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel4bh-content"
-                    id="panel4bh-header"
-                >
-                    <Typography className={classes.heading}>Social</Typography>
-                    <Typography className={classes.secondaryHeading}>Facebook</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Typography className={classes.thirdHeading}>
-                        Follow us on Facebook!&nbsp;&nbsp;
-                        <Link
-                            href="https://www.facebook.com/umwics"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            https://www.facebook.com/umwics
-                        </Link>
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
-
-            <Accordion expanded={expanded === "panel5"} onChange={handleChange("panel5")}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel5bh-content"
-                    id="panel5bh-header"
-                >
-                    <Typography className={classes.heading}>Social</Typography>
-                    <Typography className={classes.secondaryHeading}>
-                        UM Computer Science Discord
-                    </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Typography className={classes.thirdHeading}>
-                        UManitoba Computer Science Discord Signup Use this form to gain access to
-                        the University of Manitoba Computer Science Discord server!&nbsp;&nbsp;
-                        <Link
-                            href="https://docs.google.com/forms/d/e/1FAIpQLScGRauKBaXhVEFI9d1nqAh4ezSWhBMbMnXqaX4gqr0XPTyr6Q/viewform"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            UM CS Discord Signup
-                        </Link>
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
-
-            <Accordion expanded={expanded === "panel6"} onChange={handleChange("panel6")}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel6bh-content"
-                    id="panel6bh-header"
-                >
-                    <Typography className={classes.heading}>Calendar</Typography>
-                    <Typography className={classes.secondaryHeading}>Events Calendar</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Typography className={classes.thirdHeading}>
-                        Checkout our upcoming events!&nbsp;&nbsp;
-                        <Link href="/events#calendar">Calendar</Link>
-                    </Typography>
-                </AccordionDetails>
-            </Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1bh-content"
+                        id="panel1bh-header"
+                    >
+                        <Typography className={classes.heading}>{treeLink.title}</Typography>
+                        <Typography className={classes.secondaryHeading}>
+                            {treeLink.subheader}
+                        </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Typography className={classes.thirdHeading}>
+                            {treeLink.body}
+                            <Link href={treeLink.linkHref} target="_blank" rel="noreferrer">
+                                {treeLink.linkName}
+                            </Link>
+                        </Typography>
+                    </AccordionDetails>
+                </Accordion>
+            ))}
         </div>
     );
-}
+};
+
+export default ControlledAccordions;

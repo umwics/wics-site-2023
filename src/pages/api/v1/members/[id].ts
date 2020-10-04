@@ -24,7 +24,7 @@ const handler = getHandler()
             const decoded = await auth?.verifyIdToken(token);
 
             const executingUser = decoded?.uid ? await getUser(decoded.uid) : null;
-            if (!executingUser || (executingUser && !hasPermission(executingUser, "manage")))
+            if (!executingUser || !hasPermission(executingUser, "manage"))
                 throw new UnauthorizedError("Invalid permissions");
 
             const success = await deleteMember(id);
@@ -45,7 +45,7 @@ const handler = getHandler()
             const decoded = await auth?.verifyIdToken(token);
 
             const executingUser = decoded?.uid ? await getUser(decoded.uid) : null;
-            if (!executingUser || (executingUser && !hasPermission(executingUser, "manage")))
+            if (!executingUser || !hasPermission(executingUser, "manage"))
                 throw new UnauthorizedError("Invalid permissions");
 
             const newMemberValues = await updateMember(id, {

@@ -1,7 +1,7 @@
 import { Box } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
-import AdminHeader from "../AdminHeader";
+import AdminHeader from "../admin/AdminHeader";
 import Footer from "../Footer";
 
 interface Props {

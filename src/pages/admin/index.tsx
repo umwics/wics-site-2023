@@ -52,7 +52,9 @@ const collections = [
     { title: "Users", link: "/admin/users" },
     { title: "Members", link: "/admin/members" },
     { title: "Companies", link: "/admin/companies" },
-    { title: "Events", link: "/admin/events" }
+    { title: "Events", link: "/admin/events" },
+    { title: "Resources", link: "/admin/resources" },
+    { title: "Carousels", link: "/admin/carousels" }
 ];
 
 const Admin: NextPage<Props> = () => {

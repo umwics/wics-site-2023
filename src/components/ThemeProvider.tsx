@@ -1,15 +1,23 @@
-import { useMediaQuery } from "@material-ui/core";
+import { CssBaseline, useMediaQuery } from "@material-ui/core";
 import {
     createMuiTheme,
     ThemeOptions,
     ThemeProvider as MuiThemeProvider
 } from "@material-ui/core/styles";
-import React, { createContext, Reducer, useCallback, useContext, useEffect } from "react";
+import merge from "deepmerge";
+import React, {
+    createContext,
+    Reducer,
+    useCallback,
+    useContext,
+    useEffect,
+    useReducer
+} from "react";
 import { getCookie, setCookie } from "../utils/cookie";
 
 type ThemeContextInstance = React.Dispatch<Action> | undefined;
 
-const ThemeContext = createContext<ThemeContextInstance | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextInstance>(undefined);
 
 type Action =
     | { type: "SET_SPACING"; payload: number }
@@ -19,6 +27,8 @@ type Action =
 interface ThemeProviderProps {
     children: React.ReactNode;
 }
+
+export const themeColor = "#3f51b5";
 
 const defaultTheme: ThemeOptions = {
     spacing: 8,
@@ -82,13 +92,13 @@ const defaultTheme: ThemeOptions = {
     // shape: {
     // },
     // overrides: {
-    // },
+    // }
     // props: {
     // }
 };
 
 const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }: ThemeProviderProps) => {
-    const [themeOptions, dispatch] = React.useReducer<Reducer<ThemeOptions, Action>, ThemeOptions>(
+    const [themeOptions, dispatch] = useReducer<Reducer<ThemeOptions, Action>, ThemeOptions>(
         (prevState: ThemeOptions, action: Action) => {
             switch (action.type) {
                 case "SET_SPACING":
@@ -97,15 +107,9 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }: ThemeProvider
                         spacing: action.payload
                     };
                 case "RESET_COLORS":
-                    return {
-                        ...prevState,
-                        palette: defaultTheme.palette
-                    };
+                    return merge(prevState, { palette: defaultTheme.palette });
                 case "CHANGE":
-                    return {
-                        ...prevState,
-                        ...action.payload
-                    };
+                    return merge(prevState, action.payload);
                 default:
                     throw new Error(`Unrecognized type ${(action as Action).type}`);
             }
@@ -143,6 +147,7 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }: ThemeProvider
 
     return (
         <MuiThemeProvider theme={theme}>
+            <CssBaseline />
             <ThemeContext.Provider value={dispatch}>{children}</ThemeContext.Provider>
         </MuiThemeProvider>
     );

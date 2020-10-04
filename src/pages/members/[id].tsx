@@ -12,7 +12,8 @@ import {
 import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useRouter } from "next/router";
-import AdminLoading from "../../components/AdminLoading";
+import React from "react";
+import AdminLoading from "../../components/admin/AdminLoading";
 import BackToTop from "../../components/BackToTop";
 import ContentsLayout from "../../components/layouts/ContentsLayout";
 import { Member } from "../../interfaces";

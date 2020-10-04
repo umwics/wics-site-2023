@@ -2,14 +2,14 @@ import { Button, Container, makeStyles, Theme, Typography } from "@material-ui/c
 import { GetStaticProps, NextPage } from "next";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import useSWR from "swr";
-import AddMemberDialog from "../../../components/AddMemberDialog";
+import { DropResult, ResponderProvided } from "react-beautiful-dnd";
+import AddMemberDialog from "../../../components/admin/AddMemberDialog";
+import MemberList from "../../../components/admin/MemberList";
 import { useConfirm } from "../../../components/ConfirmProvider";
 import AdminLayout from "../../../components/layouts/AdminLayout";
-import MemberList from "../../../components/MemberList";
 import { hasPermission, Member, User } from "../../../interfaces";
 import { AuthContextInstance, withAuth } from "../../../lib/auth";
-import { getAllMembers } from "../../../lib/db";
+import { getAllMembers, useMembers } from "../../../lib/db";
 import { storeImage } from "../../../lib/storage";
 
 interface Props {
@@ -39,66 +39,73 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
 
     const [editMember, setEditMember] = useState<Member | undefined>(undefined);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
-    const { data, mutate } = useSWR<{ members: Member[] }>(
-        `/api/${process.env.apiVersion}/members`,
-        {
-            initialData: { members },
-            revalidateOnMount: true
-        }
-    );
+    const { data: revalidatedMembers, mutate } = useMembers({ initialData: members });
 
-    const revalidatedMembers = (data && data.members) || [];
-
-    const addMember = async (
-        member: Member,
-        image?: File,
-        progressCallback?: (progress: number) => any
-    ) => {
+    const addMember = async (member: Member, progressCallback?: (progress: number) => any) => {
         const { id, ...data } = member;
         const editing = !!id;
 
-        if (editing) {
-            const imageUrl = image
-                ? await storeImage(image, "members", progressCallback)
+        const imageUrl =
+            member.image !== "string"
+                ? await storeImage((member.image as any)?.file, "members", progressCallback)
                 : member.image;
+
+        if (editing) {
             const response = await fetch(`/api/${process.env.apiVersion}/members/${id}`, {
                 method: "PATCH",
                 headers: {
-                    token: (await auth?.getUserToken()) as string
+                    token: (await auth.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
             if (response.ok) {
-                const editedMember = await response.json();
-                const newMember = {
-                    ...member,
-                    ...editedMember
-                };
-                mutate({
-                    members: [
-                        newMember,
-                        ...revalidatedMembers.filter(checkMember => checkMember.id !== member.id)
-                    ]
-                });
                 enqueueSnackbar("Successfully Updated Member", { variant: "success" });
             } else enqueueSnackbar("Failed to Update Member", { variant: "error" });
         } else {
-            const imageUrl = image
-                ? await storeImage(image, "members", progressCallback)
-                : member.image;
             const response = await fetch(`/api/${process.env.apiVersion}/members`, {
                 method: "POST",
                 headers: {
-                    token: (await auth?.getUserToken()) as string
+                    token: (await auth.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
             if (response.ok) {
-                const newMember = await response.json();
-                if (newMember) mutate({ members: [newMember, ...revalidatedMembers] });
                 enqueueSnackbar("Successfully Created Member", { variant: "success" });
             } else enqueueSnackbar("Failed to Create Member", { variant: "error" });
         }
+    };
+
+    const onDragEnd = async (result: DropResult, _provided: ResponderProvided) => {
+        const { source, destination } = result;
+
+        // dropped outside the list or dropped in different lists
+        if (
+            !destination ||
+            source.droppableId !== destination.droppableId ||
+            source.index === destination.index
+        )
+            return;
+
+        const reordered = [...revalidatedMembers];
+        const [removed] = reordered.splice(source.index, 1);
+        reordered.splice(destination.index, 0, removed);
+        const ranked = reordered.map((member, idx) => ({ id: member.id, rank: idx }));
+
+        mutate(reordered);
+        const response = await fetch(`/api/${process.env.apiVersion}/members`, {
+            method: "PATCH",
+            headers: {
+                token: (await auth.getUserToken()) as string
+            },
+            body: JSON.stringify({
+                members: ranked
+            })
+        });
+
+        if (response.ok) {
+            // Do not display update message since reordering is fairly common
+            // enqueueSnackbar("Successfully Updated Member", { variant: "success" });
+        } else enqueueSnackbar("Failed to Update Member", { variant: "error" });
     };
 
     const editVisibleMember = async (member: Member) => {
@@ -107,34 +114,28 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
     };
 
     const deleteVisibleMember = async (member: Member) => {
-        confirm &&
-            confirm({
-                description: "This member will permanently be deleted.",
-                confirmText: "Delete"
-            })
-                .then(async () => {
-                    const response = await fetch(
-                        `/api/${process.env.apiVersion}/members/${member.id}`,
-                        {
-                            method: "DELETE",
-                            headers: {
-                                token: (await auth?.getUserToken()) as string
-                            }
+        confirm({
+            description: "This member will permanently be deleted.",
+            confirmText: "Delete"
+        })
+            .then(async () => {
+                const response = await fetch(
+                    `/api/${process.env.apiVersion}/members/${member.id}`,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            token: (await auth.getUserToken()) as string
                         }
-                    );
+                    }
+                );
 
-                    if (response.ok) {
-                        mutate({
-                            members: revalidatedMembers.filter(
-                                checkMember => checkMember.id !== member.id
-                            )
-                        });
-                        enqueueSnackbar("Successfully Deleted Member", { variant: "success" });
-                    } else enqueueSnackbar("Failed to Delete Member", { variant: "error" });
-                })
-                .catch(() => {
-                    // pass
-                });
+                if (response.ok) {
+                    enqueueSnackbar("Successfully Deleted Member", { variant: "success" });
+                } else enqueueSnackbar("Failed to Delete Member", { variant: "error" });
+            })
+            .catch(() => {
+                // pass
+            });
     };
 
     const handleClickOpen = () => {
@@ -156,6 +157,7 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
                     <MemberList
                         members={revalidatedMembers}
                         editMember={editVisibleMember}
+                        onDragEnd={onDragEnd}
                         deleteMember={deleteVisibleMember}
                     />
                     <AddMemberDialog
@@ -164,7 +166,7 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
                         addMember={addMember}
                         handleClose={handleClose}
                     />
-                    {auth?.user && hasPermission(auth?.user, "write") && (
+                    {auth.user && hasPermission(auth.user, "write") && (
                         <div className={classes.addMember}>
                             <Button variant="contained" color="primary" onClick={handleClickOpen}>
                                 Add Member
