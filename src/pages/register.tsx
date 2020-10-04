@@ -86,7 +86,7 @@ const Register: NextPage = () => {
                             setSubmitting(true);
                             // handle submit
 
-                            await auth?.createEmailPasswordUser(data);
+                            await auth.createEmailPasswordUser(data);
                             handleRegister();
 
                             setSubmitting(false);

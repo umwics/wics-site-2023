@@ -2,14 +2,13 @@ import { Button, Container, makeStyles, Theme, Typography } from "@material-ui/c
 import { GetStaticProps, NextPage } from "next";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import useSWR from "swr";
-import AddEventDialog from "../../../components/AddEventDialog";
+import AddEventDialog from "../../../components/admin/AddEventDialog";
+import EventList from "../../../components/admin/EventList";
 import { useConfirm } from "../../../components/ConfirmProvider";
-import EventList from "../../../components/EventList";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import { Event, hasPermission, User } from "../../../interfaces";
 import { AuthContextInstance, withAuth } from "../../../lib/auth";
-import { getAllEvents } from "../../../lib/db";
+import { getAllEvents, useEvents } from "../../../lib/db";
 import { storeImages } from "../../../lib/storage";
 
 interface Props {
@@ -39,12 +38,7 @@ const Events: NextPage<Props> = ({ events, auth }: Props) => {
 
     const [editEvent, setEditEvent] = useState<Event | undefined>(undefined);
     const [addDialogOpen, setAddDialogOpen] = useState(false);
-    const { data, mutate } = useSWR<{ events: Event[] }>(`/api/${process.env.apiVersion}/events`, {
-        initialData: { events },
-        revalidateOnMount: true
-    });
-
-    const revalidatedEvents = (data && data.events) || [];
+    const { data: revalidatedEvents } = useEvents({ initialData: events });
 
     const addEvent = async (
         event: Event,
@@ -56,42 +50,31 @@ const Events: NextPage<Props> = ({ events, auth }: Props) => {
 
         const uploadImages = images.map(image => image.file).filter((file): file is File => !!file);
         const oldImagesUrls = images.filter(image => !image.file).map(image => image.url);
-        const newImageUrls = await storeImages(uploadImages, "events", progressCallback);
+        const newImageUrls = (await storeImages(uploadImages, "events", progressCallback)).map(
+            image => image || ""
+        );
         const imageUrls = [...oldImagesUrls, ...newImageUrls];
 
         if (editing) {
             const response = await fetch(`/api/${process.env.apiVersion}/events/${id}`, {
                 method: "PATCH",
                 headers: {
-                    token: (await auth?.getUserToken()) as string
+                    token: (await auth.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, images: imageUrls })
             });
             if (response.ok) {
-                const editedEvent = await response.json();
-                const newEvent = {
-                    ...event,
-                    ...editedEvent
-                };
-                mutate({
-                    events: [
-                        newEvent,
-                        ...revalidatedEvents.filter(checkEvent => checkEvent.id !== event.id)
-                    ]
-                });
                 enqueueSnackbar("Successfully Updated Event", { variant: "success" });
             } else enqueueSnackbar("Failed to Update Event", { variant: "error" });
         } else {
             const response = await fetch(`/api/${process.env.apiVersion}/events`, {
                 method: "POST",
                 headers: {
-                    token: (await auth?.getUserToken()) as string
+                    token: (await auth.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, images: imageUrls })
             });
             if (response.ok) {
-                const newEvent = await response.json();
-                if (newEvent) mutate({ events: [newEvent, ...revalidatedEvents] });
                 enqueueSnackbar("Successfully Created Event", { variant: "success" });
             } else enqueueSnackbar("Failed to Create Event", { variant: "error" });
         }
@@ -103,34 +86,25 @@ const Events: NextPage<Props> = ({ events, auth }: Props) => {
     };
 
     const deleteVisibleEvent = async (event: Event) => {
-        confirm &&
-            confirm({
-                description: "This event will permanently be deleted.",
-                confirmText: "Delete"
-            })
-                .then(async () => {
-                    const response = await fetch(
-                        `/api/${process.env.apiVersion}/events/${event.id}`,
-                        {
-                            method: "DELETE",
-                            headers: {
-                                token: (await auth?.getUserToken()) as string
-                            }
-                        }
-                    );
-
-                    if (response.ok) {
-                        mutate({
-                            events: revalidatedEvents.filter(
-                                checkEvent => checkEvent.id !== event.id
-                            )
-                        });
-                        enqueueSnackbar("Successfully Deleted Event", { variant: "success" });
-                    } else enqueueSnackbar("Failed to Delete Event", { variant: "error" });
-                })
-                .catch(() => {
-                    // pass
+        confirm({
+            description: "This event will permanently be deleted.",
+            confirmText: "Delete"
+        })
+            .then(async () => {
+                const response = await fetch(`/api/${process.env.apiVersion}/events/${event.id}`, {
+                    method: "DELETE",
+                    headers: {
+                        token: (await auth.getUserToken()) as string
+                    }
                 });
+
+                if (response.ok) {
+                    enqueueSnackbar("Successfully Deleted Event", { variant: "success" });
+                } else enqueueSnackbar("Failed to Delete Event", { variant: "error" });
+            })
+            .catch(() => {
+                // pass
+            });
     };
 
     const handleClickOpen = () => {
@@ -160,7 +134,7 @@ const Events: NextPage<Props> = ({ events, auth }: Props) => {
                         addEvent={addEvent}
                         handleClose={handleClose}
                     />
-                    {auth?.user && hasPermission(auth?.user, "write") && (
+                    {auth.user && hasPermission(auth.user, "write") && (
                         <div className={classes.addEvent}>
                             <Button variant="contained" color="primary" onClick={handleClickOpen}>
                                 Add Event

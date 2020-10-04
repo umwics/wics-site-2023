@@ -1,4 +1,4 @@
-import { Button, Container, Typography, Grid } from "@material-ui/core";
+import { Button, Container, Grid, Typography } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { NextPage } from "next";
 import React from "react";
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) => ({
             marginTop: 0,
             marginBottom: 6,
             fontWeight: 700,
-            fontFamily: "Lato",
+            fontFamily: "Lato"
         }
     }
 }));
@@ -51,7 +51,6 @@ const About: NextPage = () => {
     return (
         <ContentsLayout title="About">
             <AboutCarousel />
-
             <div className={classes.title}>
                 <Fade bottom duration={1000} delay={100} distance="30px">
                     <Typography variant="h1">About Us</Typography>
@@ -65,7 +64,6 @@ const About: NextPage = () => {
                     </p>
                 </Fade>
             </div>
-
             <Container component="main">
                 <div className={classes.paper}>
                     <Fade bottom duration={1000} delay={0} distance="30px">
@@ -146,17 +144,19 @@ const About: NextPage = () => {
                             </p>
                             <br />
                             <Grid container spacing={0}>
-                    <Grid item sm={12} xs={12}>
-                            <iframe
-                                id="googleForm"
-                                src="https://docs.google.com/forms/d/e/1FAIpQLSfBp6u_AGJv0PyPSP8_-foI3IdyuEv52DnNa1Evm9Ap6YnNfQ/viewform?embedded=true"
-                                width="100%"
-                                height="2000"
-                                frameBorder="0"
-                                scrolling="yes"
-                            >
-                                Loading...
-                            </iframe></Grid></Grid>
+                                <Grid item sm={12} xs={12}>
+                                    <iframe
+                                        id="googleForm"
+                                        src="https://docs.google.com/forms/d/e/1FAIpQLSfBp6u_AGJv0PyPSP8_-foI3IdyuEv52DnNa1Evm9Ap6YnNfQ/viewform?embedded=true"
+                                        width="100%"
+                                        height="2000"
+                                        frameBorder="0"
+                                        scrolling="yes"
+                                    >
+                                        Loading...
+                                    </iframe>
+                                </Grid>
+                            </Grid>
                         </div>
                     </Fade>
                 </div>

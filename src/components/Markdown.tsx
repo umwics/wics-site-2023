@@ -1,3 +1,4 @@
+import { Link } from "@material-ui/core";
 import React from "react";
 import ReactMarkdown, { ReactMarkdownProps } from "react-markdown";
 import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -41,8 +42,13 @@ const MarkdownCode: React.FC<CodeProps> = ({ language, value }: CodeProps) => {
     );
 };
 
+const MarkdownLink: React.FC = props => {
+    return <Link component="a" variant="body2" {...props}></Link>;
+};
+
 const renderers = {
-    code: MarkdownCode
+    code: MarkdownCode,
+    link: MarkdownLink
 };
 
 const Markdown: React.FC<ReactMarkdownProps> = (props: ReactMarkdownProps) => {

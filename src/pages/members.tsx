@@ -206,7 +206,6 @@ const Members: NextPage<Props> = ({ members }: Props) => {
     });
 
     const revalidatedMembers = (data && data.members) || [];
-    revalidatedMembers.sort((a, b) => a.rank - b.rank);
 
     const memberBuckets: { [key: string]: Member[] } = memberPositions.reduce(
         (acc, type) => ({ ...acc, [type]: [] }),

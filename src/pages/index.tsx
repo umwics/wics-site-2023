@@ -1,5 +1,5 @@
 import { Container, Typography } from "@material-ui/core";
-import { makeStyles, Theme } from "@material-ui/core/styles";
+import { fade, makeStyles, Theme } from "@material-ui/core/styles";
 import { NextPage } from "next";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginBottom: 70,
         fontFamily: "Lato",
         "& h3": {
-            color: "#202124",
             marginBottom: 25,
             fontWeight: 1000,
             textTransform: "uppercase",
@@ -30,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) => ({
             letterSpacing: 1
         },
         "& h5": {
-            color: "#363b3f",
+            color: fade(theme.palette.text.secondary, 0.75),
             position: "relative",
             fontFamily: "Lato"
         }
@@ -70,7 +69,6 @@ const Home: NextPage = () => {
     return (
         <ContentsLayout title="Home">
             <HomeCarousel />
-
             <Container component="main">
                 <div className={classes.paper}>
                     <div className={classes.sectionTitle}>
@@ -96,7 +94,6 @@ const Home: NextPage = () => {
                         </Fade>
                     </div>
                 </div>
-
                 <div className={classes.paper}>
                     <div className={classes.sectionTitle}>
                         <Fade bottom duration={1000} delay={100} distance="30px">

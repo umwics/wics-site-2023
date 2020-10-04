@@ -23,6 +23,7 @@ export const resourceTypeLabels: { [key in ResourceType]: string } = {
 };
 
 export interface Resource {
+    id: string;
     name: string;
     title: string;
     description: string;

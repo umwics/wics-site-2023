@@ -4,9 +4,10 @@ import { NextSeo } from "next-seo";
 import Link from "next/link";
 import React from "react";
 import { useAuth } from "../lib/auth";
+import ProfileDropdown from "./admin/ProfileDropdown";
 import Drawer from "./Drawer";
 import DrawerContent from "./DrawerContent";
-import ProfileDropdown from "./ProfileDropdown";
+import ToggleDarkMode from "./ToggleDarkMode";
 
 interface Props {
     title?: string;
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         fontFamily: "Roboto"
     },
     appbar: {
-        backgroundColor: "#ffffff",
+        backgroundColor: theme.palette.type === "light" ? "#fff" : undefined,
         borderBottom: `1px solid ${theme.palette.divider}`
     },
     sectionDesktop: {
@@ -39,10 +40,12 @@ const Header: React.FC<Props> = ({ title }: Props) => {
 
     return (
         <React.Fragment>
-            <NextSeo title={title ? title + " | " + process.env.siteDisplayName : undefined} />
+            <NextSeo title={title} />
             <AppBar position="sticky" color="default" elevation={0} className={classes.appbar}>
                 <Toolbar>
-                    <Drawer content={DrawerContent} />
+                    <Drawer>
+                        <DrawerContent />
+                    </Drawer>
                     <Typography component="h1" variant="h6" className={classes.title}>
                         {title}
                     </Typography>
@@ -93,7 +96,8 @@ const Header: React.FC<Props> = ({ title }: Props) => {
                             </Button>
                         </Link>
                     </nav>
-                    {auth?.user && <ProfileDropdown />}
+                    <ToggleDarkMode />
+                    {auth.user && <ProfileDropdown />}
                 </Toolbar>
             </AppBar>
         </React.Fragment>

@@ -1,4 +1,4 @@
-import { Button, Container, Link, Typography } from "@material-ui/core";
+import { Button, Container, Typography } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { NextPage } from "next";
 import React from "react";
@@ -59,11 +59,9 @@ const About: NextPage = () => {
                     </p>
                 </Fade>
                 <Fade bottom duration={1000} delay={400} distance="30px">
-                    <Link href="mailto:uofmwics@gmail.com">
-                        <Button component="a" variant="contained" color="secondary">
-                            Contact us
-                        </Button>
-                    </Link>
+                    <Button href="mailto:uofmwics@gmail.com" variant="contained" color="secondary">
+                        Contact us
+                    </Button>
                 </Fade>
             </div>
 

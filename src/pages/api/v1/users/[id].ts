@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { hasPermission, User } from "../../../../interfaces";
 import getHandler from "../../../../lib/apiHandler";
 import { getUser } from "../../../../lib/db";
-import { updateUser } from "../../../../lib/dbAdmin";
+import { deleteUser, updateUser } from "../../../../lib/dbAdmin";
 import { NotFoundError, UnauthorizedError } from "../../../../lib/errors";
 import { auth } from "../../../../lib/firebaseAdmin";
 import { updateUserSchema, validateStrictStrip } from "../../../../lib/validators";
@@ -16,6 +16,27 @@ const handler = getHandler()
 
         res.status(200).json(user);
     })
+    .delete(async (req: NextApiRequest, res: NextApiResponse) => {
+        try {
+            const token = getAsString(req.headers.token || "");
+            const id = getAsString(req.query.id);
+
+            const decoded = await auth?.verifyIdToken(token);
+
+            const executingUser = decoded?.uid ? await getUser(decoded.uid) : null;
+            if (
+                !executingUser ||
+                (executingUser.id !== id && !hasPermission(executingUser, "manage"))
+            )
+                throw new UnauthorizedError("Invalid permissions");
+
+            const success = await deleteUser(id);
+
+            res.status(200).json({ statusCode: res.statusCode, success });
+        } catch (e) {
+            throw new UnauthorizedError("Token invalid");
+        }
+    })
     .patch(async (req: NextApiRequest, res: NextApiResponse) => {
         try {
             const token = getAsString(req.headers.token || "");
@@ -27,7 +48,7 @@ const handler = getHandler()
             const decoded = await auth?.verifyIdToken(token);
 
             const executingUser = decoded?.uid ? await getUser(decoded.uid) : null;
-            if (!executingUser || (executingUser && !hasPermission(executingUser, "manage")))
+            if (!executingUser || !hasPermission(executingUser, "manage"))
                 throw new UnauthorizedError("Invalid permissions");
 
             const newUserValues = await updateUser(id, {
