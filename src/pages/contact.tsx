@@ -5,6 +5,7 @@ import { Container, Link, Typography } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { NextPage } from "next";
 import React from "react";
+import BackToTop from "../components/BackToTop";
 import ContentsLayout from "../components/layouts/ContentsLayout";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -206,6 +207,7 @@ const Contact: NextPage = () => {
                     </Container>
                 </div>
             </Container>
+            <BackToTop />
         </ContentsLayout>
     );
 };

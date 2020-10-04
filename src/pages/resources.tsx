@@ -6,6 +6,7 @@ import React from "react";
 // @ts-ignore
 import Fade from "react-reveal/Fade";
 import useSWR from "swr";
+import BackToTop from "../components/BackToTop";
 import ContentsLayout from "../components/layouts/ContentsLayout";
 import EventTab from "../components/resources/EventTab";
 import { Resource } from "../interfaces";
@@ -91,6 +92,7 @@ const Resources: NextPage<Props> = ({ resources }: Props) => {
                     <EventTab resources={revalidatedResources} />
                 </Fade>
             </Container>
+            <BackToTop />
         </ContentsLayout>
     );
 };
