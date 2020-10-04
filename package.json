@@ -46,7 +46,7 @@
         "formik-material-ui-pickers": "0.0.11",
         "gray-matter": "^4.0.2",
         "next": "^9.5.3",
-        "next-connect": "^0.8.1",
+        "next-connect": "^0.9.0",
         "next-seo": "^4.7.3",
         "nextjs-sitemap-generator": "^1.1.1",
         "notistack": "^1.0.0",
