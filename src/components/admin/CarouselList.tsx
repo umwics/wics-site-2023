@@ -13,15 +13,16 @@ import {
 } from "@material-ui/core";
 import { blue, red } from "@material-ui/core/colors";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Delete, Edit, Event as EventIcon } from "@material-ui/icons";
+import { Delete, Edit } from "@material-ui/icons";
+import { AvatarGroup } from "@material-ui/lab";
 import React from "react";
-import { Event, hasPermission } from "../../interfaces";
+import { Carousel, hasPermission } from "../../interfaces";
 import { useAuth } from "../../lib/auth";
 
 interface Props {
-    events: Event[];
-    editEvent?: (event: Event) => any;
-    deleteEvent?: (event: Event) => any;
+    carousels: Carousel[];
+    editCarousel?: (carousel: Carousel) => any;
+    deleteCarousel?: (carousel: Carousel) => any;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -33,6 +34,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     actions: {
         display: "inline-flex"
+    },
+    slideGroup: {
+        display: "flex",
+        justifyContent: "flex-end"
     },
     identification: {
         display: "flex",
@@ -54,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const EventList: React.FC<Props> = ({ events, editEvent, deleteEvent }: Props) => {
+const CarouselList: React.FC<Props> = ({ carousels, editCarousel, deleteCarousel }: Props) => {
     const classes = useStyles();
     const auth = useAuth();
 
@@ -64,26 +69,49 @@ const EventList: React.FC<Props> = ({ events, editEvent, deleteEvent }: Props) =
                 <TableHead>
                     <TableRow>
                         <TableCell>Name</TableCell>
-                        <TableCell align="right">Title</TableCell>
-                        <TableCell align="right">Term</TableCell>
-                        <TableCell align="right">Location</TableCell>
+                        <TableCell align="right">Auto Play</TableCell>
+                        <TableCell align="right">Indicators</TableCell>
+                        <TableCell align="right">Interval</TableCell>
+                        <TableCell align="right">Timeout</TableCell>
+                        <TableCell align="right">Slides</TableCell>
                         <TableCell align="right"></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {events.map(event => (
-                        <TableRow hover key={event.id}>
+                    {carousels.map(carousel => (
+                        <TableRow hover key={carousel.id}>
                             <TableCell component="th" scope="row" align="center">
                                 <div className={classes.identification}>
-                                    <Avatar className={classes.avatar} src={event.images[0]}>
-                                        <EventIcon />
-                                    </Avatar>
-                                    <Typography>{event.name}</Typography>
+                                    <Avatar
+                                        className={classes.avatar}
+                                        src={carousel.slides[0].image}
+                                    />
+                                    <Typography>{carousel.name}</Typography>
                                 </div>
                             </TableCell>
-                            <TableCell align="right">{event.title}</TableCell>
-                            <TableCell align="right">{event.term}</TableCell>
-                            <TableCell align="right">{event.location}</TableCell>
+                            <TableCell align="right">{carousel.autoplay.toString()}</TableCell>
+                            <TableCell align="right">{carousel.indicators.toString()}</TableCell>
+                            <TableCell align="right">{carousel.interval}</TableCell>
+                            <TableCell align="right">{carousel.timeout}</TableCell>
+                            <TableCell align="right">
+                                <div className={classes.slideGroup}>
+                                    <AvatarGroup max={3}>
+                                        {carousel.slides.map((slide, idx) => {
+                                            return (
+                                                slide && (
+                                                    <Tooltip
+                                                        key={idx}
+                                                        title={slide.title}
+                                                        placement="top"
+                                                    >
+                                                        <Avatar alt={slide.alt} src={slide.image} />
+                                                    </Tooltip>
+                                                )
+                                            );
+                                        })}
+                                    </AvatarGroup>
+                                </div>
+                            </TableCell>
                             <TableCell align="right">
                                 {auth.user && hasPermission(auth.user, "write") && (
                                     <div className={classes.actions}>
@@ -92,7 +120,9 @@ const EventList: React.FC<Props> = ({ events, editEvent, deleteEvent }: Props) =
                                                 aria-label="edit"
                                                 size="small"
                                                 className={classes.edit}
-                                                onClick={() => editEvent && editEvent(event)}
+                                                onClick={() =>
+                                                    editCarousel && editCarousel(carousel)
+                                                }
                                             >
                                                 <Edit />
                                             </IconButton>
@@ -102,7 +132,9 @@ const EventList: React.FC<Props> = ({ events, editEvent, deleteEvent }: Props) =
                                                 aria-label="delete"
                                                 size="small"
                                                 className={classes.delete}
-                                                onClick={() => deleteEvent && deleteEvent(event)}
+                                                onClick={() =>
+                                                    deleteCarousel && deleteCarousel(carousel)
+                                                }
                                             >
                                                 <Delete />
                                             </IconButton>
@@ -118,4 +150,4 @@ const EventList: React.FC<Props> = ({ events, editEvent, deleteEvent }: Props) =
     );
 };
 
-export default EventList;
+export default CarouselList;

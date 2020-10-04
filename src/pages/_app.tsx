@@ -5,11 +5,11 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { NextComponentType } from "next";
 import { DefaultSeo } from "next-seo";
 import { AppContext, AppInitialProps, AppProps } from "next/app";
-import { SnackbarProvider } from "notistack";
 import React, { useEffect } from "react";
 import { SWRConfig } from "swr";
 import ConfirmProvider from "../components/ConfirmProvider";
 import ProgressBar from "../components/ProgressBar";
+import SnackbarProvider from "../components/SnackbarProvider";
 import ThemeProvider from "../components/ThemeProvider";
 import AuthProvider from "../lib/auth";
 
@@ -68,7 +68,7 @@ const AppWrapper: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
             >
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                     <ThemeProvider>
-                        <SnackbarProvider maxSnack={4}>
+                        <SnackbarProvider>
                             <ConfirmProvider>
                                 <AuthProvider>
                                     <ProgressBar

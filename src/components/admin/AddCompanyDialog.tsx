@@ -5,6 +5,7 @@ import {
     DialogContent,
     DialogTitle,
     IconButton,
+    LinearProgress,
     TextField as MuiTextField,
     Typography
 } from "@material-ui/core";
@@ -28,11 +29,7 @@ interface Props {
     open: boolean;
     members: Member[];
     initialValues?: Company;
-    addCompany?: (
-        company: Company,
-        image?: File,
-        progressCallback?: (progress: number) => any
-    ) => any;
+    addCompany?: (company: Company, progressCallback?: (progress: number) => any) => any;
     handleClose?: () => void;
 }
 
@@ -72,13 +69,8 @@ const AddCompanyDialog: React.FC<Props> = ({
     const composedInitialValues = { ...defaultInitialValues, ...initialValues };
     const editing = !!composedInitialValues.id;
 
-    const [image, setImage] = useState<{ file: File; url: string } | null>(null);
     const [uploading, setUploading] = useState<boolean>(false);
     const [uploadingProgress, setUploadingProgress] = useState<number>(0);
-
-    const handleImageUpload = (selectedFile: File, preview: string) => {
-        setImage({ file: selectedFile, url: preview });
-    };
 
     const imageUploadProgress = (progress: number) => {
         setUploadingProgress(progress);
@@ -87,10 +79,6 @@ const AddCompanyDialog: React.FC<Props> = ({
     useEffect(() => {
         if (!uploading) setUploadingProgress(0);
     }, [uploading]);
-
-    useEffect(() => {
-        if (!open) setImage(null);
-    }, [open]);
 
     return (
         <Dialog
@@ -121,17 +109,16 @@ const AddCompanyDialog: React.FC<Props> = ({
                     validationSchema={addCompanySchema}
                     initialValues={composedInitialValues}
                     onSubmit={async (data: Company, { setSubmitting }) => {
+                        const uploadingImage = typeof data.image !== "string";
+
                         setSubmitting(true);
-                        image && setUploading(true);
+                        uploadingImage && setUploading(true);
 
                         // handle submit
-                        if (addCompany) {
-                            if (image) await addCompany(data, image.file, imageUploadProgress);
-                            else addCompany(data);
-                        }
+                        addCompany && (await addCompany(data, imageUploadProgress));
                         handleClose && handleClose();
 
-                        image && setUploading(false);
+                        uploadingImage && setUploading(false);
                         setSubmitting(false);
                     }}
                     fields={[
@@ -299,13 +286,15 @@ const AddCompanyDialog: React.FC<Props> = ({
                         {
                             component: UploadImage,
                             props: {
-                                uploading,
                                 name: "image",
-                                label: "Image URL",
-                                uploadingProgress,
-                                image,
-                                onChange: handleImageUpload,
-                                clearImage: () => setImage(null)
+                                label: "Image URL"
+                            }
+                        },
+                        {
+                            component: uploading ? LinearProgress : () => null,
+                            props: {
+                                variant: "determinate",
+                                value: uploadingProgress
                             }
                         },
                         {

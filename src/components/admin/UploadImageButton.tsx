@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 
 interface Props {
     className?: string;
+    labelId?: string;
     multiple?: boolean;
     onChange?: (selectedFile: FileList, preview: string[]) => any;
 }
@@ -15,7 +16,7 @@ const useStyles = makeStyles((_theme: Theme) => ({
     }
 }));
 
-const UploadImageButton: React.FC<Props> = ({ className, multiple, onChange }: Props) => {
+const UploadImageButton: React.FC<Props> = ({ className, labelId, multiple, onChange }: Props) => {
     const classes = useStyles();
 
     const [selectedFile, setSelectedFile] = useState<FileList | undefined>(undefined);
@@ -47,13 +48,13 @@ const UploadImageButton: React.FC<Props> = ({ className, multiple, onChange }: P
         <React.Fragment>
             <input
                 accept="image/*"
-                id="icon-button-file"
+                id={labelId || "icon-button-file"}
                 className={classes.input}
                 type="file"
                 onChange={handleSelectFile}
                 multiple={multiple}
             />
-            <label htmlFor="icon-button-file" className={className}>
+            <label htmlFor={labelId || "icon-button-file"} className={className}>
                 <IconButton color="primary" aria-label="upload picture" component="span">
                     <PhotoCamera />
                 </IconButton>

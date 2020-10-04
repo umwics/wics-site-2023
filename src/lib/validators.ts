@@ -130,6 +130,28 @@ export const addResourceSchema = Yup.object({
     image: Yup.string()
 });
 
+export const addCarouselSchema = Yup.object({
+    name: Yup.string().required(),
+    autoplay: Yup.boolean(),
+    indicators: Yup.boolean(),
+    interval: Yup.number(),
+    timeout: Yup.number(),
+    startAt: Yup.number(),
+    slides: Yup.array().of(
+        Yup.object({
+            title: Yup.string(),
+            subtitle: Yup.string(),
+            body: Yup.string(),
+            linkName: Yup.string(),
+            linkHref: Yup.string(),
+            linkAs: Yup.string(),
+            position: Yup.number().default(0),
+            alt: Yup.string(),
+            image: Yup.string()
+        })
+    )
+});
+
 // written to satisfy weird Yup behavior https://github.com/jquense/yup/issues/670
 export const validateStrictStrip = async <T>(schema: Yup.Schema<T>, value: T): Promise<T> => {
     const strict = await schema.validate(value, { strict: true, stripUnknown: false });

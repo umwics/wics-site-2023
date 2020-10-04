@@ -62,7 +62,7 @@ const MemberList: React.FC<Props> = ({ members, editMember, onDragEnd, deleteMem
     const classes = useStyles();
     const auth = useAuth();
 
-    const dragDisabled = !auth?.user || !hasPermission(auth?.user, "write");
+    const editPermission = auth.user && hasPermission(auth.user, "write");
 
     return (
         <TableContainer component={Paper} className={classes.tableContainer}>
@@ -80,7 +80,7 @@ const MemberList: React.FC<Props> = ({ members, editMember, onDragEnd, deleteMem
                     component={TableBody}
                     onDragEnd={onDragEnd}
                     direction="vertical"
-                    isDropDisabled={dragDisabled}
+                    isDropDisabled={!editPermission}
                 >
                     {members.map((member, idx) => (
                         <DraggableComponent
@@ -89,7 +89,7 @@ const MemberList: React.FC<Props> = ({ members, editMember, onDragEnd, deleteMem
                             index={idx}
                             component={TableRow}
                             componentProps={{ hover: true }}
-                            isDragDisabled={dragDisabled}
+                            isDragDisabled={!editPermission}
                         >
                             <TableCell component="th" scope="row" align="center">
                                 <div className={classes.identification}>
@@ -101,7 +101,7 @@ const MemberList: React.FC<Props> = ({ members, editMember, onDragEnd, deleteMem
                             <TableCell align="right">{member.title}</TableCell>
                             <TableCell align="right">{member.email}</TableCell>
                             <TableCell align="right">
-                                {auth?.user && hasPermission(auth?.user, "write") && (
+                                {editPermission && (
                                     <div className={classes.actions}>
                                         <Tooltip title="Edit" placement="top">
                                             <IconButton

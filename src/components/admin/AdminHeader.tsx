@@ -36,7 +36,9 @@ const AdminHeader: React.FC<Props> = ({ title }: Props) => {
             <NextSeo title={title} />
             <AppBar position="sticky" color="default" elevation={0} className={classes.appbar}>
                 <Toolbar>
-                    <Drawer content={DrawerAdminContent} />
+                    <Drawer>
+                        <DrawerAdminContent />
+                    </Drawer>
                     <Typography component="h1" variant="h6" className={classes.title}>
                         {title}
                     </Typography>
@@ -51,7 +53,7 @@ const AdminHeader: React.FC<Props> = ({ title }: Props) => {
                                 Docs
                             </Button>
                         </Link>
-                        {auth?.user && (
+                        {auth.user && (
                             <Link href="/admin" passHref>
                                 <Button
                                     component="a"
@@ -62,7 +64,7 @@ const AdminHeader: React.FC<Props> = ({ title }: Props) => {
                                 </Button>
                             </Link>
                         )}
-                        {!auth?.user && (
+                        {!auth.user && (
                             <Link href="/login" passHref>
                                 <Button
                                     component="a"
@@ -75,7 +77,7 @@ const AdminHeader: React.FC<Props> = ({ title }: Props) => {
                         )}
                     </nav>
                     <ToggleDarkMode />
-                    {auth?.user && <ProfileDropdown />}
+                    {auth.user && <ProfileDropdown />}
                 </Toolbar>
             </AppBar>
         </React.Fragment>

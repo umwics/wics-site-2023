@@ -42,23 +42,20 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
     const { data: revalidatedCompanies } = useCompanies({ initialData: companies });
     const { data: revalidatedMembers } = useMembers({ initialData: members });
 
-    const addCompany = async (
-        company: Company,
-        image?: File,
-        progressCallback?: (progress: number) => any
-    ) => {
+    const addCompany = async (company: Company, progressCallback?: (progress: number) => any) => {
         const { id, ...data } = company;
         const editing = !!id;
 
-        const imageUrl = image
-            ? await storeImage(image, "companies", progressCallback)
-            : company.image;
+        const imageUrl =
+            company.image !== "string"
+                ? await storeImage((company.image as any)?.file, "companies", progressCallback)
+                : company.image;
 
         if (editing) {
             const response = await fetch(`/api/${process.env.apiVersion}/companies/${id}`, {
                 method: "PATCH",
                 headers: {
-                    token: (await auth?.getUserToken()) as string
+                    token: (await auth.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
@@ -69,7 +66,7 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
             const response = await fetch(`/api/${process.env.apiVersion}/companies`, {
                 method: "POST",
                 headers: {
-                    token: (await auth?.getUserToken()) as string
+                    token: (await auth.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
@@ -85,29 +82,28 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
     };
 
     const deleteVisibleCompany = async (company: Company) => {
-        confirm &&
-            confirm({
-                description: "This company will permanently be deleted.",
-                confirmText: "Delete"
-            })
-                .then(async () => {
-                    const response = await fetch(
-                        `/api/${process.env.apiVersion}/companies/${company.id}`,
-                        {
-                            method: "DELETE",
-                            headers: {
-                                token: (await auth?.getUserToken()) as string
-                            }
+        confirm({
+            description: "This company will permanently be deleted.",
+            confirmText: "Delete"
+        })
+            .then(async () => {
+                const response = await fetch(
+                    `/api/${process.env.apiVersion}/companies/${company.id}`,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            token: (await auth.getUserToken()) as string
                         }
-                    );
+                    }
+                );
 
-                    if (response.ok) {
-                        enqueueSnackbar("Successfully Deleted Company", { variant: "success" });
-                    } else enqueueSnackbar("Failed to Delete Company", { variant: "error" });
-                })
-                .catch(() => {
-                    // pass
-                });
+                if (response.ok) {
+                    enqueueSnackbar("Successfully Deleted Company", { variant: "success" });
+                } else enqueueSnackbar("Failed to Delete Company", { variant: "error" });
+            })
+            .catch(() => {
+                // pass
+            });
     };
 
     const handleClickOpen = () => {
@@ -139,7 +135,7 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
                         addCompany={addCompany}
                         handleClose={handleClose}
                     />
-                    {auth?.user && hasPermission(auth?.user, "write") && (
+                    {auth.user && hasPermission(auth.user, "write") && (
                         <div className={classes.addCompany}>
                             <Button variant="contained" color="primary" onClick={handleClickOpen}>
                                 Add Company

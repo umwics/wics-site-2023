@@ -5,6 +5,7 @@ import {
     DialogContent,
     DialogTitle,
     IconButton,
+    LinearProgress,
     MenuItem,
     Typography
 } from "@material-ui/core";
@@ -24,11 +25,7 @@ import UploadImage from "./UploadImage";
 interface Props {
     open: boolean;
     initialValues?: Resource;
-    addResource?: (
-        resource: Resource,
-        image?: File,
-        progressCallback?: (progress: number) => any
-    ) => any;
+    addResource?: (resource: Resource, progressCallback?: (progress: number) => any) => any;
     handleClose?: () => void;
 }
 
@@ -66,13 +63,8 @@ const AddResourceDialog: React.FC<Props> = ({
     const composedInitialValues = { ...defaultInitialValues, ...initialValues };
     const editing = !!composedInitialValues.id;
 
-    const [image, setImage] = useState<{ file: File; url: string } | null>(null);
     const [uploading, setUploading] = useState<boolean>(false);
     const [uploadingProgress, setUploadingProgress] = useState<number>(0);
-
-    const handleImageUpload = (selectedFile: File, preview: string) => {
-        setImage({ file: selectedFile, url: preview });
-    };
 
     const imageUploadProgress = (progress: number) => {
         setUploadingProgress(progress);
@@ -81,10 +73,6 @@ const AddResourceDialog: React.FC<Props> = ({
     useEffect(() => {
         if (!uploading) setUploadingProgress(0);
     }, [uploading]);
-
-    useEffect(() => {
-        if (!open) setImage(null);
-    }, [open]);
 
     return (
         <Dialog
@@ -115,17 +103,16 @@ const AddResourceDialog: React.FC<Props> = ({
                     validationSchema={addResourceSchema}
                     initialValues={composedInitialValues}
                     onSubmit={async (data: Resource, { setSubmitting }) => {
+                        const uploadingImage = typeof data.image !== "string";
+
                         setSubmitting(true);
-                        image && setUploading(true);
+                        uploadingImage && setUploading(true);
 
                         // handle submit
-                        if (addResource) {
-                            if (image) await addResource(data, image.file, imageUploadProgress);
-                            else addResource(data);
-                        }
+                        addResource && (await addResource(data, imageUploadProgress));
                         handleClose && handleClose();
 
-                        image && setUploading(false);
+                        uploadingImage && setUploading(false);
                         setSubmitting(false);
                     }}
                     fields={[
@@ -205,13 +192,15 @@ const AddResourceDialog: React.FC<Props> = ({
                         {
                             component: UploadImage,
                             props: {
-                                uploading,
                                 name: "image",
-                                label: "Image URL",
-                                uploadingProgress,
-                                image,
-                                onChange: handleImageUpload,
-                                clearImage: () => setImage(null)
+                                label: "Image URL"
+                            }
+                        },
+                        {
+                            component: uploading ? LinearProgress : () => null,
+                            props: {
+                                variant: "determinate",
+                                value: uploadingProgress
                             }
                         },
                         {

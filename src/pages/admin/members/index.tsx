@@ -41,23 +41,20 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
     const [addDialogOpen, setAddDialogOpen] = useState(false);
     const { data: revalidatedMembers, mutate } = useMembers({ initialData: members });
 
-    const addMember = async (
-        member: Member,
-        image?: File,
-        progressCallback?: (progress: number) => any
-    ) => {
+    const addMember = async (member: Member, progressCallback?: (progress: number) => any) => {
         const { id, ...data } = member;
         const editing = !!id;
 
-        const imageUrl = image
-            ? await storeImage(image, "members", progressCallback)
-            : member.image;
+        const imageUrl =
+            member.image !== "string"
+                ? await storeImage((member.image as any)?.file, "members", progressCallback)
+                : member.image;
 
         if (editing) {
             const response = await fetch(`/api/${process.env.apiVersion}/members/${id}`, {
                 method: "PATCH",
                 headers: {
-                    token: (await auth?.getUserToken()) as string
+                    token: (await auth.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
@@ -68,7 +65,7 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
             const response = await fetch(`/api/${process.env.apiVersion}/members`, {
                 method: "POST",
                 headers: {
-                    token: (await auth?.getUserToken()) as string
+                    token: (await auth.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
@@ -98,7 +95,7 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
         const response = await fetch(`/api/${process.env.apiVersion}/members`, {
             method: "PATCH",
             headers: {
-                token: (await auth?.getUserToken()) as string
+                token: (await auth.getUserToken()) as string
             },
             body: JSON.stringify({
                 members: ranked
@@ -117,29 +114,28 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
     };
 
     const deleteVisibleMember = async (member: Member) => {
-        confirm &&
-            confirm({
-                description: "This member will permanently be deleted.",
-                confirmText: "Delete"
-            })
-                .then(async () => {
-                    const response = await fetch(
-                        `/api/${process.env.apiVersion}/members/${member.id}`,
-                        {
-                            method: "DELETE",
-                            headers: {
-                                token: (await auth?.getUserToken()) as string
-                            }
+        confirm({
+            description: "This member will permanently be deleted.",
+            confirmText: "Delete"
+        })
+            .then(async () => {
+                const response = await fetch(
+                    `/api/${process.env.apiVersion}/members/${member.id}`,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            token: (await auth.getUserToken()) as string
                         }
-                    );
+                    }
+                );
 
-                    if (response.ok) {
-                        enqueueSnackbar("Successfully Deleted Member", { variant: "success" });
-                    } else enqueueSnackbar("Failed to Delete Member", { variant: "error" });
-                })
-                .catch(() => {
-                    // pass
-                });
+                if (response.ok) {
+                    enqueueSnackbar("Successfully Deleted Member", { variant: "success" });
+                } else enqueueSnackbar("Failed to Delete Member", { variant: "error" });
+            })
+            .catch(() => {
+                // pass
+            });
     };
 
     const handleClickOpen = () => {
@@ -170,7 +166,7 @@ const Members: NextPage<Props> = ({ members, auth }: Props) => {
                         addMember={addMember}
                         handleClose={handleClose}
                     />
-                    {auth?.user && hasPermission(auth?.user, "write") && (
+                    {auth.user && hasPermission(auth.user, "write") && (
                         <div className={classes.addMember}>
                             <Button variant="contained" color="primary" onClick={handleClickOpen}>
                                 Add Member

@@ -16,6 +16,9 @@ service cloud.firestore {
     match /resources/{id} {
       allow read;
     }
+    match /carousels/{id} {
+      allow read;
+    }
     match /{document=**} {
       allow read, write: if false; // Only allow writes through API
     }

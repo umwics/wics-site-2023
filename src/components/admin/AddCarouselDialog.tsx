@@ -6,17 +6,16 @@ import {
     DialogTitle,
     IconButton,
     LinearProgress,
-    MenuItem,
     Typography
 } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Close } from "@material-ui/icons";
 import { Field, useFormikContext } from "formik";
-import { TextField } from "formik-material-ui";
+import { CheckboxWithLabel, TextField } from "formik-material-ui";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { Member, memberPositionLabels } from "../../interfaces";
-import { addMemberSchema } from "../../lib/validators";
+import { Carousel } from "../../interfaces";
+import { addCarouselSchema } from "../../lib/validators";
 import ArrayField from "../ArrayField";
 import DynamicForm from "../DynamicForm";
 import TransitionSlide from "../TransitionSlide";
@@ -24,8 +23,8 @@ import UploadImage from "./UploadImage";
 
 interface Props {
     open: boolean;
-    initialValues?: Member;
-    addMember?: (member: Member, progressCallback?: (progress: number) => any) => any;
+    initialValues?: Carousel;
+    addCarousel?: (carousel: Carousel, progressCallback?: (progress: number) => any) => any;
     handleClose?: () => void;
 }
 
@@ -42,24 +41,21 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const defaultInitialValues: Member = {
+const defaultInitialValues: Carousel = {
     id: "",
     name: "",
-    displayName: "",
-    title: "",
-    email: "",
-    description: "",
-    facts: [],
-    links: [],
-    positions: [],
-    rank: 0,
-    image: ""
+    autoplay: true,
+    indicators: true,
+    interval: 4000,
+    timeout: 500,
+    startAt: 0,
+    slides: []
 };
 
-const AddMemberDialog: React.FC<Props> = ({
+const AddCarouselDialog: React.FC<Props> = ({
     open,
     initialValues,
-    addMember,
+    addCarousel,
     handleClose
 }: Props) => {
     const classes = useStyles();
@@ -87,7 +83,7 @@ const AddMemberDialog: React.FC<Props> = ({
         >
             <DialogTitle id="form-dialog-title">
                 <Typography component="p" variant="h6">
-                    {editing ? "Edit Member" : "Add Member"}
+                    {editing ? "Edit Carousel" : "Add Carousel"}
                 </Typography>
                 {handleClose && (
                     <IconButton
@@ -104,19 +100,21 @@ const AddMemberDialog: React.FC<Props> = ({
                     className={classes.form}
                     validateOnChange={false}
                     validateOnBlur={true}
-                    validationSchema={addMemberSchema}
+                    validationSchema={addCarouselSchema}
                     initialValues={composedInitialValues}
-                    onSubmit={async (data: Member, { setSubmitting }) => {
-                        const uploadingImage = typeof data.image !== "string";
+                    onSubmit={async (data: Carousel, { setSubmitting }) => {
+                        const newImages = data.slides.some(
+                            slide => typeof slide.image !== "string"
+                        );
 
                         setSubmitting(true);
-                        uploadingImage && setUploading(true);
+                        newImages && setUploading(true);
 
                         // handle submit
-                        addMember && (await addMember(data, imageUploadProgress));
+                        addCarousel && (await addCarousel(data, imageUploadProgress));
                         handleClose && handleClose();
 
-                        uploadingImage && setUploading(false);
+                        newImages && setUploading(false);
                         setSubmitting(false);
                     }}
                     fields={[
@@ -135,10 +133,29 @@ const AddMemberDialog: React.FC<Props> = ({
                         {
                             component: Field,
                             props: {
+                                component: CheckboxWithLabel,
+                                name: "autoplay",
+                                Label: { label: "Auto Play" },
+                                type: "checkbox"
+                            }
+                        },
+                        {
+                            component: Field,
+                            props: {
+                                component: CheckboxWithLabel,
+                                name: "indicators",
+                                Label: { label: "Indicators" },
+                                type: "checkbox"
+                            }
+                        },
+                        {
+                            component: Field,
+                            props: {
                                 component: TextField,
                                 variant: "outlined",
-                                name: "displayName",
-                                label: "Display Name",
+                                name: "interval",
+                                label: "Interval",
+                                type: "number",
                                 fullWidth: true
                             }
                         },
@@ -147,19 +164,9 @@ const AddMemberDialog: React.FC<Props> = ({
                             props: {
                                 component: TextField,
                                 variant: "outlined",
-                                name: "title",
-                                label: "Title",
-                                fullWidth: true,
-                                required: true
-                            }
-                        },
-                        {
-                            component: Field,
-                            props: {
-                                component: TextField,
-                                variant: "outlined",
-                                name: "email",
-                                label: "Email Address",
+                                name: "timeout",
+                                label: "Timeout",
+                                type: "number",
                                 fullWidth: true
                             }
                         },
@@ -168,103 +175,104 @@ const AddMemberDialog: React.FC<Props> = ({
                             props: {
                                 component: TextField,
                                 variant: "outlined",
-                                name: "description",
-                                label: "Description",
-                                rows: 2,
-                                rowsMax: 4,
-                                multiline: true,
+                                name: "startAt",
+                                label: "Start At",
+                                type: "number",
                                 fullWidth: true
                             }
                         },
                         {
                             component: ArrayField,
                             props: {
-                                name: "facts",
-                                addLabel: "Add Fact",
+                                name: "slides",
+                                addLabel: "Add Slide",
                                 schema: Yup.array().of(
                                     Yup.object().default(() => ({
-                                        props: {
-                                            component: TextField,
-                                            variant: "outlined",
-                                            fullWidth: true
-                                        },
-                                        fieldLabel: (idx: number) => `Fact ${idx + 1}`,
-                                        initialValue: ""
-                                    }))
-                                )
-                            }
-                        },
-                        {
-                            component: ArrayField,
-                            props: {
-                                name: "links",
-                                addLabel: "Add Link",
-                                schema: Yup.array().of(
-                                    Yup.object().default({
                                         title: Yup.object().default(() => ({
                                             props: {
                                                 component: TextField,
                                                 variant: "outlined",
                                                 fullWidth: true
                                             },
-                                            fieldLabel: (idx: number) => `Link Title ${idx + 1}`,
+                                            fieldLabel: (idx: number) => `Slide ${idx + 1} Title`,
                                             initialValue: ""
                                         })),
-                                        link: Yup.object().default(() => ({
+                                        subtitle: Yup.object().default(() => ({
                                             props: {
                                                 component: TextField,
                                                 variant: "outlined",
                                                 fullWidth: true
                                             },
-                                            fieldLabel: (idx: number) => `Link ${idx + 1}`,
+                                            fieldLabel: (idx: number) =>
+                                                `Slide ${idx + 1} Subtitle`,
+                                            initialValue: ""
+                                        })),
+                                        body: Yup.object().default(() => ({
+                                            props: {
+                                                component: TextField,
+                                                variant: "outlined",
+                                                fullWidth: true
+                                            },
+                                            fieldLabel: (idx: number) => `Slide ${idx + 1} Body`,
+                                            initialValue: ""
+                                        })),
+                                        linkName: Yup.object().default(() => ({
+                                            props: {
+                                                component: TextField,
+                                                variant: "outlined",
+                                                fullWidth: true
+                                            },
+                                            fieldLabel: (idx: number) =>
+                                                `Slide ${idx + 1} Link Name`,
+                                            initialValue: ""
+                                        })),
+                                        linkHref: Yup.object().default(() => ({
+                                            props: {
+                                                component: TextField,
+                                                variant: "outlined",
+                                                fullWidth: true
+                                            },
+                                            fieldLabel: (idx: number) =>
+                                                `Slide ${idx + 1} Link Href`,
+                                            initialValue: ""
+                                        })),
+                                        linkAs: Yup.object().default(() => ({
+                                            props: {
+                                                component: TextField,
+                                                variant: "outlined",
+                                                fullWidth: true
+                                            },
+                                            fieldLabel: (idx: number) => `Slide ${idx + 1} Link As`,
+                                            initialValue: ""
+                                        })),
+                                        position: Yup.object().default(() => ({
+                                            props: {
+                                                component: TextField,
+                                                variant: "outlined",
+                                                type: "number",
+                                                fullWidth: true
+                                            },
+                                            fieldLabel: (idx: number) =>
+                                                `Slide ${idx + 1} Position`,
+                                            initialValue: 0
+                                        })),
+                                        alt: Yup.object().default(() => ({
+                                            props: {
+                                                component: TextField,
+                                                variant: "outlined",
+                                                fullWidth: true
+                                            },
+                                            fieldLabel: (idx: number) => `Slide ${idx + 1} Alt`,
+                                            initialValue: ""
+                                        })),
+                                        image: Yup.object().default(() => ({
+                                            component: UploadImage,
+                                            fieldLabel: (idx: number) =>
+                                                `Slide ${idx + 1} Image URL`,
                                             initialValue: ""
                                         }))
-                                    })
-                                )
-                            }
-                        },
-                        {
-                            component: ArrayField,
-                            props: {
-                                name: "positions",
-                                addLabel: "Add Position",
-                                schema: Yup.array().of(
-                                    Yup.object().default(() => ({
-                                        props: {
-                                            component: TextField,
-                                            select: true,
-                                            variant: "outlined",
-                                            children: Object.entries(memberPositionLabels).map(
-                                                ([value, label]) => (
-                                                    <MenuItem key={value} value={value}>
-                                                        {label}
-                                                    </MenuItem>
-                                                )
-                                            ),
-                                            fullWidth: true
-                                        },
-                                        fieldLabel: (idx: number) => `Position ${idx + 1}`,
-                                        initialValue: "activeMember"
                                     }))
                                 )
-                            }
-                        },
-                        {
-                            component: Field,
-                            props: {
-                                component: TextField,
-                                variant: "outlined",
-                                name: "rank",
-                                label: "Rank",
-                                type: "number",
-                                fullWidth: true
-                            }
-                        },
-                        {
-                            component: UploadImage,
-                            props: {
-                                name: "image",
-                                label: "Image URL"
                             }
                         },
                         {
@@ -302,4 +310,4 @@ const AddMemberDialog: React.FC<Props> = ({
     );
 };
 
-export default AddMemberDialog;
+export default AddCarouselDialog;

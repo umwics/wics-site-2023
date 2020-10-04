@@ -28,7 +28,7 @@ const handler = getHandler()
             const decoded = await auth?.verifyIdToken(token);
 
             const executingUser = decoded?.uid ? await getUser(decoded.uid) : null;
-            if (!executingUser || (executingUser && !hasPermission(executingUser, "write")))
+            if (!executingUser || !hasPermission(executingUser, "write"))
                 throw new UnauthorizedError("Invalid permissions");
 
             const newMember = await createMember({
@@ -50,7 +50,7 @@ const handler = getHandler()
             const decoded = await auth?.verifyIdToken(token);
 
             const executingUser = decoded?.uid ? await getUser(decoded.uid) : null;
-            if (!executingUser || (executingUser && !hasPermission(executingUser, "manage")))
+            if (!executingUser || !hasPermission(executingUser, "manage"))
                 throw new UnauthorizedError("Invalid permissions");
 
             const newMemberValues = await updateMembers(

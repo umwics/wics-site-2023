@@ -1,20 +1,20 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Company, hasPermission } from "../../../../interfaces";
+import { Carousel, hasPermission } from "../../../../interfaces";
 import getHandler from "../../../../lib/apiHandler";
-import { getCompany, getUser } from "../../../../lib/db";
-import { deleteCompany, updateCompany } from "../../../../lib/dbAdmin";
+import { getCarousel, getUser } from "../../../../lib/db";
+import { deleteCarousel, updateCarousel } from "../../../../lib/dbAdmin";
 import { NotFoundError, UnauthorizedError } from "../../../../lib/errors";
 import { auth } from "../../../../lib/firebaseAdmin";
-import { addCompanySchema, validateStrictStrip } from "../../../../lib/validators";
+import { addCarouselSchema, validateStrictStrip } from "../../../../lib/validators";
 import { getAsString } from "../../../../utils/queryParams";
 
 const handler = getHandler()
     .get(async (req: NextApiRequest, res: NextApiResponse) => {
-        const company: Company | null = await getCompany(getAsString(req.query.id));
+        const carousel: Carousel | null = await getCarousel(getAsString(req.query.id));
 
-        if (!company) throw new NotFoundError("Company not found");
+        if (!carousel) throw new NotFoundError("Carousel not found");
 
-        res.status(200).json(company);
+        res.status(200).json(carousel);
     })
     .delete(async (req: NextApiRequest, res: NextApiResponse) => {
         try {
@@ -27,7 +27,7 @@ const handler = getHandler()
             if (!executingUser || !hasPermission(executingUser, "manage"))
                 throw new UnauthorizedError("Invalid permissions");
 
-            const success = await deleteCompany(id);
+            const success = await deleteCarousel(id);
 
             res.status(200).json({ statusCode: res.statusCode, success });
         } catch (e) {
@@ -39,8 +39,8 @@ const handler = getHandler()
             const token = getAsString(req.headers.token || "");
             const id = getAsString(req.query.id);
 
-            const rawValues = <Company>JSON.parse(req.body);
-            const newValues = await validateStrictStrip(addCompanySchema, rawValues);
+            const rawValues = <Carousel>JSON.parse(req.body);
+            const newValues = await validateStrictStrip(addCarouselSchema, rawValues);
 
             const decoded = await auth?.verifyIdToken(token);
 
@@ -48,11 +48,11 @@ const handler = getHandler()
             if (!executingUser || !hasPermission(executingUser, "manage"))
                 throw new UnauthorizedError("Invalid permissions");
 
-            const newCompanyValues = await updateCompany(id, {
-                ...(newValues as Partial<Company>)
+            const newCarouselValues = await updateCarousel(id, {
+                ...(newValues as Partial<Carousel>)
             });
 
-            res.status(200).json(newCompanyValues);
+            res.status(200).json(newCarouselValues);
         } catch (e) {
             throw new UnauthorizedError("Token invalid");
         }

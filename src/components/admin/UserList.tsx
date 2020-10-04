@@ -77,7 +77,6 @@ const UserList: React.FC<Props> = ({ users, updateUser }: Props) => {
                             <TableCell align="right">{user.email}</TableCell>
                             <TableCell align="right">
                                 <TextField
-                                    id="role-select"
                                     select
                                     value={user.role}
                                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -87,10 +86,7 @@ const UserList: React.FC<Props> = ({ users, updateUser }: Props) => {
                                             role: parseUserRole(event.target.value)
                                         })
                                     }
-                                    disabled={
-                                        !auth?.user ||
-                                        (auth?.user && !hasPermission(auth?.user, "manage"))
-                                    }
+                                    disabled={!auth.user || !hasPermission(auth.user, "manage")}
                                     variant="standard"
                                 >
                                     {Object.entries(userRoleLabels).map(([value, label]) => (

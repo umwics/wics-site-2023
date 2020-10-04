@@ -27,11 +27,11 @@ const Users: NextPage<Props> = ({ users, auth }: Props) => {
 
     const { data: revalidatedUsers } = useUsers({ initialData: users });
 
-    const updateVisibleUser = async (user: User) => {
+    const updateUser = async (user: User) => {
         const response = await fetch(`/api/${process.env.apiVersion}/users/${user.id}`, {
             method: "PATCH",
             headers: {
-                token: (await auth?.getUserToken()) as string
+                token: (await auth.getUserToken()) as string
             },
             body: JSON.stringify({ ...user })
         });
@@ -48,7 +48,7 @@ const Users: NextPage<Props> = ({ users, auth }: Props) => {
                     <Typography component="h1" variant="h3">
                         Users List
                     </Typography>
-                    <UserList users={revalidatedUsers} updateUser={updateVisibleUser} />
+                    <UserList users={revalidatedUsers} updateUser={updateUser} />
                 </div>
             </Container>
         </AdminLayout>

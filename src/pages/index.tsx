@@ -55,7 +55,6 @@ const Home: NextPage = () => {
     return (
         <ContentsLayout title="Home">
             <HomeCarousel />
-
             <Container component="main">
                 <div className={classes.paper}>
                     <div className={classes.sectionTitle}>
@@ -78,18 +77,17 @@ const Home: NextPage = () => {
                         </Fade>
                     </div>
                 </div>
-
                 <div className={classes.paper}>
-                        <div className={classes.sectionTitle}>
-                            <Fade bottom duration={1000} delay={100} distance="30px">
-                                <Typography variant="h2">Stay Connected #umwics</Typography>
-                            </Fade>
-                            <Fade bottom duration={1000} delay={200} distance="30px">
-                                <Typography variant="h5">
-                                    Follow us on social media and checkout our upcoming events!
-                                </Typography>
-                            </Fade>
-                        </div>
+                    <div className={classes.sectionTitle}>
+                        <Fade bottom duration={1000} delay={100} distance="30px">
+                            <Typography variant="h2">Stay Connected #umwics</Typography>
+                        </Fade>
+                        <Fade bottom duration={1000} delay={200} distance="30px">
+                            <Typography variant="h5">
+                                Follow us on social media and checkout our upcoming events!
+                            </Typography>
+                        </Fade>
+                    </div>
                     <div className={classes.sectionEmbed}>
                         <Fade bottom duration={1000} delay={300} distance="30px">
                             <iframe

@@ -11,13 +11,9 @@ import {
 import { fade, makeStyles, Theme } from "@material-ui/core/styles";
 import { Cloud, CollectionsBookmark, ExpandLess, ExpandMore } from "@material-ui/icons";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../lib/auth";
-
-interface Props {
-    onClick?: (event: React.MouseEvent) => any;
-    onKeyDown?: (event: React.KeyboardEvent) => any;
-}
+import { useDrawer } from "../Drawer";
 
 const useStyles = makeStyles((theme: Theme) => ({
     toolbar: {
@@ -25,6 +21,13 @@ const useStyles = makeStyles((theme: Theme) => ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center"
+    },
+    title: {
+        color: theme.palette.text.secondary,
+        marginBottom: theme.spacing(0.5),
+        "&:hover": {
+            color: theme.palette.primary.main
+        }
     },
     list: {
         width: 250
@@ -35,15 +38,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const collections = ["users", "members", "companies", "events", "resources"];
-const apiDocs = ["users", "members", "companies", "events", "resources"];
+const collections = ["users", "members", "companies", "events", "resources", "carousels"];
+const apiDocs = ["users", "members", "companies", "events", "resources", "carousels"];
 
-const DrawerAdminContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
+const DrawerAdminContent: React.FC = () => {
+    const { closeDrawer } = useDrawer();
     const classes = useStyles();
     const auth = useAuth();
 
-    const [collectionsOpen, setCollectionsOpen] = React.useState(true);
-    const [apiOpen, setApiOpen] = React.useState(true);
+    const [collectionsOpen, setCollectionsOpen] = useState(true);
+    const [apiOpen, setApiOpen] = useState(true);
 
     return (
         <div className={classes.list} role="presentation">
@@ -51,12 +55,19 @@ const DrawerAdminContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                 component="nav"
                 subheader={
                     <ListSubheader
+                        id="nested-list-subheader"
                         className={classes.toolbar}
                         component="div"
-                        id="nested-list-subheader"
+                        disableSticky
                     >
                         <Link href="/" passHref>
-                            <MuiLink component="a" color="inherit" variant="h6">
+                            <MuiLink
+                                component="a"
+                                className={classes.title}
+                                onClick={closeDrawer}
+                                color="inherit"
+                                variant="subtitle1"
+                            >
                                 UMWics Admin
                             </MuiLink>
                         </Link>
@@ -64,7 +75,7 @@ const DrawerAdminContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                 }
             >
                 <Divider />
-                {auth?.user && (
+                {auth.user && (
                     <React.Fragment>
                         <ListItem button onClick={() => setCollectionsOpen(!collectionsOpen)}>
                             <ListItemIcon>
@@ -73,16 +84,11 @@ const DrawerAdminContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                             <ListItemText primary="Collections" />
                             {collectionsOpen ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
-                        <Collapse
-                            in={collectionsOpen}
-                            className={classes.group}
-                            timeout="auto"
-                            unmountOnExit
-                        >
+                        <Collapse in={collectionsOpen} className={classes.group} timeout="auto">
                             <List
                                 component="div"
-                                onClick={onClick}
-                                onKeyDown={onKeyDown}
+                                onClick={closeDrawer}
+                                onKeyDown={closeDrawer}
                                 dense
                                 disablePadding
                             >
@@ -104,11 +110,11 @@ const DrawerAdminContent: React.FC<Props> = ({ onClick, onKeyDown }: Props) => {
                     <ListItemText primary="API" />
                     {apiOpen ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
-                <Collapse in={apiOpen} className={classes.group} timeout="auto" unmountOnExit>
+                <Collapse in={apiOpen} className={classes.group} timeout="auto">
                     <List
                         component="div"
-                        onClick={onClick}
-                        onKeyDown={onKeyDown}
+                        onClick={closeDrawer}
+                        onKeyDown={closeDrawer}
                         dense
                         disablePadding
                     >

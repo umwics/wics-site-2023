@@ -1,9 +1,9 @@
 import React, { createContext, useCallback, useContext, useState } from "react";
 import ConfirmDialog, { OptionProps } from "./ConfirmDialog";
 
-type ConfirmContextInstance = ((options: OptionProps) => Promise<unknown>) | undefined;
+type ConfirmContextInstance = (options: OptionProps) => Promise<unknown>;
 
-const ConfirmContext = createContext<ConfirmContextInstance>(undefined);
+const ConfirmContext = createContext<ConfirmContextInstance>({} as ConfirmContextInstance);
 
 interface ConfirmProviderProps {
     children: React.ReactNode;

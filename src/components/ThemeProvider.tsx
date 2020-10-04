@@ -5,12 +5,19 @@ import {
     ThemeProvider as MuiThemeProvider
 } from "@material-ui/core/styles";
 import merge from "deepmerge";
-import React, { createContext, Reducer, useCallback, useContext, useEffect } from "react";
+import React, {
+    createContext,
+    Reducer,
+    useCallback,
+    useContext,
+    useEffect,
+    useReducer
+} from "react";
 import { getCookie, setCookie } from "../utils/cookie";
 
 type ThemeContextInstance = React.Dispatch<Action> | undefined;
 
-const ThemeContext = createContext<ThemeContextInstance | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextInstance>(undefined);
 
 type Action =
     | { type: "SET_SPACING"; payload: number }
@@ -91,7 +98,7 @@ const defaultTheme: ThemeOptions = {
 };
 
 const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }: ThemeProviderProps) => {
-    const [themeOptions, dispatch] = React.useReducer<Reducer<ThemeOptions, Action>, ThemeOptions>(
+    const [themeOptions, dispatch] = useReducer<Reducer<ThemeOptions, Action>, ThemeOptions>(
         (prevState: ThemeOptions, action: Action) => {
             switch (action.type) {
                 case "SET_SPACING":

@@ -119,7 +119,7 @@ const CompanyList: React.FC<Props> = ({
                                 </div>
                             </TableCell>
                             <TableCell align="right">
-                                {auth?.user && hasPermission(auth?.user, "write") && (
+                                {auth.user && hasPermission(auth.user, "write") && (
                                     <div className={classes.actions}>
                                         <Tooltip title="Edit" placement="top">
                                             <IconButton

@@ -4,7 +4,6 @@ import {
     GridListTile,
     GridListTileBar,
     IconButton,
-    LinearProgress,
     ListSubheader
 } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
@@ -34,19 +33,14 @@ const useStyles = makeStyles((_theme: Theme) => ({
         display: "flex",
         flexDirection: "column"
     },
-    progressRoot: {
-        width: "100%"
-    },
     icon: {
         color: "rgba(255, 255, 255, 0.70)"
     }
 }));
 
 const UploadImages: React.FC<Props> = ({
-    uploading,
     // addLabel,
     fieldLabel,
-    uploadingProgress,
     images,
     onChange,
     // clearImages,
@@ -93,11 +87,6 @@ const UploadImages: React.FC<Props> = ({
                     </div>
                 </Grid>
             </Grid>
-            {uploading && (
-                <div className={classes.progressRoot}>
-                    <LinearProgress variant="determinate" value={uploadingProgress} />
-                </div>
-            )}
         </div>
     );
 };

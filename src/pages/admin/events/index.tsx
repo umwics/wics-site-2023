@@ -50,14 +50,16 @@ const Events: NextPage<Props> = ({ events, auth }: Props) => {
 
         const uploadImages = images.map(image => image.file).filter((file): file is File => !!file);
         const oldImagesUrls = images.filter(image => !image.file).map(image => image.url);
-        const newImageUrls = await storeImages(uploadImages, "events", progressCallback);
+        const newImageUrls = (await storeImages(uploadImages, "events", progressCallback)).map(
+            image => image || ""
+        );
         const imageUrls = [...oldImagesUrls, ...newImageUrls];
 
         if (editing) {
             const response = await fetch(`/api/${process.env.apiVersion}/events/${id}`, {
                 method: "PATCH",
                 headers: {
-                    token: (await auth?.getUserToken()) as string
+                    token: (await auth.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, images: imageUrls })
             });
@@ -68,7 +70,7 @@ const Events: NextPage<Props> = ({ events, auth }: Props) => {
             const response = await fetch(`/api/${process.env.apiVersion}/events`, {
                 method: "POST",
                 headers: {
-                    token: (await auth?.getUserToken()) as string
+                    token: (await auth.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, images: imageUrls })
             });
@@ -84,29 +86,25 @@ const Events: NextPage<Props> = ({ events, auth }: Props) => {
     };
 
     const deleteVisibleEvent = async (event: Event) => {
-        confirm &&
-            confirm({
-                description: "This event will permanently be deleted.",
-                confirmText: "Delete"
-            })
-                .then(async () => {
-                    const response = await fetch(
-                        `/api/${process.env.apiVersion}/events/${event.id}`,
-                        {
-                            method: "DELETE",
-                            headers: {
-                                token: (await auth?.getUserToken()) as string
-                            }
-                        }
-                    );
-
-                    if (response.ok) {
-                        enqueueSnackbar("Successfully Deleted Event", { variant: "success" });
-                    } else enqueueSnackbar("Failed to Delete Event", { variant: "error" });
-                })
-                .catch(() => {
-                    // pass
+        confirm({
+            description: "This event will permanently be deleted.",
+            confirmText: "Delete"
+        })
+            .then(async () => {
+                const response = await fetch(`/api/${process.env.apiVersion}/events/${event.id}`, {
+                    method: "DELETE",
+                    headers: {
+                        token: (await auth.getUserToken()) as string
+                    }
                 });
+
+                if (response.ok) {
+                    enqueueSnackbar("Successfully Deleted Event", { variant: "success" });
+                } else enqueueSnackbar("Failed to Delete Event", { variant: "error" });
+            })
+            .catch(() => {
+                // pass
+            });
     };
 
     const handleClickOpen = () => {
@@ -136,7 +134,7 @@ const Events: NextPage<Props> = ({ events, auth }: Props) => {
                         addEvent={addEvent}
                         handleClose={handleClose}
                     />
-                    {auth?.user && hasPermission(auth?.user, "write") && (
+                    {auth.user && hasPermission(auth.user, "write") && (
                         <div className={classes.addEvent}>
                             <Button variant="contained" color="primary" onClick={handleClickOpen}>
                                 Add Event

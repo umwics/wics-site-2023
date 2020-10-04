@@ -5,6 +5,7 @@ import {
     DialogContent,
     DialogTitle,
     IconButton,
+    LinearProgress,
     MenuItem,
     Typography
 } from "@material-ui/core";
@@ -70,9 +71,7 @@ const AddEventDialog: React.FC<Props> = ({ open, initialValues, addEvent, handle
     const [uploadingProgress, setUploadingProgress] = useState<number>(0);
 
     const handleImageUpload = (selectedFiles: FileList, previews: string[]) => {
-        const newImages = [
-            ...Array.from(selectedFiles).map((file, idx) => ({ file, url: previews[idx] }))
-        ];
+        const newImages = Array.from(selectedFiles, (file, idx) => ({ file, url: previews[idx] }));
         setImages([...images, ...newImages]);
     };
 
@@ -143,7 +142,6 @@ const AddEventDialog: React.FC<Props> = ({ open, initialValues, addEvent, handle
                         };
 
                         // handle submit
-
                         addEvent && (await addEvent(event, [...images], imageUploadProgress));
                         handleClose && handleClose();
 
@@ -256,14 +254,19 @@ const AddEventDialog: React.FC<Props> = ({ open, initialValues, addEvent, handle
                         {
                             component: UploadImages,
                             props: {
-                                uploading,
                                 addLabel: "Add Image",
                                 fieldLabel: (idx: number) => `Image ${idx + 1}`,
-                                uploadingProgress,
                                 images,
                                 onChange: handleImageUpload,
                                 clearImage: handleClearImage,
                                 clearImages: handleClearImages
+                            }
+                        },
+                        {
+                            component: uploading ? LinearProgress : () => null,
+                            props: {
+                                variant: "determinate",
+                                value: uploadingProgress
                             }
                         },
                         {

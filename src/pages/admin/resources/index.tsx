@@ -42,21 +42,21 @@ const Resources: NextPage<Props> = ({ resources, auth }: Props) => {
 
     const addResource = async (
         resource: Resource,
-        image?: File,
         progressCallback?: (progress: number) => any
     ) => {
         const { id, ...data } = resource;
         const editing = !!id;
 
-        const imageUrl = image
-            ? await storeImage(image, "resources", progressCallback)
-            : resource.image;
+        const imageUrl =
+            resource.image !== "string"
+                ? await storeImage((resource.image as any)?.file, "resources", progressCallback)
+                : resource.image;
 
         if (editing) {
             const response = await fetch(`/api/${process.env.apiVersion}/resources/${id}`, {
                 method: "PATCH",
                 headers: {
-                    token: (await auth?.getUserToken()) as string
+                    token: (await auth.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
@@ -67,7 +67,7 @@ const Resources: NextPage<Props> = ({ resources, auth }: Props) => {
             const response = await fetch(`/api/${process.env.apiVersion}/resources`, {
                 method: "POST",
                 headers: {
-                    token: (await auth?.getUserToken()) as string
+                    token: (await auth.getUserToken()) as string
                 },
                 body: JSON.stringify({ ...data, image: imageUrl })
             });
@@ -83,29 +83,28 @@ const Resources: NextPage<Props> = ({ resources, auth }: Props) => {
     };
 
     const deleteVisibleResource = async (resource: Resource) => {
-        confirm &&
-            confirm({
-                description: "This resource will permanently be deleted.",
-                confirmText: "Delete"
-            })
-                .then(async () => {
-                    const response = await fetch(
-                        `/api/${process.env.apiVersion}/resources/${resource.id}`,
-                        {
-                            method: "DELETE",
-                            headers: {
-                                token: (await auth?.getUserToken()) as string
-                            }
+        confirm({
+            description: "This resource will permanently be deleted.",
+            confirmText: "Delete"
+        })
+            .then(async () => {
+                const response = await fetch(
+                    `/api/${process.env.apiVersion}/resources/${resource.id}`,
+                    {
+                        method: "DELETE",
+                        headers: {
+                            token: (await auth.getUserToken()) as string
                         }
-                    );
+                    }
+                );
 
-                    if (response.ok) {
-                        enqueueSnackbar("Successfully Deleted Resource", { variant: "success" });
-                    } else enqueueSnackbar("Failed to Delete Resource", { variant: "error" });
-                })
-                .catch(() => {
-                    // pass
-                });
+                if (response.ok) {
+                    enqueueSnackbar("Successfully Deleted Resource", { variant: "success" });
+                } else enqueueSnackbar("Failed to Delete Resource", { variant: "error" });
+            })
+            .catch(() => {
+                // pass
+            });
     };
 
     const handleClickOpen = () => {
@@ -135,7 +134,7 @@ const Resources: NextPage<Props> = ({ resources, auth }: Props) => {
                         addResource={addResource}
                         handleClose={handleClose}
                     />
-                    {auth?.user && hasPermission(auth?.user, "write") && (
+                    {auth.user && hasPermission(auth.user, "write") && (
                         <div className={classes.addResource}>
                             <Button variant="contained" color="primary" onClick={handleClickOpen}>
                                 Add Resource

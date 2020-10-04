@@ -10,22 +10,18 @@ import { getUser } from "./db";
 import firebase, { auth } from "./firebase";
 import { mapProviderUser } from "./mapProviderUser.";
 
-export type AuthContextInstance =
-    | {
-          user: User | null;
-          loading: boolean;
-          createEmailPasswordUser: (
-              registerInfo: RegisterFields
-          ) => Promise<User | null> | undefined;
-          signinWithEmailPassword: (loginInfo: LoginFields) => Promise<User | null> | undefined;
-          signinWithGitHub: () => Promise<User | null> | undefined;
-          signinWithGoogle: () => Promise<User | null> | undefined;
-          getUserToken: () => Promise<string | null> | undefined;
-          signout: () => Promise<User | null> | undefined;
-      }
-    | undefined;
+export interface AuthContextInstance {
+    user: User | null;
+    loading: boolean;
+    createEmailPasswordUser: (registerInfo: RegisterFields) => Promise<User | null> | undefined;
+    signinWithEmailPassword: (loginInfo: LoginFields) => Promise<User | null> | undefined;
+    signinWithGitHub: () => Promise<User | null> | undefined;
+    signinWithGoogle: () => Promise<User | null> | undefined;
+    getUserToken: () => Promise<string | null> | undefined;
+    signout: () => Promise<User | null> | undefined;
+}
 
-const AuthContext = createContext<AuthContextInstance>(undefined);
+const AuthContext = createContext<AuthContextInstance>({} as AuthContextInstance);
 
 interface AuthProviderProps {
     children: React.ReactNode;
@@ -51,7 +47,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }: AuthProviderPro
             const newUser = await response.json();
 
             if (response.ok) {
-                setUser({ token, ...newUser });
+                setUser({ ...newUser });
                 enqueueSnackbar("Login Successful", { variant: "success" });
             } else {
                 enqueueSnackbar("Login Failed", { variant: "error" });
@@ -154,13 +150,13 @@ export type ExcludeAuthProps<P> = Pick<P, Exclude<keyof P, keyof WithAuthProps>>
 
 interface WithAuthOptions {
     defaultRedirection: string;
-    LoaderComponent: React.ComponentType;
+    loaderComponent: React.ElementType;
     allowedAccess: (user: User | null) => Promise<boolean> | boolean;
 }
 
 const defaultOptions: WithAuthOptions = {
     defaultRedirection: "/login",
-    LoaderComponent: () => <AdminLoading />,
+    loaderComponent: () => <AdminLoading />,
     allowedAccess: (user: User | null) => !!user && user.role === "owner"
 };
 
@@ -172,7 +168,7 @@ export const withAuth = <P extends WithAuthProps>(
         ...defaultOptions,
         ...pageOptions
     };
-    const { defaultRedirection, LoaderComponent, allowedAccess } = options;
+    const { defaultRedirection, loaderComponent: LoaderComponent, allowedAccess } = options;
 
     const PrivatePage: NextPage<ExcludeAuthProps<P>> = (props: any) => {
         const router = useRouter();
@@ -181,8 +177,8 @@ export const withAuth = <P extends WithAuthProps>(
 
         useEffect(() => {
             const checkAccess = async () => {
-                if (!auth?.loading) {
-                    const allowed = await allowedAccess(auth?.user || null);
+                if (!auth.loading) {
+                    const allowed = await allowedAccess(auth.user || null);
 
                     setAllowedState(allowed);
                     if (!allowed) {

@@ -1,5 +1,5 @@
-import { Company, Event, Member, Resource, User } from "../interfaces";
-import { firestore } from "./firebaseAdmin";
+import { Carousel, Company, Event, Member, Resource, User } from "../interfaces";
+import { auth, firestore } from "./firebaseAdmin";
 
 export const deleteDocument = async (collection: string, id: string): Promise<boolean> => {
     if (firestore) {
@@ -30,6 +30,18 @@ export const createUser = async (user: User): Promise<User | null> => {
     }
 
     return null;
+};
+
+export const deleteUser = async (id: string): Promise<boolean> => {
+    if (auth) {
+        const deletePromise = auth
+            .deleteUser(id)
+            .then(() => deleteDocument("users", id))
+            .catch(() => false);
+        return await deletePromise;
+    }
+
+    return false;
 };
 
 export const updateUser = async (
@@ -211,6 +223,43 @@ export const updateResource = async (
 
         return await firestore
             .collection("resources")
+            .doc(uid)
+            .update(newValues)
+            .then(() => newValues)
+            .catch(() => null);
+    }
+
+    return null;
+};
+
+export const createCarousel = async (carousel: Carousel): Promise<Carousel | null> => {
+    if (firestore) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...data } = carousel;
+        const doc = await firestore.collection("carousels").add({ ...data });
+
+        const newCarousel = <Carousel>{ id: doc.id, ...data };
+
+        return newCarousel;
+    }
+
+    return null;
+};
+
+export const deleteCarousel = async (id: string): Promise<boolean> => {
+    return await deleteDocument("carousels", id);
+};
+
+export const updateCarousel = async (
+    uid: string,
+    partialCarousel: Partial<Carousel>
+): Promise<Partial<Carousel> | null> => {
+    if (firestore) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...newValues } = partialCarousel;
+
+        return await firestore
+            .collection("carousels")
             .doc(uid)
             .update(newValues)
             .then(() => newValues)

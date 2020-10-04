@@ -1,17 +1,14 @@
-import { Card, CardHeader, CardMedia, Grid, IconButton, LinearProgress } from "@material-ui/core";
+import { Card, CardHeader, CardMedia, Grid, IconButton } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Clear } from "@material-ui/icons";
-import { Field, useFormikContext } from "formik";
+import { Field, getIn, useFormikContext } from "formik";
 import { TextField } from "formik-material-ui";
 import React from "react";
 import UploadImageButton from "./UploadImageButton";
 
 interface Props {
-    uploading?: boolean;
     name: string;
     label?: string;
-    uploadingProgress?: number;
-    image?: { file: File; url: string } | null;
     onChange?: (selectedFile: File, preview: string) => any;
     clearImage?: () => any;
 }
@@ -42,26 +39,28 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     media: {
         paddingTop: "100%"
-    },
-    progressRoot: {
-        width: "100%"
     }
 }));
 
 const UploadImage: React.FC<Props> = ({
-    uploading,
     name,
     label = "Image URL",
-    uploadingProgress,
-    image,
     onChange,
     clearImage
 }: Props) => {
     const classes = useStyles();
-    const { values } = useFormikContext<any>();
+    const { values, setFieldValue } = useFormikContext<any>();
+
+    const formikValue = getIn(values, name);
 
     const handleImageUpload = (selectedFile: FileList, preview: string[]) => {
+        setFieldValue(name, { file: selectedFile[0], url: preview[0] });
         onChange && onChange(selectedFile[0], preview[0]);
+    };
+
+    const handleClearImage = () => {
+        setFieldValue(name, "");
+        clearImage && clearImage();
     };
 
     return (
@@ -73,41 +72,37 @@ const UploadImage: React.FC<Props> = ({
                         variant="outlined"
                         name={name}
                         label={label}
-                        disabled={!!image}
+                        disabled={!!formikValue?.file}
                         fullWidth
                     />
                 </Grid>
                 <Grid item xs={2} sm={1}>
                     <UploadImageButton
                         className={classes.imageUpload}
+                        labelId={`icon-button-file-${name}`}
                         onChange={handleImageUpload}
                         multiple={false}
                     />
                 </Grid>
             </div>
-            {(image || values.image) && (
+            {formikValue && (
                 <div className={classes.imageContainer}>
                     <Card className={classes.card}>
                         <CardHeader
                             action={
-                                <IconButton onClick={clearImage} aria-label="close">
+                                <IconButton onClick={handleClearImage} aria-label="close">
                                     <Clear />
                                 </IconButton>
                             }
-                            title={image?.file.name || "URL Image"}
-                            subheader={image?.file.type}
+                            title={formikValue.file?.name || "URL Image"}
+                            subheader={formikValue.file?.type}
                         />
                         <CardMedia
                             className={classes.media}
-                            image={image?.url || values.image}
-                            title={image?.file.name || "URL Image"}
+                            image={formikValue.url || formikValue}
+                            title={formikValue.file?.name || "URL Image"}
                         />
                     </Card>
-                </div>
-            )}
-            {uploading && (
-                <div className={classes.progressRoot}>
-                    <LinearProgress variant="determinate" value={uploadingProgress} />
                 </div>
             )}
         </div>

@@ -12,6 +12,7 @@ This repository holds the WICS website-2020's source code!
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/umwics/wics-site-2020)
 [![Website](https://img.shields.io/website/https/umwics.vercel.app?down_color=red&down_message=down&up_message=up)](https://umwics.vercel.app)
+[![Slack](https://img.shields.io/badge/slack-umwics-green.svg?style=flat-square)](https://umwics.slack.com)
 ![GitHub language count](https://img.shields.io/github/languages/count/umwics/wics-site-2020)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/umwics/wics-site-2020)
 ![Code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)

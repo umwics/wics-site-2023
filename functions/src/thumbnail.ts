@@ -7,7 +7,7 @@ import sharp from "sharp";
 
 admin.initializeApp();
 
-const thumbSizes = [200];
+const THUMB_SIZES = [200];
 
 export const generateThumbnail = functions.storage.object().onFinalize(async object => {
     const filePath = object.name || "";
@@ -19,7 +19,7 @@ export const generateThumbnail = functions.storage.object().onFinalize(async obj
     };
 
     const workingDir = path.join(os.tmpdir(), "thumbs");
-    const tempFilePath = path.join(workingDir, "source.png");
+    const tempFilePath = path.join(workingDir, fileName);
 
     // check if the file is not an image.
     if (!contentType.startsWith("image/")) return functions.logger.info("Not an image.");
@@ -29,7 +29,7 @@ export const generateThumbnail = functions.storage.object().onFinalize(async obj
     await fs.ensureDir(workingDir);
     await bucket.file(filePath).download({ destination: tempFilePath });
 
-    const uploads = thumbSizes.map(async size => {
+    const uploads = THUMB_SIZES.map(async size => {
         const thumbName = `thumb_${size}_${fileName}`;
         const thumbPath = path.join(workingDir, thumbName);
 

@@ -1,25 +1,25 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { hasPermission, Resource } from "../../../../interfaces";
+import { Carousel, hasPermission } from "../../../../interfaces";
 import getHandler from "../../../../lib/apiHandler";
-import { getAllResources, getUser } from "../../../../lib/db";
-import { createResource } from "../../../../lib/dbAdmin";
+import { getAllCarousels, getUser } from "../../../../lib/db";
+import { createCarousel } from "../../../../lib/dbAdmin";
 import { UnauthorizedError } from "../../../../lib/errors";
 import { auth } from "../../../../lib/firebaseAdmin";
-import { addResourceSchema, validateStrictStrip } from "../../../../lib/validators";
+import { addCarouselSchema, validateStrictStrip } from "../../../../lib/validators";
 import { getAsString } from "../../../../utils/queryParams";
 
 const handler = getHandler()
     .get(async (_req: NextApiRequest, res: NextApiResponse) => {
-        const resources: Resource[] = await getAllResources();
+        const carousels: Carousel[] = await getAllCarousels();
 
-        res.status(200).json({ resources });
+        res.status(200).json({ carousels });
     })
     .post(async (req: NextApiRequest, res: NextApiResponse) => {
         try {
             const token = getAsString(req.headers.token || "");
 
-            const rawValues = <Resource>JSON.parse(req.body);
-            const newValues = await validateStrictStrip(addResourceSchema, rawValues);
+            const rawValues = <Carousel>JSON.parse(req.body);
+            const newValues = await validateStrictStrip(addCarouselSchema, rawValues);
 
             const decoded = await auth?.verifyIdToken(token);
 
@@ -27,11 +27,11 @@ const handler = getHandler()
             if (!executingUser || !hasPermission(executingUser, "write"))
                 throw new UnauthorizedError("Invalid permissions");
 
-            const newResource = await createResource({
-                ...(newValues as Resource)
+            const newCarousel = await createCarousel({
+                ...(newValues as Carousel)
             });
 
-            res.status(200).json(newResource);
+            res.status(200).json(newCarousel);
         } catch (e) {
             throw new UnauthorizedError("Token invalid");
         }

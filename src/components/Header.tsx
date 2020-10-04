@@ -43,7 +43,9 @@ const Header: React.FC<Props> = ({ title }: Props) => {
             <NextSeo title={title} />
             <AppBar position="sticky" color="default" elevation={0} className={classes.appbar}>
                 <Toolbar>
-                    <Drawer content={DrawerContent} />
+                    <Drawer>
+                        <DrawerContent />
+                    </Drawer>
                     <Typography component="h1" variant="h6" className={classes.title}>
                         {title}
                     </Typography>
@@ -90,7 +92,7 @@ const Header: React.FC<Props> = ({ title }: Props) => {
                         </Link>
                     </nav>
                     <ToggleDarkMode />
-                    {auth?.user && <ProfileDropdown />}
+                    {auth.user && <ProfileDropdown />}
                 </Toolbar>
             </AppBar>
         </React.Fragment>
