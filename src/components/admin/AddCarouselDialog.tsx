@@ -81,7 +81,7 @@ const AddCarouselDialog: React.FC<Props> = ({
             TransitionComponent={TransitionSlide}
             aria-labelledby="form-dialog-title"
         >
-            <DialogTitle id="form-dialog-title">
+            <DialogTitle id="form-dialog-title" disableTypography>
                 <Typography component="p" variant="h6">
                     {editing ? "Edit Carousel" : "Add Carousel"}
                 </Typography>

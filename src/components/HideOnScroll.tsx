@@ -1,13 +1,19 @@
 import { Slide, useScrollTrigger } from "@material-ui/core";
-import * as React from "react";
+import React from "react";
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-function HideOnScroll({ children }: any) {
-    const trigger = useScrollTrigger();
+interface Props {
+    children: React.ReactElement;
+    window?: () => Window;
+}
+
+const HideOnScroll: React.FC<Props> = ({ children, window }: Props) => {
+    const trigger = useScrollTrigger({ target: window ? window() : undefined, threshold: 100 });
+
     return (
         <Slide appear={false} direction="down" in={!trigger}>
             {children}
         </Slide>
     );
-}
+};
+
 export default HideOnScroll;

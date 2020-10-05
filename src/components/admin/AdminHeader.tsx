@@ -5,6 +5,7 @@ import Link from "next/link";
 import React from "react";
 import { useAuth } from "../../lib/auth";
 import Drawer from "../Drawer";
+import HideOnScroll from "../HideOnScroll";
 import ToggleDarkMode from "../ToggleDarkMode";
 import DrawerAdminContent from "./DrawerAdminContent";
 import ProfileDropdown from "./ProfileDropdown";
@@ -34,52 +35,62 @@ const AdminHeader: React.FC<Props> = ({ title }: Props) => {
     return (
         <React.Fragment>
             <NextSeo title={title} />
-            <AppBar position="sticky" color="default" elevation={0} className={classes.appbar}>
-                <Toolbar>
-                    <Drawer>
-                        <DrawerAdminContent />
-                    </Drawer>
-                    <Typography component="h1" variant="h6" className={classes.title}>
-                        {title}
-                    </Typography>
-                    <nav>
-                        <Link href="/" passHref>
-                            <Button component="a" color="inherit" className={classes.appbarmenu}>
-                                Home
-                            </Button>
-                        </Link>
-                        <Link href="/docs/[[...slug]]" as="/docs" passHref>
-                            <Button component="a" color="inherit" className={classes.appbarmenu}>
-                                Docs
-                            </Button>
-                        </Link>
-                        {auth.user && (
-                            <Link href="/admin" passHref>
+            <HideOnScroll>
+                <AppBar position="sticky" color="default" elevation={0} className={classes.appbar}>
+                    <Toolbar>
+                        <Drawer>
+                            <DrawerAdminContent />
+                        </Drawer>
+                        <Typography component="h1" variant="h6" className={classes.title}>
+                            {title}
+                        </Typography>
+                        <nav>
+                            <Link href="/" passHref>
                                 <Button
                                     component="a"
                                     color="inherit"
                                     className={classes.appbarmenu}
                                 >
-                                    Admin
+                                    Home
                                 </Button>
                             </Link>
-                        )}
-                        {!auth.user && (
-                            <Link href="/login" passHref>
+                            <Link href="/docs/[[...slug]]" as="/docs" passHref>
                                 <Button
                                     component="a"
                                     color="inherit"
                                     className={classes.appbarmenu}
                                 >
-                                    Login
+                                    Docs
                                 </Button>
                             </Link>
-                        )}
-                    </nav>
-                    <ToggleDarkMode />
-                    {auth.user && <ProfileDropdown />}
-                </Toolbar>
-            </AppBar>
+                            {auth.user && (
+                                <Link href="/admin" passHref>
+                                    <Button
+                                        component="a"
+                                        color="inherit"
+                                        className={classes.appbarmenu}
+                                    >
+                                        Admin
+                                    </Button>
+                                </Link>
+                            )}
+                            {!auth.user && (
+                                <Link href="/login" passHref>
+                                    <Button
+                                        component="a"
+                                        color="inherit"
+                                        className={classes.appbarmenu}
+                                    >
+                                        Login
+                                    </Button>
+                                </Link>
+                            )}
+                        </nav>
+                        <ToggleDarkMode />
+                        {auth.user && <ProfileDropdown />}
+                    </Toolbar>
+                </AppBar>
+            </HideOnScroll>
         </React.Fragment>
     );
 };

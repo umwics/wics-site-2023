@@ -25,7 +25,8 @@ export const storeFile = async (
     if (storage) {
         const storageRef = storage.ref();
         const uploadTask = storageRef.child(path).put(file, {
-            contentType: file.type
+            contentType: file.type,
+            cacheControl: "public,max-age=3600"
         });
 
         return await new Promise((resolve, reject) =>

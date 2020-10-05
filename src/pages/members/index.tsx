@@ -22,7 +22,6 @@ import clsx from "clsx";
 import { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
 import React from "react";
-import Modal from "react-modal";
 import useSWR from "swr";
 import BackToTop from "../../components/BackToTop";
 import MenmbersCarousel from "../../components/carousel/MembersCarousel";
@@ -39,8 +38,6 @@ interface SectionProps {
 interface Props {
     members: Member[];
 }
-
-Modal.setAppElement("#__next");
 
 const useStyles = makeStyles((theme: Theme) => ({
     paper: {

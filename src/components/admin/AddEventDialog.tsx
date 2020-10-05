@@ -105,7 +105,7 @@ const AddEventDialog: React.FC<Props> = ({ open, initialValues, addEvent, handle
             TransitionComponent={TransitionSlide}
             aria-labelledby="form-dialog-title"
         >
-            <DialogTitle id="form-dialog-title">
+            <DialogTitle id="form-dialog-title" disableTypography>
                 <Typography component="p" variant="h6">
                     {editing ? "Edit Event" : "Add Event"}
                 </Typography>

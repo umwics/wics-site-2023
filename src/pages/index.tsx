@@ -6,7 +6,7 @@ import { NextPage } from "next";
 import Fade from "react-reveal/Fade";
 import BackToTop from "../components/BackToTop";
 import HomeCarousel from "../components/carousel/HomeCarousel";
-import Linktree from "../components/home/linktree";
+import LinkTree from "../components/home/LinkTree";
 import ContentsLayout from "../components/layouts/ContentsLayout";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -110,7 +110,7 @@ const Home: NextPage = () => {
                     </div>
                     <div className={classes.sectionEmbed}>
                         <Fade bottom duration={1000} delay={300} distance="30px">
-                            <Linktree />
+                            <LinkTree />
                         </Fade>
                     </div>
                 </div>

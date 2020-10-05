@@ -3,6 +3,7 @@ export * from "./Carousel";
 export * from "./Company";
 export * from "./Doc";
 export * from "./Event";
+export * from "./LinkTree";
 export * from "./Member";
 export * from "./Permission";
 export * from "./Resource";

@@ -82,6 +82,7 @@ const useCarouselStyles = makeStyles((theme: Theme) => ({
 const Mentors: NextPage = () => {
     const classes = useStyles();
     const classesCalendar = useCarouselStyles();
+
     return (
         <ContentsLayout title="Mentors">
             <MentorsCarousel />

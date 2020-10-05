@@ -87,7 +87,7 @@ const AddCompanyDialog: React.FC<Props> = ({
             TransitionComponent={TransitionSlide}
             aria-labelledby="form-dialog-title"
         >
-            <DialogTitle id="form-dialog-title">
+            <DialogTitle id="form-dialog-title" disableTypography>
                 <Typography component="p" variant="h6">
                     {editing ? "Edit Company" : "Add Company"}
                 </Typography>

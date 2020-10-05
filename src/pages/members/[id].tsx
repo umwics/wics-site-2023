@@ -13,8 +13,8 @@ import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsResult, NextPage } from "next";
 import { useRouter } from "next/router";
 import React from "react";
-import AdminLoading from "../../components/admin/AdminLoading";
 import BackToTop from "../../components/BackToTop";
+import ContentsLoading from "../../components/ContentsLoading";
 import ContentsLayout from "../../components/layouts/ContentsLayout";
 import { Member } from "../../interfaces";
 import { getMember } from "../../lib/db";
@@ -48,7 +48,7 @@ const MemberDetail: NextPage<Props> = ({ member, errors }: Props) => {
     // If the page is not yet generated, this will be displayed
     // initially until getStaticProps() finishes running
     if (router.isFallback) {
-        return <AdminLoading />;
+        return <ContentsLoading />;
     }
 
     if (errors) {

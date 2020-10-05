@@ -84,7 +84,7 @@ const CarouselList: React.FC<Props> = ({ carousels, editCarousel, deleteCarousel
                                 <div className={classes.identification}>
                                     <Avatar
                                         className={classes.avatar}
-                                        src={carousel.slides[0].image}
+                                        src={carousel.slides[0]?.image}
                                     />
                                     <Typography>{carousel.name}</Typography>
                                 </div>

@@ -15,7 +15,8 @@ export const generateThumbnail = functions.storage.object().onFinalize(async obj
     const fileBucket = object.bucket;
     const contentType = object.contentType || "";
     const metadata = {
-        contentType: contentType
+        contentType: contentType,
+        cacheControl: "public,max-age=3600"
     };
 
     const workingDir = path.join(os.tmpdir(), "thumbs");

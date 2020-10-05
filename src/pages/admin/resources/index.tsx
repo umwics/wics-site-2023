@@ -48,7 +48,7 @@ const Resources: NextPage<Props> = ({ resources, auth }: Props) => {
         const editing = !!id;
 
         const imageUrl =
-            resource.image !== "string"
+            typeof resource.image !== "string"
                 ? await storeImage((resource.image as any)?.file, "resources", progressCallback)
                 : resource.image;
 

@@ -1,22 +1,11 @@
-import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    Button,
-    Card,
-    CardActionArea,
-    CardContent,
-    CardMedia,
-    Container,
-    Grid,
-    Link as MuiLink,
-    Typography
-} from "@material-ui/core";
+import { Button, Container, Grid, Typography } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { GetStaticProps, NextPage } from "next";
-import Link from "next/link";
 import React from "react";
 import useSWR from "swr";
 import BackToTop from "../../components/BackToTop";
+import Calendar from "../../components/events/Calendar";
+import EventCard from "../../components/events/EventCard";
 import ContentsLayout from "../../components/layouts/ContentsLayout";
 import { Event, EventType, eventTypeLabels, eventTypes } from "../../interfaces";
 import { getAllEvents } from "../../lib/db";
@@ -27,36 +16,19 @@ interface SectionProps {
     events: Event[];
 }
 
-interface CalendarProps {
-    className?: string;
-    largeSrc: string;
-    smallSrc: string;
-}
-
 interface Props {
     events: Event[];
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
-    paper: {
-        marginTop: theme.spacing(8)
-    },
-    icon: {
-        marginRight: theme.spacing(2)
-    },
     heroContent: {
         padding: theme.spacing(8, 0, 6),
         "& h2": {
-            color: "#363b3f",
             textTransform: "uppercase",
             fontWeight: 700,
             fontFamily: "Lato"
         },
         "& h5": {
-            fontFamily: "Lato"
-        },
-        "& h4": {
-            color: "#ff6f6f",
             fontFamily: "Lato"
         },
         "& h3": {
@@ -76,17 +48,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         paddingTop: theme.spacing(8),
         paddingBottom: theme.spacing(8)
     },
-    card: {
-        height: "100%",
-        display: "flex",
-        flexDirection: "column"
-    },
-    cardMedia: {
-        paddingTop: "56.25%" // 16:9
-    },
-    cardContent: {
-        flexGrow: 1
-    },
     outline: {
         textAlign: "center",
         backgroundColor: "#00bfa5",
@@ -101,96 +62,12 @@ const useStyles = makeStyles((theme: Theme) => ({
         alignItems: "center"
     }
 }));
-
-const useCalendarStyles = makeStyles((_theme: Theme) => ({
-    calendar: {
-        marginTop: 30,
-        marginBottom: 30,
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    calendarSmall: {
-        display: "none",
-        "@media (min-width:800px)": {
-            display: "none"
-        },
-        "@media (max-width:800px)": {
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-            marginTop: 30,
-            marginBottom: 30
-        }
-    },
-    calendarLarge: {
-        display: "none",
-        "@media (min-width:800px)": {
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-            marginTop: 30,
-            marginBottom: 30
-        },
-        "@media (max-width:800px)": {
-            display: "none"
-        }
-    },
-    outline: {
-        textAlign: "center",
-        backgroundColor: "#00bfa5",
-        borderRadius: 2,
-        height: 4,
-        width: 40,
-        marginBottom: 25
-    },
-    centered: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-    }
-}));
-
-const Calendar: React.FC<CalendarProps> = ({ className, largeSrc, smallSrc }: CalendarProps) => {
-    const classes = useCalendarStyles();
-
-    return (
-        <div className={className} id="calendar">
-            <Typography component="h3" variant="h3" align="center" color="textPrimary" gutterBottom>
-                Calendar
-            </Typography>
-            <div className={classes.centered}>
-                <div className={classes.outline}></div>
-            </div>
-            <div className={classes.calendarLarge}>
-                <iframe
-                    src={largeSrc}
-                    width="800"
-                    height="600"
-                    frameBorder="0"
-                    scrolling="no"
-                ></iframe>
-            </div>
-
-            <div className={classes.calendarSmall}>
-                <iframe
-                    src={smallSrc}
-                    width="80%"
-                    height="600"
-                    frameBorder="0"
-                    scrolling="no"
-                ></iframe>
-            </div>
-        </div>
-    );
-};
 
 const Section: React.FC<SectionProps> = ({ className, type, events }: SectionProps) => {
     const classes = useStyles();
 
     return (
-        <div className={className} id={type}>
+        <div id={type} className={className}>
             <Typography component="h3" variant="h3" align="center" color="textPrimary" gutterBottom>
                 {eventTypeLabels[type]}
             </Typography>
@@ -199,48 +76,9 @@ const Section: React.FC<SectionProps> = ({ className, type, events }: SectionPro
             </div>
             <Container className={classes.cardGrid} maxWidth="md">
                 <Grid container spacing={4}>
-                    {events.map(item => (
-                        <Grid item key={item.name} xs={12} sm={6} md={4}>
-                            <Card className={classes.card}>
-                                <Link href="/events/[id]" as={`/events/${item.id}`} passHref>
-                                    <CardActionArea component="a">
-                                        <CardMedia
-                                            className={classes.cardMedia}
-                                            image={item.images[0]}
-                                            title={item.name}
-                                        />
-                                    </CardActionArea>
-                                </Link>
-                                <CardContent className={classes.cardContent}>
-                                    <Link href="/events/[id]" as={`/events/${item.id}`} passHref>
-                                        <MuiLink
-                                            component="a"
-                                            gutterBottom
-                                            color="textPrimary"
-                                            variant="h4"
-                                        >
-                                            {item.name}
-                                        </MuiLink>
-                                    </Link>
-                                    <Typography>{item.term}</Typography>
-                                    <Typography gutterBottom variant="subtitle1">
-                                        {new Date(item.date).toDateString()}
-                                    </Typography>
-                                    <Typography gutterBottom variant="subtitle1">
-                                        <FontAwesomeIcon icon={faMapMarker} /> {item.location}
-                                    </Typography>
-                                    <Typography paragraph variant="body2">
-                                        {item.description}
-                                    </Typography>
-                                    <Typography
-                                        gutterBottom
-                                        color="textSecondary"
-                                        variant="subtitle2"
-                                    >
-                                        {item.photoCredits.join(" ")}
-                                    </Typography>
-                                </CardContent>
-                            </Card>
+                    {events.map(event => (
+                        <Grid item key={event.id} xs={12} sm={6} md={4}>
+                            <EventCard event={event} />
                         </Grid>
                     ))}
                 </Grid>

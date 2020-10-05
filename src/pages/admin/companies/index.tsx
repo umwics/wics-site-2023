@@ -47,7 +47,7 @@ const Companies: NextPage<Props> = ({ companies, members, auth }: Props) => {
         const editing = !!id;
 
         const imageUrl =
-            company.image !== "string"
+            typeof company.image !== "string"
                 ? await storeImage((company.image as any)?.file, "companies", progressCallback)
                 : company.image;
 
