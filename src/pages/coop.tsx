@@ -99,9 +99,9 @@ const Coop: NextPage<Props> = ({ companies, members }: Props) => {
                         Click the following companies to see which WICS members have worked there!
                     </Typography>
                     <Container className={classes.cardGrid} maxWidth="md">
-                        <Grid container spacing={4}>
+                        <Grid container spacing={2}>
                             {revalidatedCompanies.map(company => (
-                                <Grid key={company.id} xs={12} sm={6} md={4} spacing={2}>
+                                <Grid item key={company.id} xs={12} sm={6} md={4}>
                                     <CoopCard company={company} members={revalidatedMembers} />
                                 </Grid>
                             ))}

@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://umwics.vercel.app" rel="noopener" target="_blank">
-        <img width="150" src="https://umwics.vercel.app/favicon/favicon-150.png" alt="UMWics logo" />
+        <img width="150" src="https://umwics.vercel.app/img/umwics-logo.png" alt="UMWics logo" />
     </a>
 </p>
 

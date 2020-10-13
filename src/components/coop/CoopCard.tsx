@@ -18,7 +18,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import { Close } from "@material-ui/icons";
+import { Business, Close } from "@material-ui/icons";
 import React, { useState } from "react";
 import { Company, Member } from "../../interfaces";
 
@@ -47,7 +47,14 @@ const useStyles = makeStyles((theme: Theme) => ({
         flexGrow: 1
     },
     rootCard: {
-        margin: theme.spacing(2)
+        display: "flex",
+        flexDirection: "column",
+        transition: theme.transitions.create("transform", {
+            duration: theme.transitions.duration.shortest
+        }),
+        "&:hover": {
+            transform: `translateY(${-theme.spacing(0.5)}px)`
+        }
     },
     cardbutton: {
         margin: theme.spacing(0.5)
@@ -55,25 +62,26 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const useDialogStyles = makeStyles((theme: Theme) => ({
-    modalImgContainer: {
-        overflow: "hidden",
-        width: "100%",
-        height: 150,
-        alignContent: "center",
-        marginBottom: 10,
-        "& img": {
-            width: "100%",
-            height: 150,
-            objectFit: "cover"
-        }
+    modalImgGrid: {
+        maxWidth: "25%",
+        float: "left",
+        marginRight: theme.spacing(2),
+        marginBottom: theme.spacing(1)
     },
-    root: {
+    modalImgContainer: {
         width: "100%",
-        maxWidth: "80ch",
-        backgroundColor: theme.palette.background.paper
+        height: "auto"
+    },
+    listRoot: {
+        width: "100%",
+        backgroundColor: theme.palette.background.paper,
+        marginTop: theme.spacing(2)
     },
     inline: {
         display: "inline"
+    },
+    inlineBlock: {
+        display: "inline-block"
     },
     dialogTitle: {
         margin: 0,
@@ -113,28 +121,36 @@ const CoopDialog: React.FC<DialogProps> = ({
 
     return (
         <Dialog
-            onClose={handleClose}
-            aria-labelledby={`customized-dialog-title-${company.id}`}
             open={open}
+            aria-labelledby={`customized-dialog-title-${company.id}`}
+            onClose={handleClose}
+            fullWidth
         >
-            <DialogTitle className={classes.dialogTitle}>
+            <DialogTitle className={classes.dialogTitle} disableTypography>
                 <Typography variant="h6">{company.name}</Typography>
                 <IconButton
-                    aria-label="close"
                     className={classes.closeButton}
+                    aria-label="close"
                     onClick={handleClose}
                 >
                     <Close />
                 </IconButton>
             </DialogTitle>
             <DialogContent classes={contentClasses} dividers>
-                <Typography gutterBottom>
-                    <div className={classes.modalImgContainer}>
-                        <img src={company.image}></img>
+                <div className={classes.inlineBlock}>
+                    <div className={classes.modalImgGrid}>
+                        <Avatar
+                            src={company.image}
+                            alt={company.name}
+                            className={classes.modalImgContainer}
+                            variant="rounded"
+                        >
+                            <Business />
+                        </Avatar>
                     </div>
-                    {company.description}
-                </Typography>
-                <List className={classes.root}>
+                    <Typography gutterBottom>{company.description}</Typography>
+                </div>
+                <List className={classes.listRoot}>
                     {company.members.map(cmember => {
                         const member = members.find(member => member.id === cmember.memberId);
 
@@ -144,7 +160,7 @@ const CoopDialog: React.FC<DialogProps> = ({
                                     <Avatar src={member?.image} alt={member?.name} />
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={member?.name}
+                                    primary={member?.displayName}
                                     secondary={
                                         <React.Fragment>
                                             <Typography

@@ -8,6 +8,7 @@ import { AppContext, AppInitialProps, AppProps } from "next/app";
 import React, { useEffect } from "react";
 import { SWRConfig } from "swr";
 import ConfirmProvider from "../components/ConfirmProvider";
+import LanguageProvider from "../components/LanguageProvider";
 import ProgressBar from "../components/ProgressBar";
 import SnackbarProvider from "../components/SnackbarProvider";
 import ThemeProvider from "../components/ThemeProvider";
@@ -55,7 +56,7 @@ const AppWrapper: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
                     site_name: process.env.siteName,
                     images: [
                         {
-                            url: process.env.url + "/umwics-logo.png"
+                            url: process.env.url + "/img/umwics-logo.png"
                         }
                     ]
                 }}
@@ -66,22 +67,25 @@ const AppWrapper: NextComponentType<AppContext, AppInitialProps, AppProps> = ({
                         fetch(input, init).then(res => res.json())
                 }}
             >
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <ThemeProvider>
-                        <SnackbarProvider>
-                            <ConfirmProvider>
-                                <AuthProvider>
-                                    <ProgressBar
-                                        options={{ showSpinner: false, trickleSpeed: 300 }}
-                                    />
-                                    <Component {...pageProps} />
-                                </AuthProvider>
-                            </ConfirmProvider>
-                        </SnackbarProvider>
-                    </ThemeProvider>
-                </MuiPickersUtilsProvider>
+                <LanguageProvider>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <ThemeProvider>
+                            <SnackbarProvider>
+                                <ConfirmProvider>
+                                    <AuthProvider>
+                                        <ProgressBar
+                                            options={{ showSpinner: false, trickleSpeed: 300 }}
+                                        />
+                                        <Component {...pageProps} />
+                                    </AuthProvider>
+                                </ConfirmProvider>
+                            </SnackbarProvider>
+                        </ThemeProvider>
+                    </MuiPickersUtilsProvider>
+                </LanguageProvider>
             </SWRConfig>
         </React.Fragment>
     );
 };
+
 export default AppWrapper;
