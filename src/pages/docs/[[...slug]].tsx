@@ -69,9 +69,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         const doc = await getDoc(slug.join("/"));
 
         if (!doc) throw new NotFoundError("Doc not found");
-        else staticProps.props.doc = doc;
+        else if (staticProps.props) staticProps.props.doc = doc;
     } catch (err) {
-        staticProps.props.errors = err.message;
+        if (staticProps.props) staticProps.props.errors = err.message;
     }
 
     return staticProps;

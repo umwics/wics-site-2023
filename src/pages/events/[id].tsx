@@ -133,10 +133,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             const event = await getEvent(getAsString(id));
 
             if (!event) throw new NotFoundError("Event not found");
-            else staticProps.props.event = event;
+            else if (staticProps.props) staticProps.props.event = event;
         }
     } catch (err) {
-        staticProps.props.errors = err.message;
+        if (staticProps.props) staticProps.props.errors = err.message;
     }
 
     return staticProps;

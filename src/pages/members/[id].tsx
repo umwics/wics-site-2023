@@ -130,10 +130,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             const member = await getMember(getAsString(id));
 
             if (!member) throw new NotFoundError("Member not found");
-            else staticProps.props.member = member;
+            else if (staticProps.props) staticProps.props.member = member;
         }
     } catch (err) {
-        staticProps.props.errors = err.message;
+        if (staticProps.props) staticProps.props.errors = err.message;
     }
 
     return staticProps;
