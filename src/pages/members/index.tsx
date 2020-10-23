@@ -170,8 +170,6 @@ const Section: React.FC<SectionProps> = ({ className, type, members }: SectionPr
                         <Grid item key={item.name} xs={12} sm={6} md={3}>
                             {item.image && (
                                 <Card className={classes.card}>
-                                    {/* <Link href={`/members/[id]`} as={`/members/${item.id}`} passHref>
-                                    <CardActionArea component="a"> */}
                                     <CardMedia
                                         className={classes.cardMedia}
                                         image={item.image}
@@ -235,8 +233,6 @@ const Section: React.FC<SectionProps> = ({ className, type, members }: SectionPr
                                             </List>
                                         </CardContent>
                                     </Collapse>
-                                    {/* </CardActionArea>
-                                </Link> */}
                                 </Card>
                             )}
                             {!item.image && (
