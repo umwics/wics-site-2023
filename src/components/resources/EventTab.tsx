@@ -18,6 +18,7 @@ import TabPanel from "@material-ui/lab/TabPanel";
 import React from "react";
 import SwipeableViews from "react-swipeable-views";
 import { Resource, resourceTypeLabels, resourceTypes } from "../../interfaces";
+import CourseTree from "./CourseTree";
 
 interface TabContentProps {
     resource: Resource;
@@ -97,6 +98,14 @@ const ResourceTabContent: React.FC<TabContentProps> = ({ resource }: TabContentP
 
 const ResourceTabPanel: React.FC<TabPanelProps> = ({ resources, value }: TabPanelProps) => {
     const classes = useTabPanelStyles();
+    if (value == "1")
+        return (
+            <TabPanel value={value}>
+                <div className={classes.section}>
+                    <CourseTree />
+                </div>
+            </TabPanel>
+        );
 
     return (
         <TabPanel value={value}>

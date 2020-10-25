@@ -1,7 +1,7 @@
 import { faFacebook, faInstagram, faSlack } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Container, Link, Typography } from "@material-ui/core";
+import { Box, Container, Grid, Link, Typography } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
 
@@ -62,8 +62,52 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     subfooter: {
         borderTop: `1px solid ${theme.palette.divider}`
+    },
+    footerLinks: {
+        marginTop: theme.spacing(5),
+        paddingTop: theme.spacing(3),
+        paddingBottom: theme.spacing(3),
+        [theme.breakpoints.up("sm")]: {
+            paddingTop: theme.spacing(4),
+            paddingBottom: theme.spacing(6)
+        }
     }
 }));
+
+const footers = [
+    {
+        title: "ABOUT US",
+        description: [
+            { name: "About WICS", link: "/about" },
+            { name: "Members", link: "/members" },
+            { name: "Join us", link: "/about#joinus" },
+            { name: "Contact us", link: "/contact" }
+        ]
+    },
+    {
+        title: "EVENTS & PROGRAMS",
+        description: [
+            { name: "Event Calendar", link: "/events#calendar" },
+            { name: "Mentor Mingle", link: "/events#mentorMingle" },
+            { name: "Other Events", link: "/events#otherEvent" },
+            { name: "Outreach", link: "/outreach" }
+        ]
+    },
+    {
+        title: "RESOURCES",
+        description: [
+            { name: "Co-op", link: "/coop" },
+            { name: "CS Resources", link: "/resources" }
+        ]
+    },
+    {
+        title: "ADMIN",
+        description: [
+            { name: "API Docs", link: "/docs" },
+            { name: "Login", link: "/login" }
+        ]
+    }
+];
 
 const Copyright: React.FC = () => {
     return (
@@ -112,6 +156,30 @@ const Footer: React.FC = () => {
     return (
         <footer className={classes.footer}>
             <Container maxWidth="lg" component="footer" className={classes.subfooter}>
+                <Container maxWidth="md" className={classes.footerLinks}>
+                    <Grid container spacing={4} justify="space-evenly">
+                        {footers.map(footer => (
+                            <Grid item xs={6} sm={3} key={footer.title}>
+                                <Typography variant="h6" color="textPrimary" gutterBottom>
+                                    {footer.title}
+                                </Typography>
+                                <ul>
+                                    {footer.description.map((item, i) => (
+                                        <li key={i}>
+                                            <Link
+                                                href={item.link}
+                                                variant="subtitle1"
+                                                color="textSecondary"
+                                            >
+                                                {item.name}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Container>
                 <Box mt={5}>
                     <SocialLinks />
                 </Box>
