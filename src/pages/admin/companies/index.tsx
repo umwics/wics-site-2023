@@ -2,8 +2,8 @@ import { Button, Container, makeStyles, Theme, Typography } from "@material-ui/c
 import { GetStaticProps, NextPage } from "next";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import AddCompanyDialog from "../../../components/admin/AddCompanyDialog";
-import CompanyList from "../../../components/admin/CompanyList";
+import AddCompanyDialog from "../../../components/admin/forms/AddCompanyDialog";
+import CompanyList from "../../../components/admin/views/CompanyList";
 import { useConfirm } from "../../../components/ConfirmProvider";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import { Company, hasPermission, Member, User } from "../../../interfaces";

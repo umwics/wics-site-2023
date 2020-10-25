@@ -1,21 +1,13 @@
-import {
-    Avatar,
-    Button,
-    Container,
-    Grid,
-    IconButton,
-    InputAdornment,
-    Link as MuiLink,
-    Typography
-} from "@material-ui/core";
+import { Avatar, Button, Container, Grid, Link as MuiLink, Typography } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Person, Visibility, VisibilityOff } from "@material-ui/icons";
-import { Field, Form, Formik } from "formik";
-import { TextField } from "formik-material-ui";
+import { Person } from "@material-ui/icons";
+import { Form, Formik } from "formik";
 import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React from "react";
+import PasswordInput from "../components/inputs/PasswordInput";
+import TextInput from "../components/inputs/TextInput";
 import ContentsLayout from "../components/layouts/AdminLayout";
 import LoginButtons from "../components/LoginButtons";
 import { useAuth } from "../lib/auth";
@@ -59,8 +51,6 @@ const Login: NextPage = () => {
     const classes = useStyles();
     const auth = useAuth();
 
-    const [showPassword, setShowPassword] = useState<boolean>(false);
-
     const handleLogin = () => {
         router.push("/admin");
     };
@@ -94,9 +84,7 @@ const Login: NextPage = () => {
                             <Form className={classes.form}>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12}>
-                                        <Field
-                                            component={TextField}
-                                            variant="outlined"
+                                        <TextInput
                                             autoComplete="email"
                                             name="email"
                                             id="email"
@@ -107,38 +95,10 @@ const Login: NextPage = () => {
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <Field
-                                            component={TextField}
-                                            variant="outlined"
-                                            autoComplete="current-password"
+                                        <PasswordInput
                                             name="password"
                                             id="password"
                                             label="Password"
-                                            type={showPassword ? "text" : "password"}
-                                            InputProps={{
-                                                endAdornment: (
-                                                    <InputAdornment position="end">
-                                                        <IconButton
-                                                            aria-label="toggle password visibility"
-                                                            onClick={() =>
-                                                                setShowPassword(!showPassword)
-                                                            }
-                                                            onMouseDown={(
-                                                                event: React.MouseEvent<
-                                                                    HTMLButtonElement
-                                                                >
-                                                            ) => event.preventDefault()}
-                                                            edge="end"
-                                                        >
-                                                            {showPassword ? (
-                                                                <Visibility />
-                                                            ) : (
-                                                                <VisibilityOff />
-                                                            )}
-                                                        </IconButton>
-                                                    </InputAdornment>
-                                                )
-                                            }}
                                             fullWidth
                                             required
                                         />

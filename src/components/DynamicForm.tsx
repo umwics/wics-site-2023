@@ -1,35 +1,18 @@
 import { Grid } from "@material-ui/core";
-import { FieldAttributes, Form, Formik, FormikConfig, FormikValues } from "formik";
+import { Form, Formik, FormikConfig, FormikValues } from "formik";
 import React from "react";
-
-interface Field<T = any> {
-    component: React.ComponentType<T>;
-    props?: FieldAttributes<T> & { children?: React.ReactElement<any, any> };
-}
-
-interface DynamicFieldProps {
-    field: Field;
-}
 
 interface DynamicFormCustomProps {
     className?: string;
-    fields: Field[];
+    children?: React.ReactNode;
 }
 
-const DynamicField: React.FC<DynamicFieldProps> = ({ field }: DynamicFieldProps) => {
-    const { component: Component, props } = field;
-
-    return (
-        <Grid item xs={12}>
-            <Component {...props} />
-        </Grid>
-    );
-};
-
-const DynamicForm = <Values extends FormikValues = FormikValues, ExtraProps = unknown>(
-    props: FormikConfig<Values> & DynamicFormCustomProps & ExtraProps
-): JSX.Element => {
-    const { className, fields } = props;
+const DynamicForm = <Values extends FormikValues = FormikValues, ExtraProps = unknown>({
+    className,
+    children,
+    ...props
+}: FormikConfig<Values> & DynamicFormCustomProps & ExtraProps): JSX.Element => {
+    const fields = React.Children.toArray(children);
 
     return (
         <Formik {...props}>
@@ -37,7 +20,9 @@ const DynamicForm = <Values extends FormikValues = FormikValues, ExtraProps = un
                 <Form className={className}>
                     <Grid container spacing={2}>
                         {fields.map((field, idx) => (
-                            <DynamicField key={idx} field={field} />
+                            <Grid key={idx} item xs={12}>
+                                {field}
+                            </Grid>
                         ))}
                     </Grid>
                 </Form>

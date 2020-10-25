@@ -15,9 +15,9 @@ import {
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Link from "next/link";
 import React from "react";
-import { hasPermission, User, userRoleLabels } from "../../interfaces";
-import { useAuth } from "../../lib/auth";
-import { parseUserRole } from "../../utils/parsers";
+import { hasPermission, User, userRoleLabels } from "../../../interfaces";
+import { useAuth } from "../../../lib/auth";
+import { parseUserRole } from "../../../utils/parsers";
 
 interface Props {
     users: User[];
