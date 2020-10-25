@@ -16,7 +16,7 @@ interface Props {
     addLabel?: string;
     fieldLabel?: (idx: number) => string;
     uploadingProgress?: number;
-    images: { file: File; url: string }[];
+    images: { file: File | null; url: string }[];
     onChange?: (selectedFiles: FileList, previews: string[]) => any;
     clearImages?: () => any;
     clearImage?: (idx: number) => any;

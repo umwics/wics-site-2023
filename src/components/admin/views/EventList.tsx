@@ -15,8 +15,8 @@ import { blue, red } from "@material-ui/core/colors";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Delete, Edit, Event as EventIcon } from "@material-ui/icons";
 import React from "react";
-import { Event, hasPermission } from "../../interfaces";
-import { useAuth } from "../../lib/auth";
+import { Event, hasPermission } from "../../../interfaces";
+import { useAuth } from "../../../lib/auth";
 
 interface Props {
     events: Event[];

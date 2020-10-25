@@ -2,8 +2,8 @@ import { Button, Container, makeStyles, Theme, Typography } from "@material-ui/c
 import { GetStaticProps, NextPage } from "next";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import AddCarouselDialog from "../../../components/admin/AddCarouselDialog";
-import CarouselList from "../../../components/admin/CarouselList";
+import AddCarouselDialog from "../../../components/admin/forms/AddCarouselDialog";
+import CarouselList from "../../../components/admin/views/CarouselList";
 import { useConfirm } from "../../../components/ConfirmProvider";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import { Carousel, hasPermission, User } from "../../../interfaces";

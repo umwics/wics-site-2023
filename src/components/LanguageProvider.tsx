@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useMemo, useState } from "react";
+import { useRouter } from "next/router";
+import React, { createContext, useContext, useMemo } from "react";
 import { getTranslation, Translate } from "../lib/translations";
 
 export interface LanguageContextInstance {
     t: Translate;
     locale: string;
-    setLocale: (locale: string) => void;
 }
 
 const LanguageContext = createContext<LanguageContextInstance>({} as LanguageContextInstance);
@@ -14,11 +14,11 @@ interface LanguageProviderProps {
 }
 
 const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }: LanguageProviderProps) => {
-    const [locale, setLocale] = useState("en");
-    const t = useMemo(() => getTranslation(locale), [locale]);
+    const { locale, defaultLocale = "en" } = useRouter();
+    const t = useMemo(() => getTranslation(locale || defaultLocale), [locale]);
 
     return (
-        <LanguageContext.Provider value={{ t, locale, setLocale }}>
+        <LanguageContext.Provider value={{ t, locale: locale || defaultLocale }}>
             {children}
         </LanguageContext.Provider>
     );

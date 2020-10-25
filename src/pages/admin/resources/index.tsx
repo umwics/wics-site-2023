@@ -2,8 +2,8 @@ import { Button, Container, makeStyles, Theme, Typography } from "@material-ui/c
 import { GetStaticProps, NextPage } from "next";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import AddResourceDialog from "../../../components/admin/AddResourceDialog";
-import ResourceList from "../../../components/admin/ResourceList";
+import AddResourceDialog from "../../../components/admin/forms/AddResourceDialog";
+import ResourceList from "../../../components/admin/views/ResourceList";
 import { useConfirm } from "../../../components/ConfirmProvider";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import { hasPermission, Resource, User } from "../../../interfaces";
