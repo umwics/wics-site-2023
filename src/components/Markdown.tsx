@@ -53,7 +53,7 @@ const renderers = {
 };
 
 const Markdown: React.FC<ReactMarkdownProps> = (props: ReactMarkdownProps) => {
-    return <ReactMarkdown escapeHtml={false} renderers={renderers} {...props} />;
+    return <ReactMarkdown renderers={renderers} {...props} />;
 };
 
 export default Markdown;

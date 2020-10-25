@@ -45,7 +45,7 @@ const Documentation: NextPage<Props> = ({ doc, errors }: Props) => {
     return (
         <AdminLayout title={`${doc && doc.title ? doc.title : "Documentation"}`}>
             <Container component="main" maxWidth="md">
-                <div className={classes.paper}>{doc && <Markdown source={doc.content} />}</div>
+                <div className={classes.paper}>{doc && <Markdown>{doc.content}</Markdown>}</div>
             </Container>
         </AdminLayout>
     );
