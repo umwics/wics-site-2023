@@ -1,8 +1,9 @@
 import { faFacebook, faInstagram, faSlack } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, Container, Grid, Link, Typography } from "@material-ui/core";
+import { Box, Container, Grid, Link as MuiLink, Typography } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
+import Link from "next/link";
 import React from "react";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -113,9 +114,9 @@ const Copyright: React.FC = () => {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {"Copyright © "}
-            <Link color="inherit" href="https://github.com/umwics/wics-site-2020/">
+            <MuiLink color="inherit" href="https://github.com/umwics/wics-site-2020/">
                 University of Manitoba Women in Computer Science
-            </Link>{" "}
+            </MuiLink>{" "}
             {new Date().getFullYear()}
             {"."}
         </Typography>
@@ -126,26 +127,26 @@ const SocialLinks: React.FC = () => {
     const classes = useStyles();
     return (
         <Typography variant="body2" color="textSecondary" align="center">
-            <Link href="mailto:uofmwics@gmail.com">
+            <MuiLink href="mailto:uofmwics@gmail.com">
                 <span aria-label="Email" className={classes.icons}>
                     <FontAwesomeIcon icon={faEnvelope} />
                 </span>
-            </Link>
-            <Link href="https://umwics.slack.com/" target="_blank" rel="noreferrer">
+            </MuiLink>
+            <MuiLink href="https://umwics.slack.com/" target="_blank" rel="noreferrer">
                 <span aria-label="Slack" className={classes.icons}>
                     <FontAwesomeIcon icon={faSlack} />
                 </span>
-            </Link>
-            <Link href="https://www.facebook.com/umwics" target="_blank" rel="noreferrer">
+            </MuiLink>
+            <MuiLink href="https://www.facebook.com/umwics" target="_blank" rel="noreferrer">
                 <span aria-label="Facebook" className={classes.icons}>
                     <FontAwesomeIcon icon={faFacebook} />
                 </span>
-            </Link>
-            <Link href="https://instagram.com/umwics" target="_blank" rel="noreferrer">
+            </MuiLink>
+            <MuiLink href="https://instagram.com/umwics" target="_blank" rel="noreferrer">
                 <span aria-label="Instagram" className={classes.icons}>
                     <FontAwesomeIcon icon={faInstagram} />
                 </span>
-            </Link>
+            </MuiLink>
         </Typography>
     );
 };
@@ -164,14 +165,12 @@ const Footer: React.FC = () => {
                                     {footer.title}
                                 </Typography>
                                 <ul>
-                                    {footer.description.map((item, i) => (
-                                        <li key={i}>
-                                            <Link
-                                                href={item.link}
-                                                variant="subtitle1"
-                                                color="textSecondary"
-                                            >
-                                                {item.name}
+                                    {footer.description.map((item, idx) => (
+                                        <li key={idx}>
+                                            <Link href={item.link} passHref>
+                                                <MuiLink variant="subtitle1" color="textSecondary">
+                                                    {item.name}
+                                                </MuiLink>
                                             </Link>
                                         </li>
                                     ))}
