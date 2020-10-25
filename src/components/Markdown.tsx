@@ -42,8 +42,9 @@ const MarkdownCode: React.FC<CodeProps> = ({ language, value }: CodeProps) => {
     );
 };
 
-const MarkdownLink: React.FC = props => {
-    return <Link component="a" variant="body2" {...props}></Link>;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const MarkdownLink: React.FC = ({ node, ...props }: any) => {
+    return <Link component="a" variant="body2" {...props} />;
 };
 
 const renderers = {
