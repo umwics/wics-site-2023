@@ -88,12 +88,15 @@ const defaultTheme: ThemeOptions = {
                 fontSize: "1.0rem"
             }
         }
+    },
+    props: {
+        MuiTextField: {
+            variant: "outlined"
+        }
     }
     // shape: {
     // },
     // overrides: {
-    // }
-    // props: {
     // }
 };
 

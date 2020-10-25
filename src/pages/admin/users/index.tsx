@@ -1,7 +1,7 @@
 import { Container, makeStyles, Theme, Typography } from "@material-ui/core";
 import { GetStaticProps, NextPage } from "next";
 import { useSnackbar } from "notistack";
-import UserList from "../../../components/admin/UserList";
+import UserList from "../../../components/admin/views/UserList";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import { hasPermission, User } from "../../../interfaces";
 import { AuthContextInstance, withAuth } from "../../../lib/auth";

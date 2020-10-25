@@ -69,7 +69,6 @@ const UploadImage: React.FC<Props> = ({
                 <Grid item xs={10} sm={11}>
                     <Field
                         component={TextField}
-                        variant="outlined"
                         name={name}
                         label={label}
                         disabled={!!formikValue?.file}

@@ -101,7 +101,7 @@ const Events: NextPage<Props> = ({ events }: Props) => {
         {}
     );
     revalidatedEvents.forEach(event => {
-        eventBuckets[event.type].push(event);
+        eventBuckets[event.type]?.push(event);
     });
 
     return (
