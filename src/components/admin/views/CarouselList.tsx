@@ -16,8 +16,8 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Delete, Edit } from "@material-ui/icons";
 import { AvatarGroup } from "@material-ui/lab";
 import React from "react";
-import { Carousel, hasPermission } from "../../interfaces";
-import { useAuth } from "../../lib/auth";
+import { Carousel, hasPermission } from "../../../interfaces";
+import { useAuth } from "../../../lib/auth";
 
 interface Props {
     carousels: Carousel[];

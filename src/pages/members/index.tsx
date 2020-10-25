@@ -270,7 +270,7 @@ const Members: NextPage<Props> = ({ members }: Props) => {
     );
     revalidatedMembers.forEach(member => {
         member.positions.forEach(position => {
-            memberBuckets[position].push(member);
+            memberBuckets[position]?.push(member);
         });
     });
     const classesCarousel = useCarouselStyles();

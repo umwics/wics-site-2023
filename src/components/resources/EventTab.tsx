@@ -122,7 +122,7 @@ const LabTabs: React.FC<Props> = ({ resources }: Props) => {
         {}
     );
     resources.forEach(resource =>
-        resource.types.forEach(type => resourceBuckets[type].push(resource))
+        resource.types.forEach(type => resourceBuckets[type]?.push(resource))
     );
 
     const handleChange = (newValue: string) => {

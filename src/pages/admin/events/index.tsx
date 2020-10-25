@@ -2,8 +2,8 @@ import { Button, Container, makeStyles, Theme, Typography } from "@material-ui/c
 import { GetStaticProps, NextPage } from "next";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import AddEventDialog from "../../../components/admin/AddEventDialog";
-import EventList from "../../../components/admin/EventList";
+import AddEventDialog from "../../../components/admin/forms/AddEventDialog";
+import EventList from "../../../components/admin/views/EventList";
 import { useConfirm } from "../../../components/ConfirmProvider";
 import AdminLayout from "../../../components/layouts/AdminLayout";
 import { Event, hasPermission, User } from "../../../interfaces";

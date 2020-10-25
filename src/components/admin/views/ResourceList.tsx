@@ -15,17 +15,13 @@ import { blue, red } from "@material-ui/core/colors";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Delete, Edit } from "@material-ui/icons";
 import React from "react";
-import { DropResult, ResponderProvided } from "react-beautiful-dnd";
-import { hasPermission, Member } from "../../interfaces";
-import { useAuth } from "../../lib/auth";
-import DraggableComponent from "../DraggableComponent";
-import DroppableComponent from "../DroppableComponent";
+import { hasPermission, Resource, resourceTypeLabels } from "../../../interfaces";
+import { useAuth } from "../../../lib/auth";
 
 interface Props {
-    members: Member[];
-    editMember?: (member: Member) => any;
-    onDragEnd: (result: DropResult, provided: ResponderProvided) => void;
-    deleteMember?: (member: Member) => any;
+    resources: Resource[];
+    editResource?: (resource: Resource) => any;
+    deleteResource?: (resource: Resource) => any;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -33,7 +29,9 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginTop: theme.spacing(4)
     },
     table: {
-        minWidth: theme.breakpoints.width("sm")
+        minWidth: theme.breakpoints.width("sm"),
+        tableLayout: "fixed",
+        overflow: "hidden"
     },
     actions: {
         display: "inline-flex"
@@ -58,57 +56,53 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const MemberList: React.FC<Props> = ({ members, editMember, onDragEnd, deleteMember }: Props) => {
+const ResourceList: React.FC<Props> = ({ resources, editResource, deleteResource }: Props) => {
     const classes = useStyles();
     const auth = useAuth();
-
-    const editPermission = auth.user && hasPermission(auth.user, "write");
 
     return (
         <TableContainer component={Paper} className={classes.tableContainer}>
             <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                     <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell align="right">Display Name</TableCell>
-                        <TableCell align="right">Title</TableCell>
-                        <TableCell align="right">Email</TableCell>
-                        <TableCell align="right"></TableCell>
+                        <TableCell width="20%">Name</TableCell>
+                        <TableCell align="right" width="20%">
+                            Title
+                        </TableCell>
+                        <TableCell align="right" width="10%">
+                            Type
+                        </TableCell>
+                        <TableCell align="right" width="40%">
+                            Link
+                        </TableCell>
+                        <TableCell align="right" width="10%"></TableCell>
                     </TableRow>
                 </TableHead>
-                <DroppableComponent
-                    component={TableBody}
-                    onDragEnd={onDragEnd}
-                    direction="vertical"
-                    isDropDisabled={!editPermission}
-                >
-                    {members.map((member, idx) => (
-                        <DraggableComponent
-                            key={member.id}
-                            draggableId={member.id}
-                            index={idx}
-                            component={TableRow}
-                            componentProps={{ hover: true }}
-                            isDragDisabled={!editPermission}
-                        >
+                <TableBody>
+                    {resources.map(resource => (
+                        <TableRow hover key={resource.id}>
                             <TableCell component="th" scope="row" align="center">
                                 <div className={classes.identification}>
-                                    <Avatar className={classes.avatar} src={member.image} />
-                                    <Typography>{member.name}</Typography>
+                                    <Avatar className={classes.avatar} src={resource.image} />
+                                    <Typography>{resource.name}</Typography>
                                 </div>
                             </TableCell>
-                            <TableCell align="right">{member.displayName}</TableCell>
-                            <TableCell align="right">{member.title}</TableCell>
-                            <TableCell align="right">{member.email}</TableCell>
+                            <TableCell align="right">{resource.title}</TableCell>
                             <TableCell align="right">
-                                {editPermission && (
+                                {resourceTypeLabels[resource.types[0]] || ""}
+                            </TableCell>
+                            <TableCell align="right">{resource.link}</TableCell>
+                            <TableCell align="right">
+                                {auth.user && hasPermission(auth.user, "write") && (
                                     <div className={classes.actions}>
                                         <Tooltip title="Edit" placement="top">
                                             <IconButton
                                                 aria-label="edit"
                                                 size="small"
                                                 className={classes.edit}
-                                                onClick={() => editMember && editMember(member)}
+                                                onClick={() =>
+                                                    editResource && editResource(resource)
+                                                }
                                             >
                                                 <Edit />
                                             </IconButton>
@@ -118,7 +112,9 @@ const MemberList: React.FC<Props> = ({ members, editMember, onDragEnd, deleteMem
                                                 aria-label="delete"
                                                 size="small"
                                                 className={classes.delete}
-                                                onClick={() => deleteMember && deleteMember(member)}
+                                                onClick={() =>
+                                                    deleteResource && deleteResource(resource)
+                                                }
                                             >
                                                 <Delete />
                                             </IconButton>
@@ -126,12 +122,12 @@ const MemberList: React.FC<Props> = ({ members, editMember, onDragEnd, deleteMem
                                     </div>
                                 )}
                             </TableCell>
-                        </DraggableComponent>
+                        </TableRow>
                     ))}
-                </DroppableComponent>
+                </TableBody>
             </Table>
         </TableContainer>
     );
 };
 
-export default MemberList;
+export default ResourceList;
