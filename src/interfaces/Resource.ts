@@ -1,25 +1,22 @@
 export type ResourceType =
+    | "courseTechTree"
     | "learnToCode"
     | "codingCamps"
     | "freeOnlineCourses"
-    | "libraries"
-    | "onlineEditors"
     | "uofmResources";
 export const resourceTypes: ResourceType[] = [
+    "courseTechTree",
     "learnToCode",
     "codingCamps",
     "freeOnlineCourses",
-    "libraries",
-    "onlineEditors",
     "uofmResources"
 ];
 export const resourceTypeLabels: { [key in ResourceType]: string } = {
+    courseTechTree: "CS Course Tech Tree",
     learnToCode: "Learn to Code",
     codingCamps: "Coding Camps",
     freeOnlineCourses: "Free Online Courses",
-    libraries: "Libraries",
-    onlineEditors: "Online Editors",
-    uofmResources: "UofM Resources"
+    uofmResources: "U of M Resources"
 };
 
 export interface Resource {

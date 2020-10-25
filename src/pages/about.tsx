@@ -125,7 +125,7 @@ const About: NextPage = () => {
                     </Fade>
 
                     <Fade bottom duration={1000} delay={100} distance="30px">
-                        <div className={classes.center}>
+                        <div className={classes.center} id="joinus">
                             <h1>Join Us</h1>
                             <br />
                             <Button
