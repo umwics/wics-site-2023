@@ -19,6 +19,9 @@ service cloud.firestore {
     match /carousels/{id} {
       allow read;
     }
+    match /sociallinks/{id} {
+      allow read;
+    }
     match /auditlogs/{id} {
       allow read;
     }

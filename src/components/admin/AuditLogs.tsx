@@ -55,6 +55,7 @@ const AuditLogs: React.FC<Props> = ({ className, users, title, limit = 25 }: Pro
         where: users
             ? { fieldPath: "executorId", opStr: "in", value: users.map(user => user.id) }
             : undefined,
+        orderBy: { fieldPath: "timestamp", directionStr: "desc" },
         limit: limit
     });
 

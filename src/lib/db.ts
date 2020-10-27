@@ -1,11 +1,22 @@
 import { useEffect, useState } from "react";
 import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
-import { AuditLog, Carousel, Company, Event, Member, Resource, User } from "../interfaces";
+import {
+    AuditLog,
+    Carousel,
+    Company,
+    Event,
+    Member,
+    Resource,
+    TreeLink,
+    User
+} from "../interfaces";
 import firebase, { firestore } from "./firebase";
 
 export interface GetAllQueryParams {
     limit?: number;
-    orderBy?: string;
+    orderBy?:
+        | string
+        | { fieldPath: string | firebase.firestore.FieldPath; directionStr?: "desc" | "asc" };
     where?: { fieldPath?: string; opStr: firebase.firestore.WhereFilterOp; value: any };
     startAt?: number;
     endAt?: number;
@@ -39,7 +50,11 @@ export const buildQuery = (
                 where.value
             );
         if (limit) query = query.limit(limit);
-        if (orderBy) query = query.orderBy(orderBy);
+        if (orderBy)
+            query =
+                typeof orderBy === "string"
+                    ? query.orderBy(orderBy)
+                    : query.orderBy(orderBy.fieldPath, orderBy.directionStr);
         if (startAt) query = query.startAt(startAt);
         if (endAt) query = query.endAt(endAt);
         if (startAfter) query = query.startAfter(startAfter);
@@ -216,6 +231,22 @@ export const useCarousels = (
     options: GetAllQueryParams & CollectionHookOptions = {}
 ): CollectionHookInterface<Carousel[]> => {
     return useCollection("carousels", options);
+};
+
+export const getSocialLink = async (id: string): Promise<TreeLink | null> => {
+    return await getDocument("sociallinks", id);
+};
+
+export const getAllSocialLinks = async (
+    queryProps: GetAllQueryParams = {}
+): Promise<TreeLink[]> => {
+    return await getAllDocuments<TreeLink>("sociallinks", queryProps);
+};
+
+export const useSocialLinks = (
+    options: GetAllQueryParams & CollectionHookOptions = {}
+): CollectionHookInterface<TreeLink[]> => {
+    return useCollection("sociallinks", options);
 };
 
 export const getAuditLog = async (id: string): Promise<AuditLog | null> => {

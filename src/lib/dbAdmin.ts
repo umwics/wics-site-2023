@@ -1,4 +1,13 @@
-import { AuditLog, Carousel, Company, Event, Member, Resource, User } from "../interfaces";
+import {
+    AuditLog,
+    Carousel,
+    Company,
+    Event,
+    Member,
+    Resource,
+    TreeLink,
+    User
+} from "../interfaces";
 import { auth, firestore } from "./firebaseAdmin";
 
 export const deleteDocument = async (collection: string, id: string): Promise<boolean> => {
@@ -260,6 +269,43 @@ export const updateCarousel = async (
 
         return await firestore
             .collection("carousels")
+            .doc(uid)
+            .update(newValues)
+            .then(() => newValues)
+            .catch(() => null);
+    }
+
+    return null;
+};
+
+export const createSocialLink = async (socialLink: TreeLink): Promise<TreeLink | null> => {
+    if (firestore) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...data } = socialLink;
+        const doc = await firestore.collection("sociallinks").add({ ...data });
+
+        const newSocialLink = <TreeLink>{ id: doc.id, ...data };
+
+        return newSocialLink;
+    }
+
+    return null;
+};
+
+export const deleteSocialLink = async (id: string): Promise<boolean> => {
+    return await deleteDocument("sociallinks", id);
+};
+
+export const updateSocialLink = async (
+    uid: string,
+    partialSocialLink: Partial<TreeLink>
+): Promise<Partial<TreeLink> | null> => {
+    if (firestore) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...newValues } = partialSocialLink;
+
+        return await firestore
+            .collection("sociallinks")
             .doc(uid)
             .update(newValues)
             .then(() => newValues)

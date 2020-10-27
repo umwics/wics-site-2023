@@ -152,6 +152,14 @@ export const addCarouselSchema = Yup.object({
     )
 });
 
+export const addSocialLinkSchema = Yup.object({
+    title: Yup.string(),
+    subheader: Yup.string(),
+    body: Yup.string(),
+    linkName: Yup.string(),
+    linkHref: Yup.string().required()
+});
+
 // written to satisfy weird Yup behavior https://github.com/jquense/yup/issues/670
 export const validateStrictStrip = async <T>(schema: Yup.Schema<T>, value: T): Promise<T> => {
     const strict = await schema.validate(value, { strict: true, stripUnknown: false });

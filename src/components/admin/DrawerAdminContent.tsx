@@ -38,8 +38,24 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const collections = ["users", "members", "companies", "events", "resources", "carousels"];
-const apiDocs = ["users", "members", "companies", "events", "resources", "carousels"];
+const collections = [
+    "users",
+    "members",
+    "companies",
+    "events",
+    "resources",
+    "carousels",
+    "sociallinks"
+];
+const apiDocs = [
+    "users",
+    "members",
+    "companies",
+    "events",
+    "resources",
+    "carousels",
+    "sociallinks"
+];
 
 const DrawerAdminContent: React.FC = () => {
     const { closeDrawer } = useDrawer();

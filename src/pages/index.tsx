@@ -1,13 +1,20 @@
 import { Container, Typography } from "@material-ui/core";
 import { fade, makeStyles, Theme } from "@material-ui/core/styles";
-import { NextPage } from "next";
+import { GetStaticProps, NextPage } from "next";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Fade from "react-reveal/Fade";
+import useSWR from "swr";
 import BackToTop from "../components/BackToTop";
 import HomeCarousel from "../components/carousel/HomeCarousel";
 import LinkTree from "../components/home/LinkTree";
 import ContentsLayout from "../components/layouts/ContentsLayout";
+import { TreeLink } from "../interfaces";
+import { getAllSocialLinks } from "../lib/db";
+
+interface Props {
+    socialLinks: TreeLink[];
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
     paper: {
@@ -63,8 +70,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-const Home: NextPage = () => {
+const Home: NextPage<Props> = ({ socialLinks }: Props) => {
     const classes = useStyles();
+
+    const { data } = useSWR<{ links: TreeLink[] }>(`/api/${process.env.apiVersion}/sociallinks`, {
+        initialData: { links: socialLinks }
+    });
+
+    const revalidatedSocialLinks = (data && data.links) || [];
 
     return (
         <ContentsLayout title="Home">
@@ -110,7 +123,7 @@ const Home: NextPage = () => {
                     </div>
                     <div className={classes.sectionEmbed}>
                         <Fade bottom duration={1000} delay={300} distance="30px">
-                            <LinkTree />
+                            <LinkTree linktree={{ links: revalidatedSocialLinks }} />
                         </Fade>
                     </div>
                 </div>
@@ -118,6 +131,12 @@ const Home: NextPage = () => {
             <BackToTop />
         </ContentsLayout>
     );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+    const socialLinks: TreeLink[] = await getAllSocialLinks();
+
+    return { props: { socialLinks }, revalidate: 60 };
 };
 
 export default Home;

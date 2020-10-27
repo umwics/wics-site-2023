@@ -8,6 +8,10 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import React from "react";
 import { LinkTree as ILinkTree } from "../../interfaces";
 
+interface Props {
+    linktree: ILinkTree;
+}
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -28,62 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const linktree: ILinkTree = {
-    links: [
-        {
-            id: "1",
-            title: "All links",
-            subheader: "Linktree",
-            body: "Discover our upcoming events, scholarship, etc!  ",
-            linkName: "https://linktr.ee/umwics",
-            linkHref: "https://linktr.ee/umwics"
-        },
-        {
-            id: "2",
-            title: "Communication",
-            subheader: "Slack",
-            body: "Join us on Slack!  ",
-            linkName: "https://umwics.slack.com",
-            linkHref: "https://umwics.slack.com"
-        },
-        {
-            id: "3",
-            title: "Social",
-            subheader: "Instagram",
-            body: "Follow us on Instagram!  ",
-            linkName: "https://instagram.com/umwics",
-            linkHref: "https://instagram.com/umwics"
-        },
-        {
-            id: "4",
-            title: "Social",
-            subheader: "Facebook",
-            body: "Follow us on Facebook!  ",
-            linkName: "https://www.facebook.com/umwics",
-            linkHref: "https://www.facebook.com/umwics"
-        },
-        {
-            id: "5",
-            title: "Social",
-            subheader: "UM Computer Science Discord",
-            body:
-                "UManitoba Computer Science Discord Signup Use this form to gain access to the University of Manitoba Computer Science Discord server!  ",
-            linkName: "UM CS Discord Signup",
-            linkHref:
-                "https://docs.google.com/forms/d/e/1FAIpQLScGRauKBaXhVEFI9d1nqAh4ezSWhBMbMnXqaX4gqr0XPTyr6Q/viewform"
-        },
-        {
-            id: "6",
-            title: "Calendar",
-            subheader: "Events Calendar",
-            body: "Checkout our upcoming events!  ",
-            linkName: "Calendar",
-            linkHref: "/events#calendar"
-        }
-    ]
-};
-
-const LinkTree: React.FC = () => {
+const LinkTree: React.FC<Props> = ({ linktree }: Props) => {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState<string | false>(false);
 
