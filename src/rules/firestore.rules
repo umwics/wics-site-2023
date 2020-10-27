@@ -19,8 +19,11 @@ service cloud.firestore {
     match /carousels/{id} {
       allow read;
     }
+    match /auditlogs/{id} {
+      allow read;
+    }
     match /{document=**} {
-      allow read, write: if false; // Only allow writes through API
+      allow read, write: if false;
     }
   }
 }

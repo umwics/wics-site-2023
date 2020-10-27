@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Company, hasPermission } from "../../../../interfaces";
 import getHandler from "../../../../lib/apiHandler";
 import { getCompany, getUser } from "../../../../lib/db";
-import { deleteCompany, updateCompany } from "../../../../lib/dbAdmin";
+import { createAuditLog, deleteCompany, updateCompany } from "../../../../lib/dbAdmin";
 import { NotFoundError, UnauthorizedError } from "../../../../lib/errors";
 import { auth } from "../../../../lib/firebaseAdmin";
 import { addCompanySchema, validateStrictStrip } from "../../../../lib/validators";
@@ -28,6 +28,15 @@ const handler = getHandler()
                 throw new UnauthorizedError("Invalid permissions");
 
             const success = await deleteCompany(id);
+            if (success) {
+                createAuditLog({
+                    id: "",
+                    executorId: executingUser.id,
+                    action: "delete",
+                    collection: "companies",
+                    timestamp: new Date().toISOString()
+                });
+            }
 
             res.status(200).json({ statusCode: res.statusCode, success });
         } catch (e) {
@@ -51,6 +60,15 @@ const handler = getHandler()
             const newCompanyValues = await updateCompany(id, {
                 ...(newValues as Partial<Company>)
             });
+            if (newCompanyValues) {
+                createAuditLog({
+                    id: "",
+                    executorId: executingUser.id,
+                    action: "update",
+                    collection: "companies",
+                    timestamp: new Date().toISOString()
+                });
+            }
 
             res.status(200).json(newCompanyValues);
         } catch (e) {

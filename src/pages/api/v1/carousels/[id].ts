@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Carousel, hasPermission } from "../../../../interfaces";
 import getHandler from "../../../../lib/apiHandler";
 import { getCarousel, getUser } from "../../../../lib/db";
-import { deleteCarousel, updateCarousel } from "../../../../lib/dbAdmin";
+import { createAuditLog, deleteCarousel, updateCarousel } from "../../../../lib/dbAdmin";
 import { NotFoundError, UnauthorizedError } from "../../../../lib/errors";
 import { auth } from "../../../../lib/firebaseAdmin";
 import { addCarouselSchema, validateStrictStrip } from "../../../../lib/validators";
@@ -28,6 +28,15 @@ const handler = getHandler()
                 throw new UnauthorizedError("Invalid permissions");
 
             const success = await deleteCarousel(id);
+            if (success) {
+                createAuditLog({
+                    id: "",
+                    executorId: executingUser.id,
+                    action: "delete",
+                    collection: "carousels",
+                    timestamp: new Date().toISOString()
+                });
+            }
 
             res.status(200).json({ statusCode: res.statusCode, success });
         } catch (e) {
@@ -51,6 +60,15 @@ const handler = getHandler()
             const newCarouselValues = await updateCarousel(id, {
                 ...(newValues as Partial<Carousel>)
             });
+            if (newCarouselValues) {
+                createAuditLog({
+                    id: "",
+                    executorId: executingUser.id,
+                    action: "update",
+                    collection: "carousels",
+                    timestamp: new Date().toISOString()
+                });
+            }
 
             res.status(200).json(newCarouselValues);
         } catch (e) {

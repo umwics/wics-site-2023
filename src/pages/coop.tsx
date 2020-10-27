@@ -115,8 +115,10 @@ const Coop: NextPage<Props> = ({ companies, members }: Props) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-    const companies: Company[] = await getAllCompanies();
-    const members: Member[] = await getAllMembers();
+    const [companies, members]: [Company[], Member[]] = await Promise.all([
+        getAllCompanies(),
+        getAllMembers()
+    ]);
 
     return {
         props: {

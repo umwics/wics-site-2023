@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { hasPermission, Member } from "../../../../interfaces";
 import getHandler from "../../../../lib/apiHandler";
 import { getAllMembers, getUser } from "../../../../lib/db";
-import { createMember, updateMembers } from "../../../../lib/dbAdmin";
+import { createAuditLog, createMember, updateMembers } from "../../../../lib/dbAdmin";
 import { UnauthorizedError } from "../../../../lib/errors";
 import { auth } from "../../../../lib/firebaseAdmin";
 import {
@@ -34,6 +34,15 @@ const handler = getHandler()
             const newMember = await createMember({
                 ...(newValues as Member)
             });
+            if (newMember) {
+                createAuditLog({
+                    id: "",
+                    executorId: executingUser.id,
+                    action: "create",
+                    collection: "members",
+                    timestamp: new Date().toISOString()
+                });
+            }
 
             res.status(200).json(newMember);
         } catch (e) {

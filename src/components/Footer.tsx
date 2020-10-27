@@ -168,7 +168,11 @@ const Footer: React.FC = () => {
                                     {footer.description.map((item, idx) => (
                                         <li key={idx}>
                                             <Link href={item.link} passHref>
-                                                <MuiLink variant="subtitle1" color="textSecondary">
+                                                <MuiLink
+                                                    component="a"
+                                                    variant="subtitle1"
+                                                    color="textSecondary"
+                                                >
                                                     {item.name}
                                                 </MuiLink>
                                             </Link>

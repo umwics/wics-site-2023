@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import { AccountCircle } from "@material-ui/icons";
 import React from "react";
-import { AuditLog, hasPermission, User, userRoleLabels } from "../../interfaces";
+import { hasPermission, User, userRoleLabels } from "../../interfaces";
 import { useAuth } from "../../lib/auth";
 import { parseUserRole } from "../../utils/parsers";
 import AuditLogs from "./AuditLogs";
@@ -54,31 +54,13 @@ const useAvatarStyles = makeStyles((theme: Theme) => ({
     }
 }));
 
-// TODO: Create audit logs
-const auditLogs: AuditLog[] = [
-    {
-        id: "1",
-        executorId: "2gyYGeeIQYUGOCUOPrk1X8YAkkL2",
-        action: "create",
-        collection: "events",
-        timestamp: "0"
-    },
-    {
-        id: "2",
-        executorId: "2gyYGeeIQYUGOCUOPrk1X8YAkkL2",
-        action: "delete",
-        collection: "members",
-        timestamp: "1"
-    }
-];
-
 const UserProfile: React.FC<Props> = ({ user, updateUser, deleteUser }: Props) => {
     const classes = useStyles();
     const avatarClasses = useAvatarStyles();
     const auth = useAuth();
 
     const manageUser = auth.user && hasPermission(auth.user, "manage");
-    const manageDelete = auth.user?.id == user.id || manageUser;
+    const manageDelete = auth.user?.id === user.id || manageUser;
 
     return (
         <Container component="main" maxWidth="md">
@@ -161,7 +143,7 @@ const UserProfile: React.FC<Props> = ({ user, updateUser, deleteUser }: Props) =
                         </div>
                     </Grid>
                     <Grid item md={9} xs={12}>
-                        <AuditLogs title={`Audit Logs`} logs={auditLogs} users={[user]} />
+                        <AuditLogs title={`Audit Logs`} users={[user]} />
                     </Grid>
                 </Grid>
             </div>

@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Event, hasPermission } from "../../../../interfaces";
 import getHandler from "../../../../lib/apiHandler";
 import { getAllEvents, getUser } from "../../../../lib/db";
-import { createEvent } from "../../../../lib/dbAdmin";
+import { createAuditLog, createEvent } from "../../../../lib/dbAdmin";
 import { UnauthorizedError } from "../../../../lib/errors";
 import { auth } from "../../../../lib/firebaseAdmin";
 import { addEventSchema, validateStrictStrip } from "../../../../lib/validators";
@@ -30,6 +30,15 @@ const handler = getHandler()
             const newEvent = await createEvent({
                 ...(newValues as Event)
             });
+            if (newEvent) {
+                createAuditLog({
+                    id: "",
+                    executorId: executingUser.id,
+                    action: "create",
+                    collection: "events",
+                    timestamp: new Date().toISOString()
+                });
+            }
 
             res.status(200).json(newEvent);
         } catch (e) {

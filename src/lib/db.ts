@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
-import { Carousel, Company, Event, Member, Resource, User } from "../interfaces";
+import { AuditLog, Carousel, Company, Event, Member, Resource, User } from "../interfaces";
 import firebase, { firestore } from "./firebase";
 
 export interface GetAllQueryParams {
@@ -80,12 +80,12 @@ export const getAllDocuments = async <T>(
 export const useDocument = <T>(
     collection: string,
     id?: string,
-    { initialData }: CollectionHookOptions = {}
-): CollectionHookInterface<T> => {
+    { initialData }: CollectionHookOptions<T> = {}
+): CollectionHookInterface<T | undefined> => {
     const query = id ? firestore?.collection(collection).doc(id) : undefined;
     const [firebaseData, loading, errors] = useDocumentData<T>(query, { idField: "id" });
 
-    const [data, setData] = useState<T>(initialData);
+    const [data, setData] = useState<T | undefined>(initialData);
 
     useEffect(() => {
         if (!loading && firebaseData) setData(firebaseData);
@@ -105,7 +105,7 @@ export const useCollection = <T>(
         endAt,
         startAfter,
         endBefore
-    }: GetAllQueryParams & CollectionHookOptions = {}
+    }: GetAllQueryParams & CollectionHookOptions<T[]> = {}
 ): CollectionHookInterface<T[]> => {
     const query = buildQuery(collection, {
         limit,
@@ -118,7 +118,7 @@ export const useCollection = <T>(
     });
     const [firebaseData, loading, errors] = useCollectionData<T>(query, { idField: "id" });
 
-    const [data, setData] = useState<T[]>([...initialData]);
+    const [data, setData] = useState<T[]>([...(initialData || [])]);
 
     useEffect(() => {
         if (!loading && firebaseData) setData(firebaseData);
@@ -216,4 +216,18 @@ export const useCarousels = (
     options: GetAllQueryParams & CollectionHookOptions = {}
 ): CollectionHookInterface<Carousel[]> => {
     return useCollection("carousels", options);
+};
+
+export const getAuditLog = async (id: string): Promise<AuditLog | null> => {
+    return await getDocument("auditlogs", id);
+};
+
+export const getAllAuditLogs = async (queryProps: GetAllQueryParams = {}): Promise<AuditLog[]> => {
+    return await getAllDocuments<AuditLog>("auditlogs", queryProps);
+};
+
+export const useAuditLogs = (
+    options: GetAllQueryParams & CollectionHookOptions = {}
+): CollectionHookInterface<AuditLog[]> => {
+    return useCollection("auditlogs", options);
 };

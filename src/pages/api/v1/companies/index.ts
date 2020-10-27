@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Company, hasPermission } from "../../../../interfaces";
 import getHandler from "../../../../lib/apiHandler";
 import { getAllCompanies, getUser } from "../../../../lib/db";
-import { createCompany } from "../../../../lib/dbAdmin";
+import { createAuditLog, createCompany } from "../../../../lib/dbAdmin";
 import { UnauthorizedError } from "../../../../lib/errors";
 import { auth } from "../../../../lib/firebaseAdmin";
 import { addCompanySchema, validateStrictStrip } from "../../../../lib/validators";
@@ -30,6 +30,15 @@ const handler = getHandler()
             const newCompany = await createCompany({
                 ...(newValues as Company)
             });
+            if (newCompany) {
+                createAuditLog({
+                    id: "",
+                    executorId: executingUser.id,
+                    action: "create",
+                    collection: "companies",
+                    timestamp: new Date().toISOString()
+                });
+            }
 
             res.status(200).json(newCompany);
         } catch (e) {

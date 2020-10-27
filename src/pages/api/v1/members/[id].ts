@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { hasPermission, Member } from "../../../../interfaces";
 import getHandler from "../../../../lib/apiHandler";
 import { getMember, getUser } from "../../../../lib/db";
-import { deleteMember, updateMember } from "../../../../lib/dbAdmin";
+import { createAuditLog, deleteMember, updateMember } from "../../../../lib/dbAdmin";
 import { NotFoundError, UnauthorizedError } from "../../../../lib/errors";
 import { auth } from "../../../../lib/firebaseAdmin";
 import { addMemberSchema, validateStrictStrip } from "../../../../lib/validators";
@@ -28,6 +28,15 @@ const handler = getHandler()
                 throw new UnauthorizedError("Invalid permissions");
 
             const success = await deleteMember(id);
+            if (success) {
+                createAuditLog({
+                    id: "",
+                    executorId: executingUser.id,
+                    action: "delete",
+                    collection: "members",
+                    timestamp: new Date().toISOString()
+                });
+            }
 
             res.status(200).json({ statusCode: res.statusCode, success });
         } catch (e) {
@@ -51,6 +60,15 @@ const handler = getHandler()
             const newMemberValues = await updateMember(id, {
                 ...(newValues as Partial<Member>)
             });
+            if (newMemberValues) {
+                createAuditLog({
+                    id: "",
+                    executorId: executingUser.id,
+                    action: "update",
+                    collection: "members",
+                    timestamp: new Date().toISOString()
+                });
+            }
 
             res.status(200).json(newMemberValues);
         } catch (e) {

@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { CustomUser, defaultUserRole, User } from "../../../../interfaces";
 import getHandler from "../../../../lib/apiHandler";
 import { getAllUsers, getUser } from "../../../../lib/db";
-import { createUser } from "../../../../lib/dbAdmin";
+import { createAuditLog, createUser } from "../../../../lib/dbAdmin";
 import { UnauthorizedError } from "../../../../lib/errors";
 import { auth } from "../../../../lib/firebaseAdmin";
 import { mapProviderUser } from "../../../../lib/mapProviderUser.";
@@ -38,6 +38,15 @@ const handler = getHandler()
                 ...customUser,
                 ...permissionUser
             } as User);
+            if (newUser) {
+                createAuditLog({
+                    id: "",
+                    executorId: newUser.id,
+                    action: "create",
+                    collection: "users",
+                    timestamp: new Date().toISOString()
+                });
+            }
 
             res.status(200).json(newUser);
         } catch (e) {

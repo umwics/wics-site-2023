@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { hasPermission, Resource } from "../../../../interfaces";
 import getHandler from "../../../../lib/apiHandler";
 import { getAllResources, getUser } from "../../../../lib/db";
-import { createResource } from "../../../../lib/dbAdmin";
+import { createAuditLog, createResource } from "../../../../lib/dbAdmin";
 import { UnauthorizedError } from "../../../../lib/errors";
 import { auth } from "../../../../lib/firebaseAdmin";
 import { addResourceSchema, validateStrictStrip } from "../../../../lib/validators";
@@ -30,6 +30,15 @@ const handler = getHandler()
             const newResource = await createResource({
                 ...(newValues as Resource)
             });
+            if (newResource) {
+                createAuditLog({
+                    id: "",
+                    executorId: executingUser.id,
+                    action: "create",
+                    collection: "resources",
+                    timestamp: new Date().toISOString()
+                });
+            }
 
             res.status(200).json(newResource);
         } catch (e) {

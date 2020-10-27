@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { hasPermission, Resource } from "../../../../interfaces";
 import getHandler from "../../../../lib/apiHandler";
 import { getResource, getUser } from "../../../../lib/db";
-import { deleteResource, updateResource } from "../../../../lib/dbAdmin";
+import { createAuditLog, deleteResource, updateResource } from "../../../../lib/dbAdmin";
 import { NotFoundError, UnauthorizedError } from "../../../../lib/errors";
 import { auth } from "../../../../lib/firebaseAdmin";
 import { addResourceSchema, validateStrictStrip } from "../../../../lib/validators";
@@ -28,6 +28,15 @@ const handler = getHandler()
                 throw new UnauthorizedError("Invalid permissions");
 
             const success = await deleteResource(id);
+            if (success) {
+                createAuditLog({
+                    id: "",
+                    executorId: executingUser.id,
+                    action: "delete",
+                    collection: "resources",
+                    timestamp: new Date().toISOString()
+                });
+            }
 
             res.status(200).json({ statusCode: res.statusCode, success });
         } catch (e) {
@@ -51,6 +60,15 @@ const handler = getHandler()
             const newResourceValues = await updateResource(id, {
                 ...(newValues as Partial<Resource>)
             });
+            if (newResourceValues) {
+                createAuditLog({
+                    id: "",
+                    executorId: executingUser.id,
+                    action: "update",
+                    collection: "resources",
+                    timestamp: new Date().toISOString()
+                });
+            }
 
             res.status(200).json(newResourceValues);
         } catch (e) {

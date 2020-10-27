@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Event, hasPermission } from "../../../../interfaces";
 import getHandler from "../../../../lib/apiHandler";
 import { getEvent, getUser } from "../../../../lib/db";
-import { deleteEvent, updateEvent } from "../../../../lib/dbAdmin";
+import { createAuditLog, deleteEvent, updateEvent } from "../../../../lib/dbAdmin";
 import { NotFoundError, UnauthorizedError } from "../../../../lib/errors";
 import { auth } from "../../../../lib/firebaseAdmin";
 import { addEventSchema, validateStrictStrip } from "../../../../lib/validators";
@@ -28,6 +28,15 @@ const handler = getHandler()
                 throw new UnauthorizedError("Invalid permissions");
 
             const success = await deleteEvent(id);
+            if (success) {
+                createAuditLog({
+                    id: "",
+                    executorId: executingUser.id,
+                    action: "delete",
+                    collection: "events",
+                    timestamp: new Date().toISOString()
+                });
+            }
 
             res.status(200).json({ statusCode: res.statusCode, success });
         } catch (e) {
@@ -51,6 +60,15 @@ const handler = getHandler()
             const newEventValues = await updateEvent(id, {
                 ...(newValues as Partial<Event>)
             });
+            if (newEventValues) {
+                createAuditLog({
+                    id: "",
+                    executorId: executingUser.id,
+                    action: "update",
+                    collection: "events",
+                    timestamp: new Date().toISOString()
+                });
+            }
 
             res.status(200).json(newEventValues);
         } catch (e) {

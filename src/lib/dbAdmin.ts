@@ -1,4 +1,4 @@
-import { Carousel, Company, Event, Member, Resource, User } from "../interfaces";
+import { AuditLog, Carousel, Company, Event, Member, Resource, User } from "../interfaces";
 import { auth, firestore } from "./firebaseAdmin";
 
 export const deleteDocument = async (collection: string, id: string): Promise<boolean> => {
@@ -264,6 +264,20 @@ export const updateCarousel = async (
             .update(newValues)
             .then(() => newValues)
             .catch(() => null);
+    }
+
+    return null;
+};
+
+export const createAuditLog = async (auditLog: AuditLog): Promise<AuditLog | null> => {
+    if (firestore) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { id, ...data } = auditLog;
+        const doc = await firestore.collection("auditlogs").add({ ...data });
+
+        const newAuditLog = <AuditLog>{ id: doc.id, ...data };
+
+        return newAuditLog;
     }
 
     return null;

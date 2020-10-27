@@ -14,6 +14,7 @@ import { CollectionsBookmarkOutlined } from "@material-ui/icons";
 import { NextPage } from "next";
 import Link from "next/link";
 import React from "react";
+import AuditLogs from "../../components/admin/AuditLogs";
 import AdminLayout from "../../components/layouts/AdminLayout";
 import { hasPermission, User } from "../../interfaces";
 import { AuthContextInstance, withAuth } from "../../lib/auth";
@@ -23,9 +24,6 @@ interface Props {
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
-    root: {
-        width: "100%"
-    },
     grid: {
         marginTop: theme.spacing(6)
     },
@@ -45,6 +43,9 @@ const useStyles = makeStyles((theme: Theme) => ({
         position: "relative",
         width: "100%",
         minHeight: "100px"
+    },
+    auditLogs: {
+        marginTop: theme.spacing(8)
     }
 }));
 
@@ -73,7 +74,7 @@ const Admin: NextPage<Props> = () => {
                         <Typography component="h2" variant="h5">
                             Collections
                         </Typography>
-                        <Grid container className={classes.root}>
+                        <Grid container>
                             {collections.map(({ title, link }) => (
                                 <Grid key={title} item sm={6} xs={12}>
                                     <Card className={classes.card}>
@@ -106,6 +107,7 @@ const Admin: NextPage<Props> = () => {
                                 </Grid>
                             ))}
                         </Grid>
+                        <AuditLogs className={classes.auditLogs} title={`Audit Logs`} />
                     </Grid>
                 </div>
             </Container>
