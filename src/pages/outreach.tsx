@@ -32,6 +32,40 @@ const useStyles = makeStyles((theme: Theme) => ({
             fontWeight: 700,
             fontFamily: "Lato"
         }
+    },
+    outline: {
+        textAlign: "center",
+        backgroundColor: "#00bfa5",
+        borderRadius: 2,
+        height: 4,
+        width: 40,
+        marginBottom: 25
+    },
+    centered: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    sectionTitle: {
+        paddingTop: 100,
+        textAlign: "center",
+        marginBottom: 70,
+        fontFamily: "Lato",
+        "& h3": {
+            color: "#202124",
+            marginBottom: 25,
+            fontWeight: 1000,
+            textTransform: "uppercase",
+            position: "relative",
+            fontFamily: "Lato",
+            letterSpacing: 1
+        }
+    },
+    description: {
+        minWidth: 50,
+        marginLeft: 300,
+        marginRight: 300,
+        marginBottom: 20
     }
 }));
 
@@ -47,29 +81,73 @@ const About: NextPage = () => {
                 </Fade>
                 <Fade bottom duration={1000} delay={300} distance="30px">
                     <p>
-                        We have put a main focus on encouraging elementary and junior high students
-                        into the Computer Science field
-                        <br />
-                        and have been using the website Hour of Code to help kids gain the skills to
-                        already start programming on their own!
-                        <br />
-                        We have already visited multiple schools, such as Windsor Elementary School
-                        and Carman Collegiate. <br />
-                        Other schools are welcome to contact us by email at uofmwics@gmail.com!
+                        One of the main goals of WICS is to promote the field of computer science
+                        within our community.
                     </p>
-                </Fade>
-                <Fade bottom duration={1000} delay={400} distance="30px">
-                    <Button href="mailto:uofmwics@gmail.com" variant="contained" color="secondary">
-                        Contact us
-                    </Button>
                 </Fade>
             </div>
 
             <Container component="main">
                 <div className={classes.paper}>
-                    <h3> More information about our outreach program is coming soon!</h3>
+                    <div className={classes.sectionTitle}>
+                        <Typography variant="h3">For Schools</Typography>
+                        <div className={classes.centered}>
+                            <div className={classes.outline}></div>
+                        </div>
+
+                        <Typography align="center" color="textPrimary" gutterBottom paragraph>
+                            <div className={classes.description}>
+                                We have put a main focus on encouraging younger generations into the
+                                computer science field. With the field of computer science growing
+                                exponentially, it is increasingly important that the basic skills
+                                for this field are introduced at an earlier age. As a result, WICS
+                                regularly reaches out to elementary and high schools to run
+                                workshops or talks as well as host public events in the community as
+                                volunteer work.
+                                <br />
+                                <br />
+                                We are constantly on a look out for opportunities to show our
+                                passion for technology and inspire students. Please do not hesitate
+                                the outreach coordinator to request a visit!
+                            </div>
+                        </Typography>
+
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            href="mailto:manlulum@myumanitoba.ca"
+                        >
+                            Request a Visit
+                        </Button>
+                    </div>
+
+                    <div className={classes.sectionTitle}>
+                        <Typography variant="h3">For Volunteers</Typography>
+                        <div className={classes.centered}>
+                            <div className={classes.outline}></div>
+                        </div>
+
+                        <Typography align="center" color="textPrimary" gutterBottom paragraph>
+                            <div className={classes.description}>
+                                Are you a CS student looking for ways to get involved in the
+                                community? Are you someone who is willing to share knowledge and
+                                show passion in Computer Science to the younger generations? If you
+                                would like to be contacted about volunteering for WICS Outreach
+                                event in the future, please signup below.
+                            </div>
+                        </Typography>
+
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            href="https://forms.gle/qyVVTL4Tnz9tfcsQA"
+                        >
+                            Sign up for Volunteer
+                        </Button>
+                    </div>
                 </div>
             </Container>
+
             <BackToTop />
         </ContentsLayout>
     );

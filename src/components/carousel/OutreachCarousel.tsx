@@ -40,6 +40,10 @@ const items = [
     {
         name: "2",
         src: "img/outreach/sciencerendezvous.jpg"
+    },
+    {
+        name: "3",
+        src: "img/outreach/wicsvirtualoutreach.jpg"
     }
 ];
 
