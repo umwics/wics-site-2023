@@ -8,7 +8,6 @@ import Fade from "react-reveal/Fade";
 import BackToTop from "../components/BackToTop";
 import OutreachCarousel from "../components/carousel/OutreachCarousel";
 import ContentsLayout from "../components/layouts/ContentsLayout";
-
 const useStyles = makeStyles((theme: Theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -35,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     outline: {
         textAlign: "center",
-        backgroundColor: "#00bfa5",
+        backgroundColor: "#00BFA5",
         borderRadius: 2,
         height: 4,
         width: 40,
@@ -63,15 +62,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     description: {
         minWidth: 50,
-        marginLeft: 300,
-        marginRight: 300,
         marginBottom: 20
     }
 }));
-
 const About: NextPage = () => {
     const classes = useStyles();
-
     return (
         <ContentsLayout title="Outreach">
             <OutreachCarousel />
@@ -86,71 +81,65 @@ const About: NextPage = () => {
                     </p>
                 </Fade>
             </div>
-
-            <Container component="main">
+            <Container component="main" maxWidth="sm">
                 <div className={classes.paper}>
-                    <div className={classes.sectionTitle}>
-                        <Typography variant="h3">For Schools</Typography>
-                        <div className={classes.centered}>
-                            <div className={classes.outline}></div>
-                        </div>
-
-                        <Typography align="center" color="textPrimary" gutterBottom paragraph>
-                            <div className={classes.description}>
-                                We have put a main focus on encouraging younger generations into the
-                                computer science field. With the field of computer science growing
-                                exponentially, it is increasingly important that the basic skills
-                                for this field are introduced at an earlier age. As a result, WICS
-                                regularly reaches out to elementary and high schools to run
-                                workshops or talks as well as host public events in the community as
-                                volunteer work.
-                                <br />
-                                <br />
-                                We are constantly on a look out for opportunities to show our
-                                passion for technology and inspire students. Please do not hesitate
-                                the outreach coordinator to request a visit!
+                    <Container maxWidth="md">
+                        <div className={classes.sectionTitle}>
+                            <Typography variant="h3">For Schools</Typography>
+                            <div className={classes.centered}>
+                                <div className={classes.outline}></div>
                             </div>
-                        </Typography>
-
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            href="mailto:manlulum@myumanitoba.ca"
-                        >
-                            Request a Visit
-                        </Button>
-                    </div>
-
-                    <div className={classes.sectionTitle}>
-                        <Typography variant="h3">For Volunteers</Typography>
-                        <div className={classes.centered}>
-                            <div className={classes.outline}></div>
+                            <Typography align="center" color="textPrimary" gutterBottom paragraph>
+                                <div className={classes.description}>
+                                    We have put a main focus on encouraging younger generations into
+                                    the computer science field. With the field of computer science
+                                    growing exponentially, it is increasingly important that the
+                                    basic skills for this field are introduced at an earlier age. As
+                                    a result, WICS regularly reaches out to elementary and high
+                                    schools to run workshops or talks as well as host public events
+                                    in the community as volunteer work.
+                                    <br />
+                                    <br />
+                                    We are constantly on a look out for opportunities to show our
+                                    passion for technology and inspire students. Please do not
+                                    hesitate the outreach coordinator to request a visit!
+                                </div>
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                href="mailto:manlulum@myumanitoba.ca"
+                            >
+                                Request a Visit
+                            </Button>
                         </div>
-
-                        <Typography align="center" color="textPrimary" gutterBottom paragraph>
-                            <div className={classes.description}>
-                                Are you a CS student looking for ways to get involved in the
-                                community? Are you someone who is willing to share knowledge and
-                                show passion in Computer Science to the younger generations? If you
-                                would like to be contacted about volunteering for WICS Outreach
-                                event in the future, please signup below.
+                        <div className={classes.sectionTitle}>
+                            <Typography variant="h3">For Volunteers</Typography>
+                            <div className={classes.centered}>
+                                <div className={classes.outline}></div>
                             </div>
-                        </Typography>
-
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            href="https://forms.gle/qyVVTL4Tnz9tfcsQA"
-                        >
-                            Sign up for Volunteer
-                        </Button>
-                    </div>
+                            <Typography align="center" color="textPrimary" gutterBottom paragraph>
+                                <div className={classes.description}>
+                                    Are you a CS student looking for ways to get involved in the
+                                    community? Are you someone who is willing to share knowledge and
+                                    show passion in Computer Science to the younger generations? If
+                                    you would like to be contacted about volunteering for WICS
+                                    Outreach event in the future, please signup below.
+                                </div>
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                href="https://forms.gle/qyVVTL4Tnz9tfcsQA"
+                            >
+                                Sign up for Volunteer
+                            </Button>
+                        </div>
+                    </Container>
                 </div>
             </Container>
-
             <BackToTop />
         </ContentsLayout>
     );
 };
-
 export default About;
