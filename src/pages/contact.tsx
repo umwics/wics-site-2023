@@ -97,7 +97,7 @@ const Contact: NextPage = () => {
                             color="textSecondary"
                             paragraph
                         >
-                            Have a qeustion or just want to follow us on social media?
+                            Have a question or just want to follow us on social media?
                             <br />
                             You can reach us by email or social media!
                         </Typography>
@@ -115,6 +115,15 @@ const Contact: NextPage = () => {
                                     <Link href="mailto:uofmwics@gmail.com">
                                         <span aria-label="Slack" className={classes.icons}>
                                             &nbsp;uofmwics@gmail.com
+                                        </span>
+                                    </Link>
+                                    <br />
+                                    <span aria-label="Email" className={classes.icons}>
+                                        <FontAwesomeIcon icon={faEnvelope} />
+                                    </span>
+                                    <Link href="mailto:manitobacssa@gmail.com">
+                                        <span aria-label="Slack" className={classes.icons}>
+                                            &nbsp;manitobacssa@gmail.com (CSSA)
                                         </span>
                                     </Link>
                                 </Typography>
