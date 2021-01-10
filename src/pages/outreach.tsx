@@ -94,14 +94,14 @@ const About: NextPage = () => {
                                 computer science field. With the field of computer science growing
                                 exponentially, it is increasingly important that the basic skills
                                 for this field are introduced at an earlier age. As a result, WICS
-                                regularly reaches out to elementary and high schools to run
-                                workshops or talks as well as host public events in the community as
-                                volunteer work.
+                                reaches out to elementary and high schools students to host
+                                workshops, talks or public events in the community as volunteer
+                                work.
                                 <br />
                                 <br />
                                 We are constantly on a look out for opportunities to show our
                                 passion for technology and inspire students. Please do not hesitate
-                                the outreach coordinator to request a visit!
+                                to contact the outreach coordinator to request a visit (virtually)!
                             </div>
                         </Typography>
                         <Button
@@ -123,7 +123,7 @@ const About: NextPage = () => {
                                 community? Are you someone who is willing to share knowledge and
                                 show passion in Computer Science to the younger generations? If you
                                 would like to be contacted about volunteering for WICS Outreach
-                                event in the future, please signup below.
+                                event in the future, please sign up below.
                             </div>
                         </Typography>
                         <Button
