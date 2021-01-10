@@ -49,7 +49,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     heroContent: {
         padding: theme.spacing(8, 0, 6),
         "& h2": {
-            color: "#363b3f",
             textTransform: "uppercase",
             fontWeight: 700,
             fontFamily: "Lato"
@@ -58,11 +57,9 @@ const useStyles = makeStyles((theme: Theme) => ({
             fontFamily: "Lato"
         },
         "& h4": {
-            color: "#ff6f6f",
             fontFamily: "Lato"
         },
         "& h3": {
-            color: "#202124",
             marginBottom: 25,
             fontWeight: 1000,
             textTransform: "uppercase",

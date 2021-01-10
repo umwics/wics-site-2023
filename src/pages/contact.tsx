@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     heroContent: {
         padding: theme.spacing(8, 0, 6),
         "& h2": {
-            color: "#363b3f",
             textTransform: "uppercase",
             fontWeight: 700,
             fontFamily: "Lato"
@@ -24,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
             fontFamily: "Lato"
         },
         "& h4": {
-            color: "#ff6f6f",
+            //color: "#ff6f6f",
             fontFamily: "Lato"
         }
     },
@@ -34,7 +33,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginBottom: 70,
         fontFamily: "Lato",
         "& h3": {
-            color: "#202124",
             marginBottom: 25,
             fontWeight: 1000,
             textTransform: "uppercase",
@@ -43,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) => ({
             letterSpacing: 1
         },
         "& h5": {
-            color: "#363b3f",
+            //color: "#363b3f",
             position: "relative",
             fontFamily: "Lato"
         }
@@ -68,8 +66,8 @@ const useStyles = makeStyles((theme: Theme) => ({
         fontSize: 24,
         textDecoration: "none",
         textDecorationLine: "none",
-        cursor: "pointer",
-        color: "#5f6368"
+        cursor: "pointer"
+        //color: "#5f6368"
     }
 }));
 
@@ -109,21 +107,18 @@ const Contact: NextPage = () => {
                                     <div className={classes.outline}></div>
                                 </div>
                                 <Typography variant="h5">
-                                    <span aria-label="Email" className={classes.icons}>
-                                        <FontAwesomeIcon icon={faEnvelope} />
-                                    </span>
                                     <Link href="mailto:uofmwics@gmail.com">
                                         <span aria-label="Slack" className={classes.icons}>
-                                            &nbsp;uofmwics@gmail.com
+                                            <FontAwesomeIcon icon={faEnvelope} />
+                                            &nbsp;&nbsp;uofmwics@gmail.com
                                         </span>
                                     </Link>
                                     <br />
-                                    <span aria-label="Email" className={classes.icons}>
-                                        <FontAwesomeIcon icon={faEnvelope} />
-                                    </span>
+
                                     <Link href="mailto:manitobacssa@gmail.com">
                                         <span aria-label="Slack" className={classes.icons}>
-                                            &nbsp;manitobacssa@gmail.com (CSSA)
+                                            <FontAwesomeIcon icon={faEnvelope} />
+                                            &nbsp;&nbsp;manitobacssa@gmail.com (CSSA)
                                         </span>
                                     </Link>
                                 </Typography>

@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginBottom: 70,
         fontFamily: "Lato",
         "& h3": {
-            color: "#202124",
             marginBottom: 25,
             fontWeight: 1000,
             textTransform: "uppercase",

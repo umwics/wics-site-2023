@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme: Theme) => ({
             fontFamily: "Lato"
         },
         "& h3": {
-            color: "#202124",
             marginBottom: 25,
             fontWeight: 1000,
             textTransform: "uppercase",
