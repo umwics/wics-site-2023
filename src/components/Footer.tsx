@@ -114,7 +114,7 @@ const Copyright: React.FC = () => {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {"Copyright © "}
-            <MuiLink color="inherit" href="https://github.com/umwics/wics-site-2020/">
+            <MuiLink color="inherit" href="/members#websiteCommittee">
                 University of Manitoba Women in Computer Science
             </MuiLink>{" "}
             {new Date().getFullYear()}
