@@ -80,21 +80,30 @@ const items = [
     },
     {
         name: "1",
-        h1: "WICS Virtual Mingle",
-        h2: "Events",
-        p: "2020 Summer",
-        src: "img/main/wics-mingle.png",
-        linkname: "See more",
-        link: "/events#otherEvent"
-    },
-    {
-        name: "1",
         h1: "Women in Computer Science",
         h2: "University of Manitoba",
         p: "We are a group of University of Manitoba students who support women in technology.",
         src: "img/main/ubisoft-group.jpg",
         linkname: "About us",
         link: "/about"
+    },
+    {
+        name: "5",
+        h1: "SkipTheDishes",
+        h2: "Scholarship",
+        p: "Recipient Marielle",
+        src: "img/main/skip-scholarship.jpg",
+        linkname: "See more",
+        link: "/events/UkRjhWKAFJpYh8A2m0hB"
+    },
+    {
+        name: "1",
+        h1: "WICS Virtual Mingle",
+        h2: "Events",
+        p: "2020 Winter",
+        src: "img/main/wics-mingle.png",
+        linkname: "See more",
+        link: "/events#otherEvent"
     },
     {
         name: "2",
@@ -111,24 +120,6 @@ const items = [
         h2: "MENTOR MINGLE",
         p: "2020 WINTER",
         src: "img/main/skip-clap.jpg",
-        linkname: "See more",
-        link: "/events/UkRjhWKAFJpYh8A2m0hB"
-    },
-    {
-        name: "4",
-        h1: "SkipTheDishes",
-        h2: "MENTOR MINGLE",
-        p: "2020 WINTER",
-        src: "img/main/skip-group.jpg",
-        linkname: "See more",
-        link: "/events/UkRjhWKAFJpYh8A2m0hB"
-    },
-    {
-        name: "5",
-        h1: "SkipTheDishes",
-        h2: "Scholarship",
-        p: "Recipient Claire",
-        src: "img/main/skip-scholarship.jpg",
         linkname: "See more",
         link: "/events/UkRjhWKAFJpYh8A2m0hB"
     },

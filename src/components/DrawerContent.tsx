@@ -36,7 +36,12 @@ const useStyles = makeStyles((theme: Theme) => ({
         borderLeft: `1px dashed ${fade(theme.palette.text.primary, 0.4)}`,
         marginLeft: theme.spacing(3)
     },
-    uppercase: { textTransform: "uppercase" }
+    uppercase: { textTransform: "uppercase" },
+    logo: {
+        width: "30px",
+        marginRight: "10px",
+        verticalAlign: "middle"
+    }
 }));
 
 const pages = ["about", "members", "events", "outreach", "mentors", "coop", "resources", "contact"];
@@ -66,6 +71,7 @@ const DrawerContent: React.FC = () => {
                                 color="inherit"
                                 variant="subtitle1"
                             >
+                                <img className={classes.logo} src="favicon/favicon-32.png" />
                                 UMWics
                             </MuiLink>
                         </Link>

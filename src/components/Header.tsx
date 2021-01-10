@@ -17,11 +17,14 @@ interface Props {
 const useStyles = makeStyles((theme: Theme) => ({
     title: {
         flexGrow: 1,
-        fontFamily: "Roboto"
+        fontFamily: "Roboto",
+        color: theme.palette.type === "dark" ? "#fff" : undefined
     },
     appbar: {
         backgroundColor: theme.palette.type === "light" ? "#fff" : undefined,
-        borderBottom: `1px solid ${theme.palette.divider}`
+        borderBottom: `1px solid ${theme.palette.divider}`,
+        boxShadow: "0 2px 6px 0 rgba(0,0,0,.12)",
+        color: "#5f6368"
     },
     sectionDesktop: {
         display: "none",
@@ -31,7 +34,16 @@ const useStyles = makeStyles((theme: Theme) => ({
         }
     },
     appbarmenu: {
-        fontFamily: "Roboto"
+        fontFamily: "Roboto",
+        fontSize: "14px",
+        textTransform: "none",
+        fontWeight: 400,
+        color: theme.palette.type === "dark" ? "#fff" : undefined
+    },
+    logo: {
+        width: "30px",
+        marginRight: "10px",
+        verticalAlign: "middle"
     }
 }));
 
@@ -49,6 +61,7 @@ const Header: React.FC<Props> = ({ title }: Props) => {
                             <DrawerContent />
                         </Drawer>
                         <Typography component="h1" variant="h6" className={classes.title}>
+                            <img className={classes.logo} src="favicon/favicon-32.png" />
                             {title}
                         </Typography>
                         <nav className={classes.sectionDesktop}>
@@ -61,6 +74,7 @@ const Header: React.FC<Props> = ({ title }: Props) => {
                                     Home
                                 </Button>
                             </Link>
+
                             <Link href="/about" passHref>
                                 <Button
                                     component="a"
