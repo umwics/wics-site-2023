@@ -91,7 +91,8 @@ const footers = [
             { name: "Event Calendar", link: "/events#calendar" },
             { name: "Mentor Mingle", link: "/events#mentorMingle" },
             { name: "Other Events", link: "/events#otherEvent" },
-            { name: "Outreach", link: "/outreach" }
+            { name: "Outreach", link: "/outreach" },
+            { name: "Mentorship Program", link: "/mentors" }
         ]
     },
     {

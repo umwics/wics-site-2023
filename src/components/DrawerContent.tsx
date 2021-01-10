@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     title: {
         color: theme.palette.text.secondary,
         marginBottom: theme.spacing(0.5),
+        textTransform: "uppercase",
         "&:hover": {
             color: theme.palette.primary.main
         }
@@ -34,7 +35,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     group: {
         borderLeft: `1px dashed ${fade(theme.palette.text.primary, 0.4)}`,
         marginLeft: theme.spacing(3)
-    }
+    },
+    uppercase: { textTransform: "uppercase" }
 }));
 
 const pages = ["about", "members", "events", "outreach", "mentors", "coop", "resources", "contact"];
@@ -75,7 +77,7 @@ const DrawerContent: React.FC = () => {
                     <ListItemIcon>
                         <Pages />
                     </ListItemIcon>
-                    <ListItemText primary="Pages" />
+                    <ListItemText className={classes.uppercase} primary="Pages" />
                     {pagesOpen ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={pagesOpen} className={classes.group} timeout="auto">
@@ -88,13 +90,13 @@ const DrawerContent: React.FC = () => {
                     >
                         <Link href="/" passHref>
                             <ListItem button component="a">
-                                <ListItemText primary="Home" />
+                                <ListItemText className={classes.uppercase} primary="home" />
                             </ListItem>
                         </Link>
                         {pages.map(page => (
                             <Link key={page} href={`/${page}`} passHref>
                                 <ListItem button component="a">
-                                    <ListItemText primary={page} />
+                                    <ListItemText className={classes.uppercase} primary={page} />
                                 </ListItem>
                             </Link>
                         ))}
@@ -105,7 +107,7 @@ const DrawerContent: React.FC = () => {
                         <ListItemIcon>
                             <Cloud />
                         </ListItemIcon>
-                        <ListItemText primary="API" />
+                        <ListItemText className={classes.uppercase} primary="API" />
                     </ListItem>
                 </Link>
             </List>
