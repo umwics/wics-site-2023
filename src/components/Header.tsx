@@ -97,11 +97,15 @@ const Header: React.FC<Props> = ({ title }: Props) => {
                                     Outreach
                                 </Button>
                             </Link>
-                            {/* <Link href="/mentors" passHref>
-                                <Button component="a" color="inherit" className={classes.appbarmenu}>
+                            <Link href="/mentors" passHref>
+                                <Button
+                                    component="a"
+                                    color="inherit"
+                                    className={classes.appbarmenu}
+                                >
                                     Mentors
                                 </Button>
-                            </Link> */}
+                            </Link>
                             <Link href="/coop" passHref>
                                 <Button
                                     component="a"
