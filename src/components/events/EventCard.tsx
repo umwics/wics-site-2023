@@ -1,35 +1,53 @@
-import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faMapMarker } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     Card,
     CardActionArea,
-    CardContent,
     CardMedia,
-    Link as MuiLink,
-    Typography
+    // Link as MuiLink,
+    GridListTileBar
+
 } from "@material-ui/core";
-import { makeStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import Link from "next/link";
 import React from "react";
 import { Event } from "../../interfaces";
+
 
 interface Props {
     event: Event;
 }
 
-const useStyles = makeStyles((_theme: Theme) => ({
-    card: {
-        height: "100%",
-        display: "flex",
-        flexDirection: "column"
-    },
-    cardMedia: {
-        paddingTop: "56.25%" // 16:9
-    },
-    cardContent: {
-        flexGrow: 1
-    }
-}));
+const useStyles = makeStyles((_theme: Theme) =>
+    createStyles({
+        root: {
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-around',
+          overflow: 'hidden'
+        },
+        card: {
+            height: "100%",
+            display: "flex",
+            flexDirection: "column"
+        },
+        cardMedia: {
+            paddingTop: "80%"
+        },
+        cardContent: {
+            flexGrow: 1
+        },
+        title: {
+            fontSize: "20px",
+            fontWeight: 550
+        },
+        titleBar: {
+            background:
+                'linear-gradient(to top, rgba(0,0,0,0.7) 0% rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 50%)'
+        },
+    }),
+);
+
 
 const EventCard: React.FC<Props> = ({ event }: Props) => {
     const classes = useStyles();
@@ -43,28 +61,16 @@ const EventCard: React.FC<Props> = ({ event }: Props) => {
                         image={event.images[0]}
                         title={event.name}
                     />
+                    <GridListTileBar 
+                        title={event.name} 
+                        classes={{
+                            root: classes.titleBar,
+                            title: classes.title,
+                        }}
+                        ></GridListTileBar>
                 </CardActionArea>
             </Link>
-            <CardContent className={classes.cardContent}>
-                <Link href="/events/[id]" as={`/events/${event.id}`} passHref>
-                    <MuiLink component="a" gutterBottom color="textPrimary" variant="h4">
-                        {event.name}
-                    </MuiLink>
-                </Link>
-                <Typography>{event.term}</Typography>
-                <Typography gutterBottom variant="subtitle1">
-                    {new Date(event.date).toDateString()}
-                </Typography>
-                <Typography gutterBottom variant="subtitle1">
-                    <FontAwesomeIcon icon={faMapMarker} /> {event.location}
-                </Typography>
-                <Typography paragraph variant="body2">
-                    {event.description}
-                </Typography>
-                <Typography gutterBottom color="textSecondary" variant="subtitle2">
-                    {event.photoCredits.join(" ")}
-                </Typography>
-            </CardContent>
+            
         </Card>
     );
 };

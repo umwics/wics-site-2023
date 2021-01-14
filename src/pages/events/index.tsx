@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         marginTop: theme.spacing(4)
     },
     cardGrid: {
-        paddingTop: theme.spacing(8),
+        paddingTop: theme.spacing(5),
         paddingBottom: theme.spacing(8)
     },
     outline: {
@@ -75,9 +75,9 @@ const Section: React.FC<SectionProps> = ({ className, type, events }: SectionPro
                 <div className={classes.outline}></div>
             </div>
             <Container className={classes.cardGrid} maxWidth="md">
-                <Grid container spacing={4}>
+                <Grid container spacing={2}>
                     {events.map(event => (
-                        <Grid item key={event.id} xs={12} sm={6} md={4}>
+                        <Grid item key={event.id} xs={12} sm={6} md={6}>
                             <EventCard event={event} />
                         </Grid>
                     ))}

@@ -77,7 +77,7 @@ const EventDetail: NextPage<Props> = ({ event, errors }: Props) => {
                             <GridList cellHeight={400} cols={cols}>
                                 <GridListTile key="Previews" cols={cols} style={{ height: "auto" }}>
                                     <div>
-                                        <Typography gutterBottom color="textPrimary" variant="h4">
+                                        <Typography gutterBottom color="textPrimary" variant="h2">
                                             {event.name}
                                         </Typography>
                                         <Typography>{event.term}</Typography>
