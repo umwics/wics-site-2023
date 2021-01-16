@@ -50,7 +50,8 @@ const useStyles = makeStyles((theme: Theme) => ({
             marginTop: 0,
             marginLeft: 10
         }
-    }
+    },
+    textCenter: { textAlign: "center" }
 }));
 
 const useCarouselStyles = makeStyles((theme: Theme) => ({
@@ -104,6 +105,12 @@ const Mentors: NextPage = () => {
                 <div className={classes.paper}>
                     <div className={classes.title}>
                         <h1> UMWICS Mentorship Program </h1>
+
+                        <h3 className={classes.textCenter}>
+                            Mentorship signups have closed for this semester, but stay tuned for
+                            information on future semesters.
+                        </h3>
+
                         <img src="img/mentors-page/mentors.jpg" />
                         <p>
                             <br />
@@ -116,22 +123,14 @@ const Mentors: NextPage = () => {
                     </div>
 
                     <div className={classes.signupSection}>
-                        <h2> Mentors </h2>
-                        <p>
-                            {" "}
-                            Share your experience for their successful start!
-                            <br /> (Sign up coming soon...)
-                        </p>
+                        <h1> Mentors </h1>
+                        <p> Share your experience for their successful start!</p>
                         {/* To be updated when mentorship program starts*/}
                         {/* <Button variant="outlined" color="primary" href="#contained-buttons">
                                     Sign Up
                             </Button> */}
-                        <h2> Mentees </h2>
-                        <p>
-                            {" "}
-                            Get connected and learn from experienced students!
-                            <br /> (Sign up coming soon...)
-                        </p>
+                        <h1> Mentees </h1>
+                        <p> Get connected and learn from experienced students!</p>
                         {/* To be updated when mentorship program starts*/}
                         {/* <Button variant="outlined" color="primary" href="#contained-buttons">
                                     Sign Up

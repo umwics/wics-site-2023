@@ -20,6 +20,16 @@ export const memberPositions: MemberPosition[] = [
     "pastExec",
     "alumni"
 ];
+
+export type MemberTerm = "fall" | "winter" | "summer";
+export const memberTerms: MemberTerm[] = ["fall", "winter", "summer"];
+
+export const memberTermLabels: { [key in MemberTerm]: string } = {
+    fall: "Fall",
+    winter: "Winter",
+    summer: "Summer"
+};
+
 export const memberPositionLabels: { [key in MemberPosition]: string } = {
     exec: "Exec",
     management: "Management",
@@ -40,6 +50,7 @@ export interface Member {
     facts: string[];
     links: MemberLink[];
     positions: MemberPosition[];
+    terms: MemberTerm[];
     rank: number;
     image: string;
 }

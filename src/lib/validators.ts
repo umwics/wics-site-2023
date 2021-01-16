@@ -4,6 +4,8 @@ import {
     eventTypes,
     MemberPosition,
     memberPositions,
+    MemberTerm,
+    memberTerms,
     ResourceType,
     resourceTypes,
     UserRole,
@@ -53,6 +55,11 @@ export const addMemberSchema = Yup.object({
             memberPositions.includes(position as MemberPosition)
         )
     ),
+    terms: Yup.array().of(
+        Yup.string().test("term", "Must be a valid term", term =>
+            memberTerms.includes(term as MemberTerm)
+        )
+    ),
     rank: Yup.number().default(0),
     image: Yup.string()
 });
@@ -75,6 +82,11 @@ export const updateMembersSchema = Yup.array().of(
         positions: Yup.array().of(
             Yup.string().test("position", "Must be a valid position", position =>
                 memberPositions.includes(position as MemberPosition)
+            )
+        ),
+        terms: Yup.array().of(
+            Yup.string().test("term", "Must be a valid position", term =>
+                memberTerms.includes(term as MemberTerm)
             )
         ),
         rank: Yup.number().default(0),

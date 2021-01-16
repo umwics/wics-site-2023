@@ -1,7 +1,7 @@
 import { LinearProgress } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
-import { Member, memberPositionLabels } from "../../../interfaces";
+import { Member, memberPositionLabels, memberTermLabels } from "../../../interfaces";
 import { addMemberSchema } from "../../../lib/validators";
 import ArrayField from "../../ArrayField";
 import ArrayFieldObjectIterator from "../../ArrayFieldObjectIterator";
@@ -36,6 +36,7 @@ const defaultInitialValues: Member = {
     facts: [],
     links: [],
     positions: [],
+    terms: [],
     rank: 0,
     image: ""
 };
@@ -127,6 +128,18 @@ const AddMemberDialog: React.FC<Props> = ({
                         fullWidth
                     />
                 </ArrayField>
+
+                <ArrayField name="terms" addLabel="Add Term" initialValue="Fall">
+                    <SelectInput
+                        label={(idx: number) => `Term ${idx + 1}`}
+                        choices={Object.entries(memberTermLabels).map(([value, label]) => ({
+                            value,
+                            label
+                        }))}
+                        fullWidth
+                    />
+                </ArrayField>
+
                 <TextInput name="rank" label="Rank" type="number" fullWidth />
                 <UploadImage name="image" label="Image URL" />
                 {uploading && <LinearProgress variant="determinate" value={uploadingProgress} />}
