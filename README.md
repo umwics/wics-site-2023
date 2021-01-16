@@ -67,9 +67,6 @@ $ git checkout -b fix-broken-link
 
 Now feel free to make changes to the site! Now to preview changes to the site.
 
-### Wics Next.js testing
-
-Now that you've made some changes, you probably want to see what they look like.
 
 ### Install it and run:
 
