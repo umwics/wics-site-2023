@@ -26,27 +26,6 @@ You don't need much to work on the site, just a text editor and a few basic tool
 Here is a guide to get you started.  
 If you run into issues with this guide, don't hesitate to reach out over Slack, we're happy to help out!
 
-#### Installing an Editor/IDE
-
-A decent all-round editor/IDE is [VSCode](https://code.visualstudio.com/).
-However, everyone has their own preference and you're welcome to use whatever you like.
-
-> Alternative IDEs:
->
-> -   [Atom](https://atom.io/)
-> -   [Sublime](https://www.sublimetext.com/)
-> -   [IntelliJ](https://www.jetbrains.com/idea/download/)
-
-Some recommended extensions to assist your workflow are
-
-> Extensions
->
-> -   [Prettier](https://prettier.io/docs/en/editors.html)
-> -   [ESLint](https://eslint.org/docs/user-guide/integrations)
-
-Config files for these extensions are already setup for this project for consistent styling.
-
-If you're using VSCode you can setup the editor to format on save using
 
 #### Setting up Git
 
