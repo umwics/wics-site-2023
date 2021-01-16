@@ -26,39 +26,6 @@ You don't need much to work on the site, just a text editor and a few basic tool
 Here is a guide to get you started.  
 If you run into issues with this guide, don't hesitate to reach out over Slack, we're happy to help out!
 
-#### Installing an Editor/IDE
-
-A decent all-round editor/IDE is [VSCode](https://code.visualstudio.com/).
-However, everyone has their own preference and you're welcome to use whatever you like.
-
-> Alternative IDEs:
->
-> -   [Atom](https://atom.io/)
-> -   [Sublime](https://www.sublimetext.com/)
-> -   [IntelliJ](https://www.jetbrains.com/idea/download/)
-
-Some recommended extensions to assist your workflow are
-
-> Extensions
->
-> -   [Prettier](https://prettier.io/docs/en/editors.html)
-> -   [ESLint](https://eslint.org/docs/user-guide/integrations)
-
-Config files for these extensions are already setup for this project for consistent styling.
-
-If you're using VSCode you can setup the editor to format on save using
-
-##### settings.json
-
-```json
-{
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-        "source.organizeImports": true
-    }
-}
-```
 
 #### Setting up Git
 
@@ -100,9 +67,6 @@ $ git checkout -b fix-broken-link
 
 Now feel free to make changes to the site! Now to preview changes to the site.
 
-### Wics Next.js testing
-
-Now that you've made some changes, you probably want to see what they look like.
 
 ### Install it and run:
 
@@ -166,26 +130,3 @@ $ git push origin fix-broken-link  # Remember to use the same name as your own b
    To do so, follow the instructions found [here](https://help.github.com/articles/creating-a-pull-request/)!
 
 With all this done, you may receive some feedback or requests for changes, or it may be merged straight into the live website.
-
-#### Deployment (Not set up yet)
-
-Deploy it to the cloud with [Vercel](https://vercel.com/import?filter=next.js&utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
-
-## Learning Resoures
-
-Here are some tutorials for getting you on your feet with various tools and technologies:
-
--   [Git](https://try.github.io/levels/1/challenges/1)
--   [HTML](https://www.w3schools.com/html/html_intro.asp)
--   [CSS](https://www.w3schools.com/css/css_intro.asp)
--   [Next.js](https://nextjs.org/)
--   [TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
--   [React](https://reactjs.org/docs/create-a-new-react-app.html)
--   [npm](https://docs.npmjs.com/)
-
-Optional:
-
--   [Material-UI](https://material-ui.com/getting-started/installation/)
--   [Firebase](https://firebase.google.com/)
--   [Jest](https://jestjs.io/docs/en/getting-started)
--   [Yarn](https://yarnpkg.com/)
