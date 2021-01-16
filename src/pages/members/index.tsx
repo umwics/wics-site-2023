@@ -26,13 +26,7 @@ import useSWR from "swr";
 import BackToTop from "../../components/BackToTop";
 import MenmbersCarousel from "../../components/carousel/MembersCarousel";
 import ContentsLayout from "../../components/layouts/ContentsLayout";
-import {
-    Member,
-    MemberPosition,
-    memberPositionLabels,
-    memberPositions,
-    memberTerms
-} from "../../interfaces";
+import { Member, MemberPosition, memberPositionLabels, memberPositions } from "../../interfaces";
 import { getAllMembers } from "../../lib/db";
 
 interface SectionProps {
@@ -159,21 +153,21 @@ const Section: React.FC<SectionProps> = ({ className, type, members }: SectionPr
         setExpanded(!expanded);
     };
 
-    const { data } = useSWR<{ members: Member[] }>(`/api/${process.env.apiVersion}/members`, {
-        initialData: { members }
-    });
+    // const { data } = useSWR<{ members: Member[] }>(`/api/${process.env.apiVersion}/members`, {
+    //     initialData: { members }
+    // });
 
-    const revalidatedMembers = (data && data.members) || [];
+    // const revalidatedMembers = (data && data.members) || [];
 
-    const MemberTermBuckets: { [key: string]: Member[] } = memberTerms.reduce(
-        (acc, type) => ({ ...acc, [type]: [] }),
-        {}
-    );
-    revalidatedMembers.forEach(member => {
-        member.terms.forEach(term => {
-            MemberTermBuckets[term]?.push(member);
-        });
-    });
+    // const MemberTermBuckets: { [key: string]: Member[] } = memberTerms.reduce(
+    //     (acc, type) => ({ ...acc, [type]: [] }),
+    //     {}
+    // );
+    // revalidatedMembers.forEach(member => {
+    //     member.terms.forEach(term => {
+    //         MemberTermBuckets[term]?.push(member);
+    //     });
+    // });
 
     return (
         <div className={className} id={type}>
@@ -184,14 +178,14 @@ const Section: React.FC<SectionProps> = ({ className, type, members }: SectionPr
                 <div className={classes.outline}></div>
             </div>
 
-            {Object.entries(MemberTermBuckets).map(([sectionType, sectionMembers]) => (
+            {/* {Object.entries(MemberTermBuckets).map(([sectionType, sectionMembers]) => (
                 <SectionTerm
                     key={sectionType}
                     className={classes.heroContent}
                     type={sectionType as MemberPosition}
                     members={sectionMembers}
                 />
-            ))}
+            ))} */}
 
             <Container className={classes.cardGrid} maxWidth="lg">
                 <Grid container spacing={4}>
@@ -280,109 +274,109 @@ const Section: React.FC<SectionProps> = ({ className, type, members }: SectionPr
     );
 };
 
-const SectionTerm: React.FC<SectionProps> = ({ className, type, members }: SectionProps) => {
-    const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
+// const SectionTerm: React.FC<SectionProps> = ({ className, type, members }: SectionProps) => {
+//     const classes = useStyles();
+//     const [expanded, setExpanded] = React.useState(false);
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
+//     const handleExpandClick = () => {
+//         setExpanded(!expanded);
+//     };
 
-    return (
-        <div className={className} id={type}>
-            <Typography component="h3" variant="h3" align="center" color="textPrimary" gutterBottom>
-                {memberPositionLabels[type]}
-            </Typography>
-            <div className={classes.centered}>
-                <div className={classes.outline}></div>
-            </div>
+//     return (
+//         <div className={className} id={type}>
+//             <Typography component="h3" variant="h3" align="center" color="textPrimary" gutterBottom>
+//                 {memberPositionLabels[type]}
+//             </Typography>
+//             <div className={classes.centered}>
+//                 <div className={classes.outline}></div>
+//             </div>
 
-            <Container className={classes.cardGrid} maxWidth="lg">
-                <Grid container spacing={4}>
-                    {members.map(item => (
-                        <Grid item key={item.name} xs={12} sm={6} md={3}>
-                            {item.image && (
-                                <Card className={classes.card}>
-                                    <CardMedia
-                                        className={classes.cardMedia}
-                                        image={item.image}
-                                        title={item.displayName}
-                                    />
+//             <Container className={classes.cardGrid} maxWidth="lg">
+//                 <Grid container spacing={4}>
+//                     {members.map(item => (
+//                         <Grid item key={item.name} xs={12} sm={6} md={3}>
+//                             {item.image && (
+//                                 <Card className={classes.card}>
+//                                     <CardMedia
+//                                         className={classes.cardMedia}
+//                                         image={item.image}
+//                                         title={item.displayName}
+//                                     />
 
-                                    <CardContent className={classes.cardContent}>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            {item.displayName}
-                                        </Typography>
-                                        <Typography>{item.title}</Typography>
-                                    </CardContent>
+//                                     <CardContent className={classes.cardContent}>
+//                                         <Typography gutterBottom variant="h5" component="h2">
+//                                             {item.displayName}
+//                                         </Typography>
+//                                         <Typography>{item.title}</Typography>
+//                                     </CardContent>
 
-                                    <CardActions disableSpacing>
-                                        {item.email && (
-                                            <IconButton aria-label="email">
-                                                <Link href={"mailto:" + item.email}>
-                                                    <FontAwesomeIcon icon={faEnvelope} />
-                                                </Link>
-                                            </IconButton>
-                                        )}
+//                                     <CardActions disableSpacing>
+//                                         {item.email && (
+//                                             <IconButton aria-label="email">
+//                                                 <Link href={"mailto:" + item.email}>
+//                                                     <FontAwesomeIcon icon={faEnvelope} />
+//                                                 </Link>
+//                                             </IconButton>
+//                                         )}
 
-                                        <IconButton
-                                            className={clsx(classes.expand, {
-                                                [classes.expandOpen]: expanded
-                                            })}
-                                            onClick={handleExpandClick}
-                                            aria-expanded={expanded}
-                                            aria-label="show more"
-                                        >
-                                            <ExpandMoreIcon />
-                                        </IconButton>
-                                    </CardActions>
+//                                         <IconButton
+//                                             className={clsx(classes.expand, {
+//                                                 [classes.expandOpen]: expanded
+//                                             })}
+//                                             onClick={handleExpandClick}
+//                                             aria-expanded={expanded}
+//                                             aria-label="show more"
+//                                         >
+//                                             <ExpandMoreIcon />
+//                                         </IconButton>
+//                                     </CardActions>
 
-                                    <Collapse in={expanded} timeout="auto" unmountOnExit>
-                                        <CardContent>
-                                            {item.links.map(itemlink => (
-                                                <Link key={itemlink.title} href={itemlink.link}>
-                                                    <Button size="small" color="primary">
-                                                        {itemlink.title}
-                                                    </Button>
-                                                </Link>
-                                            ))}
-                                            <Typography paragraph variant="body2">
-                                                {item.description}
-                                            </Typography>
+//                                     <Collapse in={expanded} timeout="auto" unmountOnExit>
+//                                         <CardContent>
+//                                             {item.links.map(itemlink => (
+//                                                 <Link key={itemlink.title} href={itemlink.link}>
+//                                                     <Button size="small" color="primary">
+//                                                         {itemlink.title}
+//                                                     </Button>
+//                                                 </Link>
+//                                             ))}
+//                                             <Typography paragraph variant="body2">
+//                                                 {item.description}
+//                                             </Typography>
 
-                                            <List component="nav" aria-label="contacts">
-                                                {item.facts.map((itemfacts, idx) => (
-                                                    <Typography
-                                                        key={idx}
-                                                        gutterBottom
-                                                        color="textSecondary"
-                                                        variant="subtitle2"
-                                                    >
-                                                        <ListItem button>
-                                                            <ListItemText secondary={itemfacts} />
-                                                        </ListItem>
-                                                    </Typography>
-                                                ))}
-                                            </List>
-                                        </CardContent>
-                                    </Collapse>
-                                </Card>
-                            )}
-                            {!item.image && (
-                                <CardContent className={classes.cardContent}>
-                                    <Typography gutterBottom variant="h5" component="h2">
-                                        {item.displayName}
-                                    </Typography>
-                                    <Typography>{item.title}</Typography>
-                                </CardContent>
-                            )}
-                        </Grid>
-                    ))}
-                </Grid>
-            </Container>
-        </div>
-    );
-};
+//                                             <List component="nav" aria-label="contacts">
+//                                                 {item.facts.map((itemfacts, idx) => (
+//                                                     <Typography
+//                                                         key={idx}
+//                                                         gutterBottom
+//                                                         color="textSecondary"
+//                                                         variant="subtitle2"
+//                                                     >
+//                                                         <ListItem button>
+//                                                             <ListItemText secondary={itemfacts} />
+//                                                         </ListItem>
+//                                                     </Typography>
+//                                                 ))}
+//                                             </List>
+//                                         </CardContent>
+//                                     </Collapse>
+//                                 </Card>
+//                             )}
+//                             {!item.image && (
+//                                 <CardContent className={classes.cardContent}>
+//                                     <Typography gutterBottom variant="h5" component="h2">
+//                                         {item.displayName}
+//                                     </Typography>
+//                                     <Typography>{item.title}</Typography>
+//                                 </CardContent>
+//                             )}
+//                         </Grid>
+//                     ))}
+//                 </Grid>
+//             </Container>
+//         </div>
+//     );
+// };
 
 const Members: NextPage<Props> = ({ members }: Props) => {
     const classes = useStyles();
