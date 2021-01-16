@@ -10,6 +10,9 @@
 Rewritten wics site using Next.js.
 This repository holds the WICS website-2020's source code!
 
+The source code of the WICS website is only available for use to develop the WICS official website by the WICS website committee.
+WICS website committee members can only contribute code to the codebase and are forbidden to share the website code with anyone outside WICS website committee.
+
 ![GitHub last commit](https://img.shields.io/github/last-commit/umwics/wics-site-2020)
 [![Website](https://img.shields.io/website/https/umwics.vercel.app?down_color=red&down_message=down&up_message=up)](https://umwics.vercel.app)
 [![Slack](https://img.shields.io/badge/slack-umwics-green.svg?style=flat-square)](https://umwics.slack.com)
