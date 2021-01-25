@@ -1,5 +1,5 @@
-import { faFacebook, faInstagram, faSlack } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faFacebook, faInstagram, faSlack, faDiscord } from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope, faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Container, Link, Typography } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
@@ -10,7 +10,10 @@ import ContentsLayout from "../components/layouts/ContentsLayout";
 
 const useStyles = makeStyles((theme: Theme) => ({
     paper: {
-        marginTop: theme.spacing(8)
+        marginTop: theme.spacing(8),
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center"
     },
     heroContent: {
         padding: theme.spacing(8, 0, 6),
@@ -27,10 +30,33 @@ const useStyles = makeStyles((theme: Theme) => ({
             fontFamily: "Lato"
         }
     },
+    section:{
+        color: "#202020",
+        textDecoration: "none",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        cursor: "pointer",
+        margin: "1% 4% 3% 4%",
+        "&:hover":{
+            color: "#3f51b5",
+            transition: "0.3s",
+            textDecoration: "none",
+            textDecorationLine: "none",
+        }
+    },
+    sectionIcon:{
+        fontSize:60,
+        "&:hover": {
+            transform: "translateY(-10%)",
+            transition: "0.5s"
+        }
+    },
     sectionTitle: {
-        paddingTop: 100,
+        color: "#202020",
+        paddingTop: 20,
         textAlign: "center",
-        marginBottom: 70,
+        marginBottom: 20,
         fontFamily: "Lato",
         "& h3": {
             marginBottom: 25,
@@ -45,30 +71,30 @@ const useStyles = makeStyles((theme: Theme) => ({
             position: "relative",
             fontFamily: "Lato"
         }
-    },
-    outline: {
-        textAlign: "center",
-        backgroundColor: "#00bfa5",
-        borderRadius: 2,
-        height: 4,
-        width: 40,
-        marginBottom: 25
-    },
-    centered: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    icons: {
-        textAlign: "right",
-        display: "inline",
-        marginLeft: 10,
-        fontSize: 24,
-        textDecoration: "none",
-        textDecorationLine: "none",
-        cursor: "pointer"
-        //color: "#5f6368"
     }
+    // outline: {
+    //     textAlign: "center",
+    //     backgroundColor: "#00bfa5",
+    //     borderRadius: 2,
+    //     height: 4,
+    //     width: 40,
+    //     marginBottom: 25,
+    // },
+    // centered: {
+    //     display: "flex",
+    //     justifyContent: "center",
+    //     alignItems: "center"
+    // },
+    // icons: {
+    //     textAlign: "right",
+    //     display: "inline",
+    //     marginLeft: 10,
+    //     fontSize: 24,
+    //     textDecoration: "none",
+    //     textDecorationLine: "none",
+    //     cursor: "pointer"
+    //     //color: "#5f6368"
+    // }
 }));
 
 const Contact: NextPage = () => {
@@ -101,112 +127,69 @@ const Contact: NextPage = () => {
                         </Typography>
 
                         <div className={classes.paper}>
-                            <div className={classes.sectionTitle}>
-                                <Typography variant="h3">Email</Typography>
-                                <div className={classes.centered}>
-                                    <div className={classes.outline}></div>
+                            <Link href="mailto:uofmwics@gmail.com" className={classes.section}>
+                                <span className={classes.sectionIcon} aria-label="WICSEmail">
+                                    <FontAwesomeIcon icon={faEnvelope} />
+                                </span>
+                                <div className={classes.sectionTitle}>
+                                    <Typography variant="h3">WICS Email</Typography>
                                 </div>
-                                <Typography variant="h5">
-                                    <Link href="mailto:uofmwics@gmail.com">
-                                        <span aria-label="Slack" className={classes.icons}>
-                                            <FontAwesomeIcon icon={faEnvelope} />
-                                            &nbsp;&nbsp;uofmwics@gmail.com
-                                        </span>
-                                    </Link>
-                                    <br />
+                            </Link>
 
-                                    <Link href="mailto:manitobacssa@gmail.com">
-                                        <span aria-label="Slack" className={classes.icons}>
-                                            <FontAwesomeIcon icon={faEnvelope} />
-                                            &nbsp;&nbsp;manitobacssa@gmail.com (CSSA)
-                                        </span>
-                                    </Link>
-                                </Typography>
-                            </div>
-
-                            <div className={classes.sectionTitle}>
-                                <Typography variant="h3">Join us</Typography>
-                                <div className={classes.centered}>
-                                    <div className={classes.outline}></div>
+                            <Link href="mailto:uofmwics@gmail.com" target="_blank" rel="noreferrer" className={classes.section}>
+                                <span className={classes.sectionIcon} aria-label="Slack">
+                                    <FontAwesomeIcon icon={faSlack} />
+                                </span>
+                                <div className={classes.sectionTitle}>
+                                    <Typography variant="h3">Slack</Typography>
                                 </div>
-                                <Typography variant="h5">
-                                    <Link
-                                        href="https://umwics.slack.com/"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >
-                                        <span aria-label="Slack" className={classes.icons}>
-                                            <FontAwesomeIcon icon={faSlack} /> &nbsp;Slack
-                                        </span>
-                                    </Link>
-                                </Typography>
-                            </div>
+                            </Link>
 
-                            <div className={classes.sectionTitle}>
-                                <Typography variant="h3">Social Media</Typography>
-                                <div className={classes.centered}>
-                                    <div className={classes.outline}></div>
+                            <Link href="https://instagram.com/umwics" target="_blank" rel="noreferrer" className={classes.section}>
+                                <span className={classes.sectionIcon} aria-label="Instagram">
+                                    <FontAwesomeIcon icon={faInstagram} />
+                                </span>
+                                <div className={classes.sectionTitle}>
+                                    <Typography variant="h3">Instagram</Typography>
                                 </div>
-                                <Typography variant="h5">
-                                    <Link
-                                        href="https://www.facebook.com/umwics"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >
-                                        <span aria-label="Facebook" className={classes.icons}>
-                                            <FontAwesomeIcon icon={faFacebook} />
-                                            &nbsp;Facebook
-                                        </span>
-                                    </Link>
-                                    <br />
-                                    <Link
-                                        href="https://instagram.com/umwics"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >
-                                        <span aria-label="Instagram" className={classes.icons}>
-                                            <FontAwesomeIcon icon={faInstagram} />
-                                            &nbsp; Instagram
-                                        </span>
-                                    </Link>
-                                </Typography>
-                            </div>
+                            </Link>
 
-                            <div className={classes.sectionTitle}>
-                                <Typography variant="h3">Event Links</Typography>
-                                <div className={classes.centered}>
-                                    <div className={classes.outline}></div>
+                            <Link href="https://www.facebook.com/umwics" target="_blank" rel="noreferrer" className={classes.section}>
+                                <span className={classes.sectionIcon} aria-label="Facebook">
+                                    <FontAwesomeIcon icon={faFacebook} />
+                                </span>
+                                <div className={classes.sectionTitle}>
+                                    <Typography variant="h3">Facebook</Typography>
                                 </div>
-                                <Typography variant="h5">
-                                    <Link
-                                        href="https://linktr.ee/umwics"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >
-                                        <span aria-label="Slack" className={classes.icons}>
-                                            Linktree
-                                        </span>
-                                    </Link>
-                                </Typography>
-                            </div>
+                            </Link>
 
-                            <div className={classes.sectionTitle}>
-                                <Typography variant="h3">UM CS Discord</Typography>
-                                <div className={classes.centered}>
-                                    <div className={classes.outline}></div>
+                            <Link href="https://linktr.ee/umwics" target="_blank" rel="noreferrer" className={classes.section}>
+                                <span className={classes.sectionIcon} aria-label="Linktree">
+                                    <FontAwesomeIcon icon={faLink} />
+                                </span>
+                                <div className={classes.sectionTitle}>
+                                    <Typography variant="h3">Linktree</Typography>
                                 </div>
-                                <Typography variant="h5">
-                                    <Link
-                                        href="https://docs.google.com/forms/d/e/1FAIpQLScGRauKBaXhVEFI9d1nqAh4ezSWhBMbMnXqaX4gqr0XPTyr6Q/viewform"
-                                        target="_blank"
-                                        rel="noreferrer"
-                                    >
-                                        <span aria-label="Slack" className={classes.icons}>
-                                            University of Manitoba Computer Science Discord Signup
-                                        </span>
-                                    </Link>
-                                </Typography>
-                            </div>
+                            </Link>
+
+                            <Link href="https://docs.google.com/forms/d/e/1FAIpQLScGRauKBaXhVEFI9d1nqAh4ezSWhBMbMnXqaX4gqr0XPTyr6Q/viewform" target="_blank" rel="noreferrer" className={classes.section}>
+                                <span className={classes.sectionIcon} aria-label="Discord">
+                                    <FontAwesomeIcon icon={faDiscord} />
+                                </span>
+                                <div className={classes.sectionTitle}>
+                                    <Typography variant="h3">CS Discord</Typography>
+                                </div>
+                            </Link>
+
+                            <Link href="mailto:manitobacssa@gmail.com" className={classes.section}>
+                                <span className={classes.sectionIcon} aria-label="CSSAEmail">
+                                    <FontAwesomeIcon icon={faEnvelope} />
+                                </span>
+                                <div className={classes.sectionTitle}>
+                                    <Typography variant="h3">CSSA Email</Typography>
+                                </div>
+                            </Link>
+
                         </div>
                     </Container>
                 </div>
