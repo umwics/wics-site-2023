@@ -92,7 +92,7 @@ const items = [
         h1: "SkipTheDishes",
         h2: "Scholarship",
         p: "Recipient Marielle",
-        src: "img/main/skip-scholarship.jpg",
+        src: "img/main/skip-scholarship.png",
         linkname: "See more",
         link: "/events/UkRjhWKAFJpYh8A2m0hB"
     },

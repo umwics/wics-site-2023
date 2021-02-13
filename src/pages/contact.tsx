@@ -1,4 +1,4 @@
-import { faFacebook, faInstagram, faSlack } from "@fortawesome/free-brands-svg-icons";
+import { faFacebook, faInstagram, faLinkedin, faSlack } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Container, Link, Typography } from "@material-ui/core";
@@ -149,6 +149,17 @@ const Contact: NextPage = () => {
                                 </div>
                                 <Typography variant="h5">
                                     <Link
+                                        href="https://instagram.com/umwics"
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        <span aria-label="Instagram" className={classes.icons}>
+                                            <FontAwesomeIcon icon={faInstagram} />
+                                            &nbsp; Instagram
+                                        </span>
+                                    </Link>
+                                    <br />
+                                    <Link
                                         href="https://www.facebook.com/umwics"
                                         target="_blank"
                                         rel="noreferrer"
@@ -160,13 +171,13 @@ const Contact: NextPage = () => {
                                     </Link>
                                     <br />
                                     <Link
-                                        href="https://instagram.com/umwics"
+                                        href="https://www.linkedin.com/company/university-of-manitoba-women-in-computer-science"
                                         target="_blank"
                                         rel="noreferrer"
                                     >
-                                        <span aria-label="Instagram" className={classes.icons}>
-                                            <FontAwesomeIcon icon={faInstagram} />
-                                            &nbsp; Instagram
+                                        <span aria-label="Facebook" className={classes.icons}>
+                                            <FontAwesomeIcon icon={faLinkedin} />
+                                            &nbsp; LinkedIn
                                         </span>
                                     </Link>
                                 </Typography>
