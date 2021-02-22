@@ -38,7 +38,7 @@
         "cookie": "^0.4.1",
         "date-fns": "^2.16.1",
         "deepmerge": "^4.2.2",
-        "firebase": "^7.24.0",
+        "firebase": "^8.2.9",
         "firebase-admin": "^9.2.0",
         "formik": "^2.2.1",
         "formik-material-ui": "^3.0.0",
