@@ -1,4 +1,4 @@
-import { faFacebook, faInstagram, faSlack } from "@fortawesome/free-brands-svg-icons";
+import { faFacebook, faInstagram, faLinkedin, faSlack } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, Container, Grid, Link as MuiLink, Typography } from "@material-ui/core";
@@ -138,14 +138,19 @@ const SocialLinks: React.FC = () => {
                     <FontAwesomeIcon icon={faSlack} />
                 </span>
             </MuiLink>
+            <MuiLink href="https://instagram.com/umwics" target="_blank" rel="noreferrer">
+                <span aria-label="Instagram" className={classes.icons}>
+                    <FontAwesomeIcon icon={faInstagram} />
+                </span>
+            </MuiLink>
             <MuiLink href="https://www.facebook.com/umwics" target="_blank" rel="noreferrer">
                 <span aria-label="Facebook" className={classes.icons}>
                     <FontAwesomeIcon icon={faFacebook} />
                 </span>
             </MuiLink>
-            <MuiLink href="https://instagram.com/umwics" target="_blank" rel="noreferrer">
-                <span aria-label="Instagram" className={classes.icons}>
-                    <FontAwesomeIcon icon={faInstagram} />
+            <MuiLink href="https://www.linkedin.com/company/university-of-manitoba-women-in-computer-science" target="_blank" rel="noreferrer">
+                <span aria-label="LinkedIn" className={classes.icons}>
+                    <FontAwesomeIcon icon={faLinkedin} />
                 </span>
             </MuiLink>
         </Typography>
