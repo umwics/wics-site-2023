@@ -105,6 +105,7 @@ them to a `.env.local` file. You can find an example of this file called `.env.l
 
 Now that you've written a great new feature, the next step is to _commit_ those changes, and _push_ them to the GitHub repository.
 Afterwards, you will make a _pull request_ for us to review and _merge_.
+
 0. _update_ the changes(commits) from a remote repository(master) to the local repository: 
 
 ```sh
