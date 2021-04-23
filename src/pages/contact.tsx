@@ -1,4 +1,4 @@
-import { faFacebook, faInstagram, faSlack, faDiscord } from "@fortawesome/free-brands-svg-icons";
+import { faDiscord, faFacebook, faInstagram, faLinkedin, faSlack } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faLink } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Container, Link, Typography } from "@material-ui/core";
@@ -67,34 +67,10 @@ const useStyles = makeStyles((theme: Theme) => ({
             letterSpacing: 1
         },
         "& h5": {
-            //color: "#363b3f",
             position: "relative",
             fontFamily: "Lato"
         }
     }
-    // outline: {
-    //     textAlign: "center",
-    //     backgroundColor: "#00bfa5",
-    //     borderRadius: 2,
-    //     height: 4,
-    //     width: 40,
-    //     marginBottom: 25,
-    // },
-    // centered: {
-    //     display: "flex",
-    //     justifyContent: "center",
-    //     alignItems: "center"
-    // },
-    // icons: {
-    //     textAlign: "right",
-    //     display: "inline",
-    //     marginLeft: 10,
-    //     fontSize: 24,
-    //     textDecoration: "none",
-    //     textDecorationLine: "none",
-    //     cursor: "pointer"
-    //     //color: "#5f6368"
-    // }
 }));
 
 const Contact: NextPage = () => {
@@ -160,6 +136,15 @@ const Contact: NextPage = () => {
                                 </span>
                                 <div className={classes.sectionTitle}>
                                     <Typography variant="h3">Facebook</Typography>
+                                </div>
+                            </Link>
+
+                            <Link href="https://www.linkedin.com/company/university-of-manitoba-women-in-computer-science" target="_blank" rel="noreferrer" className={classes.section}>
+                                <span className={classes.sectionIcon} aria-label="Linkedin">
+                                    <FontAwesomeIcon icon={faLinkedin} />
+                                </span>
+                                <div className={classes.sectionTitle}>
+                                    <Typography variant="h3">LinkedIn</Typography>
                                 </div>
                             </Link>
 
