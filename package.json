@@ -54,7 +54,7 @@
         "react": "^16.14.0",
         "react-beautiful-dnd": "^13.0.0",
         "react-dom": "^16.14.0",
-        "react-firebase-hooks": "^2.2.0",
+        "react-firebase-hooks": "^3.0.0",
         "react-markdown": "^5.0.2",
         "react-material-ui-carousel": "^2.2.2",
         "react-reveal": "^1.2.2",
