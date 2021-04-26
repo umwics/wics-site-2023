@@ -36,7 +36,7 @@
         "@material-ui/pickers": "^3.2.10",
         "autosuggest-highlight": "^3.1.1",
         "cookie": "^0.4.1",
-        "date-fns": "^2.16.1",
+        "date-fns": "^2.21.1",
         "deepmerge": "^4.2.2",
         "firebase": "^7.24.0",
         "firebase-admin": "^9.6.0",
