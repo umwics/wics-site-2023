@@ -71,15 +71,6 @@ const useStyles = makeStyles((_theme: Theme) =>
 const items = [
     {
         name: "1",
-        h1: "Exec",
-        h2: "2020-2021",
-        p: "We are a group of University of Manitoba students who support women in technology.",
-        src: "img/main/exec-photos-8.png",
-        linkname: "Meet our Exec!",
-        link: "/members#exec"
-    },
-    {
-        name: "1",
         h1: "Women in Computer Science",
         h2: "University of Manitoba",
         p: "We are a group of University of Manitoba students who support women in technology.",
@@ -140,6 +131,15 @@ const items = [
         src: "img/main/iqmetrix-reception.jpg",
         linkname: "See more",
         link: "/events/toVPDFFswghAI9DyJcv0"
+    },
+    {
+        name: "1",
+        h1: "Exec",
+        h2: "2020-2021",
+        p: "We are a group of University of Manitoba students who support women in technology.",
+        src: "img/main/exec-photos-8.png",
+        linkname: "Meet our Exec!",
+        link: "/members#exec"
     }
 ];
 
