@@ -2,6 +2,7 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
+import { useState } from 'react'; 
 
 const useStyles = makeStyles(() =>
     createStyles({
@@ -9,7 +10,8 @@ const useStyles = makeStyles(() =>
             flexGrow: 1
         },
         componentContainer:{
-            height: "30vw",
+            height: "auto",
+            minHeight: "30vw",
             width: "100%",
             marginTop: "1em",
             display: "flex",
@@ -20,17 +22,16 @@ const useStyles = makeStyles(() =>
             height: "90%",
             width: "80%",
             display: "grid",
-            gridTemplateRows: "50% 50%",
+            gridTemplateRows: "1fr auto",
             borderRadius: "3em",
             borderBottomStyle: "groove",
             borderBottomColor: "darkslateblue",
             borderBottomWidth: "thick",
             boxShadow: "0em 0em 0.2em 0em rgba(90, 90, 90, 0.3)",
-            // backgroundImage: "linear-gradient(to bottom, black, #474b71, #333, black)"
             backgroundColor: "#3C394F"
         },
         recycler:{
-            margin: "1em 3em 1em 3em",
+            margin: "2em 3% 2em 3%",
             overflowY: "hidden",
             display: "grid",
             gridTemplateColumns: "5em 1fr 5em",
@@ -52,27 +53,33 @@ const useStyles = makeStyles(() =>
             height: "100%",
             backgroundColor: "#A3C8CA",
             boxShadow: "inset 0 0.2em 0.3em black",
-            margin: "0em 5em 0em 5em",
+            margin: "0em 4% 0em 4%",
             display: "flex",
-            justifyContent: "center",
+            flexWrap: "nowrap",
+            justifyContent: "flex-start",
             alignItems: "center",
             overflowX: "scroll"
         },
-        recyclerImgCenter:{
-            backgroundColor: "lightgrey",
-            margin: "1.5em",
-            borderColor: "turquoise",
+        active:{
+            borderColor: "#00DDC3",
             borderStyle: "groove",
             borderWidth: "thick"
         },
         card:{
             backgroundColor: "white",
-            margin: "1.5em",
-            height: "5em",
-            width: "8em",
+            margin: "2vw",
+            height: "10vw",
+            width: "16vw",
+            minWidth: "16vw",
             display: "flex",
             justifyContent:"center",
-            alignItems: "center"
+            alignItems: "center",
+            boxShadow: "0em 0.5em 0.4em 0.05em rgba(90, 90, 90, 0.3)",
+            "&:hover":{
+                color: "#CBD9E3",
+                transition: "0.2s",
+                cursor: "pointer"
+            }
         },
         recyclerImg:{
             height: "90%",
@@ -82,17 +89,18 @@ const useStyles = makeStyles(() =>
             backgroundRepeat: "no-repeat"
         },
         descriptionContainer:{
+            height: "auto",
             backgroundColor: "rgb(67, 63, 90)",
             opacity: "90%",
             borderColor: "grey",
             borderStyle: "solid",
             borderWidth: "thin",
-            margin: "0em 4em 1em 4em",
+            margin: "0em 6% 2em 6%",
             boxShadow: "0em 0em 0.2em 0em rgba(0, 0, 0, 0.5)"
         },
         description:{
-            margin: "3em",
-            color: "whitesmoke"
+            margin: "2em",
+            color: "#EDEDED"
         }
     })
 );
@@ -156,11 +164,29 @@ function Description(props) {
 
 const OutreachRecycler: React.FC = () => {
     const classes = useStyles();
-    var placeholder = "The meteor is heading our way, to the balcony. There was panicking and some scurrying around as we retreat inside. Sentinels find their ground, reluctantly ready to face this odd, ill-scheduled calamity. I gape in awe as the meteor takes form of a maiden, and the fire becomes a fiery dress billowing. In her hand is a huge sword crafted like the Phoenix. I stand with the others, mesmerized, watching the remains of her dark cape disintegrate into prismatic ash. Staffina has arrived. And now, she owns the Nyx Ethereal. I have never felt so defeated.";
-    function getDesc(title, desc){
-        console.log(title);
-        console.log(desc);
-        placeholder = desc;
+
+    const [active, setActive] = useState("0");
+    const [title, setTitle] = useState("Canada Learning Code");
+    const [desc, setDesc] = useState("CLC is a volunteer-driven organization that brings accessible computer science to communities across Canada so everyone can create with technology. They do this by partnering with educators, designing resources, and delivering learning experiences.");
+    var index = 0;
+
+    function getDesc(key){
+        setActive(key);
+        index = parseInt(key) - 1;
+        setTitle(items[index].title);
+        setDesc(items[index].desc);
+    }
+    function leftArrowClick(){
+        index = Math.max(0, index - 1);
+        setActive(index.toString());
+        setTitle(items[index].title);
+        setDesc(items[index].desc);
+    }
+    function rightArrowClick(){
+        index = Math.min(items.length-1, index + 1);
+        setActive(index.toString());
+        setTitle(items[index].title);
+        setDesc(items[index].desc);
     }
 
     return (
@@ -168,22 +194,27 @@ const OutreachRecycler: React.FC = () => {
             <div className={classes.recyclerContainer}>
                 <div className={classes.recycler}>
                     <div className={classes.arrowButton}>
-                        <FontAwesomeIcon icon={faCaretLeft} />
+                        <FontAwesomeIcon icon={faCaretLeft} onClick={leftArrowClick} />
                     </div>
                     <div className={classes.recyclerSlide}>
                         {items.map(item => {
                             return (
                                 <div className={classes.card}>
-                                    <div key={item.name} className={classes.recyclerImg} style={{ backgroundImage: `url(${item.src})` }} onClick={() => getDesc(item.title, item.desc)}></div>
+                                    <a id={item.name} className={classes.recyclerImg} style={{ backgroundImage: `url(${item.src})` }} onClick={() => getDesc(item.name)} href={item.link}></a>
                                 </div>
                             );
                         })}
                     </div>
                     <div className={classes.arrowButton}>
-                        <FontAwesomeIcon icon={faCaretRight} />
+                        <FontAwesomeIcon icon={faCaretRight} onClick={rightArrowClick} />
                     </div>
                 </div>
-                <Description desc={placeholder} />
+                <div className={classes.descriptionContainer}>
+                    <div className={classes.description}> 
+                        <h2> {title} </h2>
+                        <p> {desc} </p>
+                    </div>
+                </div>
             </div>
         </div>
     );
