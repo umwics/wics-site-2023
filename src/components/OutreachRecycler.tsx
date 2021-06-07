@@ -1,7 +1,5 @@
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { useState } from 'react'; 
 
 const useStyles = makeStyles(() =>
@@ -13,14 +11,13 @@ const useStyles = makeStyles(() =>
             height: "auto",
             minHeight: "30vw",
             width: "100%",
-            marginTop: "1em",
             display: "flex",
             justifyContent: "center",
             alignItems: "center"
         },
         recyclerContainer:{
             height: "90%",
-            width: "80%",
+            width: "90%",
             display: "grid",
             gridTemplateRows: "1fr auto",
             borderRadius: "3em",
@@ -31,20 +28,35 @@ const useStyles = makeStyles(() =>
             backgroundColor: "#3C394F"
         },
         recycler:{
-            margin: "2em 3% 2em 3%",
+            margin: "2em 4% 2em 4%",
             overflowY: "hidden",
             display: "grid",
-            gridTemplateColumns: "5em 1fr 5em",
             alignItems: "center",
             justifyContent: "center"
         },
         arrowButton:{
             display: "grid",
             justifyItems: "center",
-            color: "rgb(235, 54, 93)",
+            color: "rgb(238, 37, 80)",
             fontSize: "7em",
             "&:hover":{
                 color: "rgb(189, 52, 81)",
+                transition: "0.2s",
+                cursor: "pointer"
+            }
+        },
+        redButton:{
+            height: "auto",
+            padding: "1%",
+            color: "white",
+            textDecoration: "none",
+            textAlign: "center",
+            borderRadius: "5px",
+            boxShadow: "0em 0em 0.2em 0em rgba(0, 0, 0, 0.5)",
+            backgroundColor: "rgb(238, 37, 80)",
+            fontWeight: "bold",
+            "&:hover":{
+                backgroundColor: "rgb(189, 52, 81)",
                 transition: "0.2s",
                 cursor: "pointer"
             }
@@ -98,8 +110,14 @@ const useStyles = makeStyles(() =>
             margin: "0em 6% 2em 6%",
             boxShadow: "0em 0em 0.2em 0em rgba(0, 0, 0, 0.5)"
         },
+        descHeadRow:{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center"
+        },
         description:{
             margin: "2em",
+            textAlign: "left",
             color: "#EDEDED"
         }
     })
@@ -167,6 +185,7 @@ const OutreachRecycler: React.FC = () => {
 
     const [active, setActive] = useState("0");
     const [title, setTitle] = useState("Canada Learning Code");
+    const [link, setLink] = useState("https://www.canadalearningcode.ca/volunteer/");
     const [desc, setDesc] = useState("CLC is a volunteer-driven organization that brings accessible computer science to communities across Canada so everyone can create with technology. They do this by partnering with educators, designing resources, and delivering learning experiences.");
     var index = 0;
 
@@ -174,18 +193,7 @@ const OutreachRecycler: React.FC = () => {
         setActive(key);
         index = parseInt(key) - 1;
         setTitle(items[index].title);
-        setDesc(items[index].desc);
-    }
-    function leftArrowClick(){
-        index = Math.max(0, index - 1);
-        setActive(index.toString());
-        setTitle(items[index].title);
-        setDesc(items[index].desc);
-    }
-    function rightArrowClick(){
-        index = Math.min(items.length-1, index + 1);
-        setActive(index.toString());
-        setTitle(items[index].title);
+        setLink(items[index].link);
         setDesc(items[index].desc);
     }
 
@@ -193,25 +201,22 @@ const OutreachRecycler: React.FC = () => {
         <div className={classes.componentContainer}>
             <div className={classes.recyclerContainer}>
                 <div className={classes.recycler}>
-                    <div className={classes.arrowButton}>
-                        <FontAwesomeIcon icon={faCaretLeft} onClick={leftArrowClick} />
-                    </div>
                     <div className={classes.recyclerSlide}>
                         {items.map(item => {
                             return (
                                 <div className={classes.card}>
-                                    <a id={item.name} className={classes.recyclerImg} style={{ backgroundImage: `url(${item.src})` }} onClick={() => getDesc(item.name)} href={item.link}></a>
+                                    <a id={item.name} className={classes.recyclerImg} style={{ backgroundImage: `url(${item.src})` }} onClick={() => getDesc(item.name)}></a>
                                 </div>
                             );
                         })}
                     </div>
-                    <div className={classes.arrowButton}>
-                        <FontAwesomeIcon icon={faCaretRight} onClick={rightArrowClick} />
-                    </div>
                 </div>
                 <div className={classes.descriptionContainer}>
                     <div className={classes.description}> 
-                        <h2> {title} </h2>
+                        <div className={classes.descHeadRow}>
+                            <h2> {title} </h2>
+                            <a className={classes.redButton} href={link}> VISIT PAGE </a>
+                        </div>
                         <p> {desc} </p>
                     </div>
                 </div>

@@ -101,9 +101,16 @@ const About: NextPage = () => {
                     </div>
                 </Fade>
             </div>
-            <OutreachRecycler />
+            
             <Container component="main" maxWidth="md">
                 <div className={classes.paper}>
+                    <div className={classes.sectionTitle}>
+                        <Typography variant="h3">Volunteer Opportunities</Typography>
+                        <div className={classes.centered}>
+                            <div className={classes.outline}></div>
+                        </div>
+                    </div>
+                    <OutreachRecycler />
                     <div className={classes.sectionTitle} id="forSchools">
                         <Typography variant="h3">For Schools</Typography>
                         <div className={classes.centered}>
