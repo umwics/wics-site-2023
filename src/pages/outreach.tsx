@@ -1,4 +1,4 @@
-import { Button, Container, Typography } from "@material-ui/core";
+import { Button, Container, Typography, Grid } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { NextPage } from "next";
 import React from "react";
@@ -7,12 +7,20 @@ import React from "react";
 import Fade from "react-reveal/Fade";
 import BackToTop from "../components/BackToTop";
 import OutreachCarousel from "../components/carousel/OutreachCarousel";
+import OutreachRecycler from "../components/OutreachRecycler";
 import ContentsLayout from "../components/layouts/ContentsLayout";
+import { outreachPosition, outreachPositionLabels, outreachPositions } from "../interfaces";
 const useStyles = makeStyles((theme: Theme) => ({
     paper: {
         marginTop: theme.spacing(8),
         marginBottom: theme.spacing(12),
         textAlign: "center"
+    },
+    heroButtons: {
+        marginTop: theme.spacing(4)
+    },
+    heroButton:{
+        margin: "10%",
     },
     title: {
         top: "40%",
@@ -79,10 +87,31 @@ const About: NextPage = () => {
                         within our community.
                     </p>
                 </Fade>
+                <Fade bottom duration={1000} delay={400} distance="30px">
+                    <div className={classes.heroButtons}>
+                        <Grid container spacing={1} justify="center">
+                            {outreachPositions.map(type => (
+                                <Grid key={type} item>
+                                    <Button variant="contained" color="secondary" href={`#${type}`}>
+                                        {outreachPositionLabels[type]}
+                                    </Button>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </div>
+                </Fade>
             </div>
+            
             <Container component="main" maxWidth="md">
                 <div className={classes.paper}>
                     <div className={classes.sectionTitle}>
+                        <Typography variant="h3">Volunteer Opportunities</Typography>
+                        <div className={classes.centered}>
+                            <div className={classes.outline}></div>
+                        </div>
+                    </div>
+                    <OutreachRecycler />
+                    <div className={classes.sectionTitle} id="forSchools">
                         <Typography variant="h3">For Schools</Typography>
                         <div className={classes.centered}>
                             <div className={classes.outline}></div>
@@ -111,7 +140,7 @@ const About: NextPage = () => {
                             Request a Visit
                         </Button>
                     </div>
-                    <div className={classes.sectionTitle}>
+                    <div className={classes.sectionTitle} id="forVolunteers">
                         <Typography variant="h3">For Volunteers</Typography>
                         <div className={classes.centered}>
                             <div className={classes.outline}></div>
