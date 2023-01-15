@@ -162,27 +162,6 @@ const About: NextPage = () => {
                             Sign up for Volunteer
                         </Button>
                     </div>
-
-                    <div className={classes.sectionTitle} id="Volunteer Exit Form">
-                        <Typography variant="h3">Volunteer Exit Form</Typography>
-                        <div className={classes.centered}>
-                            <div className={classes.outline}></div>
-                        </div>
-                        <Typography align="center" color="textPrimary" gutterBottom paragraph>
-                            <div className={classes.description}>
-                                If you would like to be taken out of the volunteer list for WICS, please fill out the form below! 
-                                Thank You!                                
-                            </div>
-                        </Typography>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            href="https://forms.gle/xMn5TNF2pK7rfeq7A"
-                        >
-                            Volunteer Exit Form
-                        </Button>
-                    </div>
-
                 </div>
             </Container>
             <BackToTop />
