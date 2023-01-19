@@ -1,6 +1,5 @@
 import { Link } from "@material-ui/core";
-import React from "react";
-import ReactMarkdown, { ReactMarkdownProps } from "react-markdown";
+import ReactMarkdown, { ReactMarkdownOptions } from "react-markdown";
 import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import bash from "react-syntax-highlighter/dist/cjs/languages/prism/bash";
 import java from "react-syntax-highlighter/dist/cjs/languages/prism/java";
@@ -29,31 +28,31 @@ Object.entries(supportedLanguages).forEach(([name, lang]) => {
     SyntaxHighlighter.registerLanguage(name, lang);
 });
 
-interface CodeProps {
-    value: string;
-    language?: string;
-}
-
-const MarkdownCode: React.FC<CodeProps> = ({ language, value }: CodeProps) => {
-    return (
-        <SyntaxHighlighter language={language} style={cb} customStyle={{ maxWidth: "100%" }}>
-            {value}
-        </SyntaxHighlighter>
-    );
+const MarkdownCode = ({ node, inline, className, children, ...props } : any) => {
+    const match = /language-(\w+)/.exec(className || '')
+    return !inline && match ? (
+        <SyntaxHighlighter children={String(children).replace(/\n$/, '')}
+            language={match[1]}
+            style={cb} 
+            customStyle={{ maxWidth: "100%" }} 
+            {...props} />
+    ) : <code className={className} {...props}>
+    {children}
+  </code>;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const MarkdownLink: React.FC = ({ node, ...props }: any) => {
+const MarkdownLink = ({ node, ...props }: any) => {
     return <Link component="a" variant="body2" {...props} />;
 };
 
-const renderers = {
+const components = {
     code: MarkdownCode,
     link: MarkdownLink
 };
 
-const Markdown: React.FC<ReactMarkdownProps> = (props: ReactMarkdownProps) => {
-    return <ReactMarkdown renderers={renderers} {...props} />;
+const Markdown = (props: ReactMarkdownOptions) => {
+    return <ReactMarkdown components={components} {...props} />;
 };
 
 export default Markdown;
