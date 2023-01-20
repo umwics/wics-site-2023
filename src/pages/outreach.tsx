@@ -172,6 +172,7 @@ const About: NextPage = () => {
                             <div className={classes.description}>
                                 If you would like to be taken out of the volunteer list for WICS, please fill out the form below!
                                 Thank you!
+                            </div>
                         </Typography>
                         <Button
                             variant="contained"
