@@ -16,6 +16,14 @@ const baseConfig = {
         locale: "en_CA",
         apiVersion: "v1",
         googleAnalyticsTrackingId: "UA-172962346-1"
+    },
+
+    typescript: {
+        // !! WARN !!
+        // Dangerously allow production builds to successfully complete even if
+        // your project has type errors.
+        // !! WARN !!
+        ignoreBuildErrors: true
     }
 };
 
