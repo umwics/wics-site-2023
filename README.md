@@ -4,11 +4,11 @@
     </a>
 </p>
 
-<h1 align="center">WICS Website-2020</h1>
+<h1 align="center">WICS Website-2023</h1>
 
 <div align="center">
 Rewritten wics site using Next.js.
-This repository holds the WICS website-2020's source code!
+This repository holds the WICS website-2023's source code!
 <br>
 <b>The source code of the WICS website is only available for use to develop the WICS official website by the WICS website committee.<br>
 WICS website committee members can only contribute code to the codebase and are forbidden to share the website code with anyone outside WICS website committee.</b>
