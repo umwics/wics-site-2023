@@ -76,10 +76,21 @@ Now feel free to make changes to the site! Now to preview changes to the site.
 ```bash
 npm install
 npm run dev
+
+# If you face this type of problem when tried to run the website(what i did): Error: error:0308010C:digital envelope routines::unsupported
+# Enter it into terminal in order to fix the problem:
+
+#UNIX BASED OS:
+export NODE_OPTIONS=--openssl-legacy-provider
+
+#WINDOWS:
+set NODE_OPTIONS=--openssl-legacy-provider
+
 # or
 yarn
 yarn dev
 ```
+Source: https://stackoverflow.com/questions/69692842/error-message-error0308010cdigital-envelope-routinesunsupported
 
 -   You should see a message that ends with these lines (or similar):
 
