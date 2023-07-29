@@ -7,7 +7,7 @@
 <h1 align="center">WICS Website-2023</h1>
 
 <div align="center">
-Rewritten wics site using Next.js.
+Rewritten WICS site using Next.js.
 This repository holds the WICS website-2023's source code!
 <br>
 <b>The source code of the WICS website is only available for use to develop the WICS official website by the WICS website committee.<br>
