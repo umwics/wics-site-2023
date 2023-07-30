@@ -4,7 +4,7 @@
     </a>
 </p>
 
-<h1 align="center">WICS Website-2023</h1>
+<h1 align="center">WICS Website2023</h1>
 
 <div align="center">
 Rewritten WICS site using Next.js.
