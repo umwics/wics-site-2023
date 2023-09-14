@@ -5,6 +5,7 @@ import React from "react";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import Fade from "react-reveal/Fade";
+
 import BackToTop from "../components/BackToTop";
 import ContentsLayout from "../components/layouts/ContentsLayout";
 
@@ -74,11 +75,6 @@ const About: NextPage = () => {
                 <div className={classes.paper}>
                     <div className={classes.about_text}>
                         <div>
-                            <source
-                                className={classes.about_picture_adaptive}
-                                media="(max-width: 992px)"
-                                srcSet=""
-                            />
                             <img className={classes.about_picture} src={item.src} alt={item.name} />
                         </div>
                         <p>
