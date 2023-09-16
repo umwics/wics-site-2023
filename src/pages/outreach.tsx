@@ -135,9 +135,9 @@ const About: NextPage = () => {
                         <Button
                             variant="contained"
                             color="primary"
-                            href="mailto:manlulum@myumanitoba.ca"
+                            href="mailto:santosan@myumanitoba.ca"
                         >
-                            Request a Visit
+                            Request a Visit Virtually!
                         </Button>
                     </div>
                     <div className={classes.sectionTitle} id="forVolunteers">
@@ -159,7 +159,7 @@ const About: NextPage = () => {
                             color="primary"
                             href="https://forms.gle/k5VNymJvuTNHCHvf7"
                         >
-                            Sign up for Volunteer
+                            join our discord server
                         </Button>
                     </div>
 
@@ -177,7 +177,7 @@ const About: NextPage = () => {
                         <Button
                             variant="contained"
                             color="primary"
-                            href="https://forms.gle/xMn5TNF2pK7rfeq7A"
+                            href="https://discord.gg/G98TGzG3UD"
                         >
                             Volunteer Exit Form
                         </Button>
