@@ -157,13 +157,13 @@ const About: NextPage = () => {
                         <Button
                             variant="contained"
                             color="primary"
-                            href="https://forms.gle/k5VNymJvuTNHCHvf7"
+                            href="https://discord.gg/G98TGzG3UD"
                         >
                             join our discord server
                         </Button>
                     </div>
 
-                    <div className={classes.sectionTitle} id="Volunteer Exit Form">
+                    {/* <div className={classes.sectionTitle} id="Volunteer Exit Form">
                         <Typography variant="h3">Volunteer Exit Form</Typography>
                         <div className={classes.centered}>
                             <div className={classes.outline}></div>
@@ -181,7 +181,7 @@ const About: NextPage = () => {
                         >
                             Volunteer Exit Form
                         </Button>
-                    </div>
+                    </div> */}
                 </div>
             </Container>
             <BackToTop />
