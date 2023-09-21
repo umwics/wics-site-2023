@@ -4,7 +4,8 @@ module.exports = {
     testPathIgnorePatterns: ["<rootDir>[/\\\\](node_modules|.next)[/\\\\]"],
     transformIgnorePatterns: ["[/\\\\]node_modules[/\\\\].+\\.(ts|tsx)$"],
     transform: {
-        "^.+\\.(ts|tsx)$": "babel-jest"
+        "^.+\\.(ts|tsx)$": "babel-jest",
+        "^.+\\.(bmp|gif|jpg|jpeg|mp4|png|psd|svg|webp)$": "<rootDir>/test/__mocks__/fileMock.js"
     },
     watchPlugins: ["jest-watch-typeahead/filename", "jest-watch-typeahead/testname"],
     moduleNameMapper: {
