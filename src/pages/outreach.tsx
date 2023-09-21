@@ -135,9 +135,9 @@ const About: NextPage = () => {
                         <Button
                             variant="contained"
                             color="primary"
-                            href="mailto:manlulum@myumanitoba.ca"
+                            href="mailto:santosan@myumanitoba.ca"
                         >
-                            Request a Visit
+                            Request a Visit Virtually!
                         </Button>
                     </div>
                     <div className={classes.sectionTitle} id="forVolunteers">
@@ -157,13 +157,13 @@ const About: NextPage = () => {
                         <Button
                             variant="contained"
                             color="primary"
-                            href="https://forms.gle/k5VNymJvuTNHCHvf7"
+                            href="https://discord.gg/G98TGzG3UD"
                         >
-                            Sign up for Volunteer
+                            join our discord server
                         </Button>
                     </div>
 
-                    <div className={classes.sectionTitle} id="Volunteer Exit Form">
+                    {/* <div className={classes.sectionTitle} id="Volunteer Exit Form">
                         <Typography variant="h3">Volunteer Exit Form</Typography>
                         <div className={classes.centered}>
                             <div className={classes.outline}></div>
@@ -177,11 +177,11 @@ const About: NextPage = () => {
                         <Button
                             variant="contained"
                             color="primary"
-                            href="https://forms.gle/xMn5TNF2pK7rfeq7A"
+                            href="https://discord.gg/G98TGzG3UD"
                         >
                             Volunteer Exit Form
                         </Button>
-                    </div>
+                    </div> */}
                 </div>
             </Container>
             <BackToTop />
