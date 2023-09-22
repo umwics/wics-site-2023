@@ -81,6 +81,10 @@ const About: NextPage = () => {
                             UMWICS fosters community for gender minority CS students, & advocates
                             for the advancement of equity, diversity & inclusion.
                         </p>
+                        <p>
+                            UMWICS fosters community for gender minority CS students, & advocates
+                            for the advancement of equity, diversity & inclusion.
+                        </p>
                         <br />
                         <p>
                             In CS WICS a student group dedicated to creating an inclusive and
