@@ -2,7 +2,7 @@
     "name": "umwics",
     "version": "1.0.0",
     "scripts": {
-        "dev": "next",
+        "dev": "export NODE_OPTIONS=--openssl-legacy-provider && next",
         "build": "next build && npm run build-sitemap",
         "build-sitemap": "node ./scripts/generateSitemap.js",
         "start": "next start",
