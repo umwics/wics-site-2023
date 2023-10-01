@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         fontFamily: "Lato"
     },
     sectionTitle: {
-        paddingTop: 100,
+        paddingTop: 30,
         textAlign: "center",
         marginBottom: 70,
         fontFamily: "Lato",
