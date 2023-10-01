@@ -67,6 +67,10 @@ const useStyles = makeStyles((theme: Theme) => ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center"
+    },
+    centerFlex: {
+        display: "flex",
+        justifyContent: "center",
     }
 }));
 
@@ -92,19 +96,19 @@ const Home: NextPage<Props> = ({ socialLinks }: Props) => {
                             </div>
                         </Fade>
                         <Fade bottom duration={1000} delay={200} distance="30px">
-                            <Typography variant="h5">Meet our team 2020-2021</Typography>
+                            <Typography variant="h5">Meet our team 2023-2024</Typography>
                         </Fade>
                     </div>
 
-                    <div className={classes.sectionEmbed}>
+                    <div className={classes.centerFlex}>
+                    <div >
                         <Fade bottom duration={1000} delay={300} distance="30px">
-                            <iframe
-                                frameBorder="0"
-                                width="100%"
-                                height="500vh"
-                                src="https://www.youtube.com/embed/leS2ff7IM7Q"
-                            ></iframe>
+                            <img
+                                height="600vh"
+                                src="img/main/exec-photos-2023.jpg"
+                            ></img>
                         </Fade>
+                    </div>
                     </div>
                 </div>
                 <div className={classes.paper}>
