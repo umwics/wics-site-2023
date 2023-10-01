@@ -51,13 +51,13 @@ Now that you have Git installed.
 1. clone the repository
 
 ```sh
-$ git clone https://github.com/umwics/wics-site-2020
+$ git clone https://github.com/umwics/wics-site-2023
 ```
 
 2. then change directory to it with this command:
 
 ```sh
-$ cd wics-site-2020
+$ cd wics-site-2023
 ```
 
 3. Next, create a new branch.
