@@ -92,7 +92,7 @@ const Home: NextPage<Props> = ({ socialLinks }: Props) => {
                             </div>
                         </Fade>
                         <Fade bottom duration={1000} delay={200} distance="30px">
-                            <Typography variant="h5">Meet our team 2020-2021</Typography>
+                            <Typography variant="h5">Meet our team 2023-2024</Typography>
                         </Fade>
                     </div>
 
